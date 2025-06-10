@@ -1,0 +1,155 @@
+﻿@model OpticienMvcApp.OperationVente
+
+@{
+    ViewBag.Title = "Supprimer l'opération de vente";
+}
+
+<div class="container-fluid px-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="fw-bold" style="color: var(--primary-color);">
+            <i class="fa fa-trash-alt me-2" style="color: var(--accent-color);"></i>
+            @ViewBag.Title
+        </h2>
+        @Html.ActionLink("Retour à la liste", "Index", null, 
+            new { @class = "btn shadow-sm", 
+                  style = "border-color: var(--accent-color); color: var(--accent-color);" })
+    </div>
+
+    <div class="alert alert-warning mb-4">
+        <i class="fa fa-exclamation-triangle me-2"></i>
+        Êtes-vous sûr de vouloir supprimer cette opération de vente ?
+    </div>
+
+    <div class="card shadow-sm border-0 mb-4">
+        <div class="card-body p-4">
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="form-label fw-bold">@Html.DisplayNameFor(model => model.NumeroOp)</label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="fa fa-hashtag"></i></span>
+                            <div class="form-control bg-light">@Html.DisplayFor(model => model.NumeroOp)</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="form-label fw-bold">@Html.DisplayNameFor(model => model.Statut)</label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="fa fa-tag"></i></span>
+                            <div class="form-control bg-light">@Html.DisplayFor(model => model.Statut)</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="form-label fw-bold">@Html.DisplayNameFor(model => model.DateDeVente)</label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+                            <div class="form-control bg-light">@Html.DisplayFor(model => model.DateDeVente)</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="form-label fw-bold">@Html.DisplayNameFor(model => model.DateLivrisonPrevu)</label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="fa fa-calendar-check"></i></span>
+                            <div class="form-control bg-light">@Html.DisplayFor(model => model.DateLivrisonPrevu)</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="form-label fw-bold">@Html.DisplayNameFor(model => model.Client.Nom)</label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="fa fa-user"></i></span>
+                            <div class="form-control bg-light">
+                                @Html.DisplayFor(model => model.Client.Nom) @Html.DisplayFor(model => model.Client.Prenom)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="form-label fw-bold">@Html.DisplayNameFor(model => model.VendeurID)</label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="fa fa-user-tie"></i></span>
+                            <div class="form-control bg-light">@Html.DisplayFor(model => model.VendeurID)</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12">
+                    <div class="form-group">
+                        <label class="form-label fw-bold">@Html.DisplayNameFor(model => model.Remarque)</label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="fa fa-comment"></i></span>
+                            <div class="form-control bg-light">@Html.DisplayFor(model => model.Remarque)</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        <div class="d-flex justify-content-end gap-2">
+            <input type="submit" value="Supprimer" class="btn shadow-sm" 
+                   style="background-color: #dc3545; border-color: #dc3545; color: white;" />
+            @Html.ActionLink("Annuler", "Index", null, 
+                new { @class = "btn shadow-sm", 
+                      style = "border-color: var(--accent-color); color: var(--accent-color);" })
+        </div>
+    }
+</div>
+
+<style>
+    .form-control {
+        border-radius: 8px;
+        border: 1px solid #dee2e6;
+        padding: 0.5rem 1rem;
+    }
+
+    .input-group-text {
+        background-color: var(--accent-color);
+        border-color: var(--accent-color);
+        color: white;
+    }
+
+    .btn {
+        transition: all 0.3s ease;
+    }
+
+    .btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    .alert {
+        border-radius: 8px;
+        border: none;
+    }
+</style>
+
+@section Scripts {
+    <script>
+        $(document).ready(function() {
+            // Animation d'entrée pour la carte
+            $('.card').css({
+                'opacity': '0',
+                'transform': 'translateY(20px)'
+            }).animate({
+                'opacity': '1',
+                'transform': 'translateY(0)'
+            }, 500);
+        });
+    </script>
+}

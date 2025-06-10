@@ -1,0 +1,257 @@
+﻿@model OpticienMvcApp.OperationVente
+
+@{
+    ViewBag.Title = "Modifier une opération de vente";
+}
+
+<div class="container-fluid px-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="fw-bold" style="color: var(--primary-color);">
+            <i class="fa fa-edit me-2" style="color: var(--accent-color);"></i>
+            @ViewBag.Title
+        </h2>
+        @Html.ActionLink("Retour à la liste", "Index", null, 
+            new { @class = "btn shadow-sm", 
+                  style = "border-color: var(--accent-color); color: var(--accent-color);" })
+    </div>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(model => model.ID)
+
+        <div class="card shadow-sm border-0 mb-4">
+            <div class="card-body p-4">
+                @Html.ValidationSummary(true, "", new { @class = "alert alert-danger" })
+
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.NumeroOp, htmlAttributes: new { @class = "form-label fw-bold" })
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fa fa-hashtag"></i></span>
+                                @Html.TextBoxFor(model => model.NumeroOp, new { @class = "form-control" })
+                            </div>
+                            @Html.ValidationMessageFor(model => model.NumeroOp, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Statut, htmlAttributes: new { @class = "form-label fw-bold" })
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fa fa-tag"></i></span>
+                                @Html.TextBoxFor(model => model.Statut, new { @class = "form-control" })
+                            </div>
+                            @Html.ValidationMessageFor(model => model.Statut, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.DateDeVente, htmlAttributes: new { @class = "form-label fw-bold" })
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+                                @Html.TextBoxFor(model => model.DateDeVente, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date" })
+                            </div>
+                            @Html.ValidationMessageFor(model => model.DateDeVente, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.DateLivrisonPrevu, htmlAttributes: new { @class = "form-label fw-bold" })
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fa fa-calendar-check"></i></span>
+                                @Html.TextBoxFor(model => model.DateLivrisonPrevu, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date" })
+                            </div>
+                            @Html.ValidationMessageFor(model => model.DateLivrisonPrevu, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.ClientID, "Client", htmlAttributes: new { @class = "form-label fw-bold" })
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fa fa-user"></i></span>
+                                @Html.DropDownList("ClientID", null, "Sélectionner un client", new { @class = "form-select" })
+                            </div>
+                            @Html.ValidationMessageFor(model => model.ClientID, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.OrdID, "Ordonnance", htmlAttributes: new { @class = "form-label fw-bold" })
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fa fa-file-medical"></i></span>
+                                @Html.DropDownList("OrdID", null, "Sélectionner une ordonnance", new { @class = "form-select" })
+                            </div>
+                            @Html.ValidationMessageFor(model => model.OrdID, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.VendeurID, "Vendeur", htmlAttributes: new { @class = "form-label fw-bold" })
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fa fa-user-tie"></i></span>
+                                @Html.DropDownList("VendeurID", null, "Sélectionner un vendeur", new { @class = "form-select" })
+                                <button type="button" class="btn" style="background-color: var(--accent-color); color: white;" 
+                                        data-bs-toggle="modal" data-bs-target="#addVendeurModal">
+                                    <i class="fa fa-plus"></i>
+                                </button>
+                            </div>
+                            @Html.ValidationMessageFor(model => model.VendeurID, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="col-12">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Remarque, htmlAttributes: new { @class = "form-label fw-bold" })
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fa fa-comment"></i></span>
+                                @Html.TextAreaFor(model => model.Remarque, new { @class = "form-control", rows = 3 })
+                            </div>
+                            @Html.ValidationMessageFor(model => model.Remarque, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="d-flex justify-content-end gap-2">
+            <input type="submit" value="Enregistrer" class="btn shadow-sm" 
+                   style="background-color: var(--accent-color); border-color: var(--accent-color); color: white;" />
+            @Html.ActionLink("Annuler", "Index", null, 
+                new { @class = "btn shadow-sm", 
+                      style = "border-color: var(--accent-color); color: var(--accent-color);" })
+        </div>
+    }
+</div>
+
+<!-- Modal pour ajouter un vendeur -->
+<div class="modal fade" id="addVendeurModal" tabindex="-1" aria-labelledby="addVendeurModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addVendeurModalLabel">
+                    <i class="fa fa-user-plus me-2" style="color: var(--accent-color);"></i>
+                    Ajouter un nouveau vendeur
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div id="createVendeurFormContainer"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn" style="border-color: var(--accent-color); color: var(--accent-color);" 
+                        data-bs-dismiss="modal">Annuler</button>
+                <button type="button" id="saveVendeurModalButton" class="btn" 
+                        style="background-color: var(--accent-color); border-color: var(--accent-color); color: white;">
+                    Créer le vendeur
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .form-control, .form-select {
+        border-radius: 8px;
+        border: 1px solid #dee2e6;
+        padding: 0.5rem 1rem;
+        transition: all 0.3s ease;
+    }
+
+    .form-control:focus, .form-select:focus {
+        border-color: var(--accent-color);
+        box-shadow: 0 0 0 0.2rem rgba(52, 152, 219, 0.25);
+    }
+
+    .input-group-text {
+        background-color: var(--accent-color);
+        border-color: var(--accent-color);
+        color: white;
+    }
+
+    .btn {
+        transition: all 0.3s ease;
+    }
+
+    .btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    .modal-content {
+        border-radius: 12px;
+        border: none;
+    }
+
+    .modal-header {
+        border-bottom: 1px solid #dee2e6;
+        padding: 1rem;
+    }
+
+    .modal-body {
+        padding: 1.5rem;
+    }
+
+    .modal-footer {
+        border-top: 1px solid #dee2e6;
+        padding: 1rem;
+    }
+</style>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        $(document).ready(function() {
+            // Animation d'entrée pour la carte
+            $('.card').css({
+                'opacity': '0',
+                'transform': 'translateY(20px)'
+            }).animate({
+                'opacity': '1',
+                'transform': 'translateY(0)'
+            }, 500);
+
+            // Gérer l'ouverture de la modale
+            $('#addVendeurModal').on('show.bs.modal', function() {
+                $.get('@Url.Action("CreatePartial", "Vendeur")', function(data) {
+                    $('#createVendeurFormContainer').html(data);
+                });
+            });
+
+            // Gérer la soumission du formulaire de création de vendeur
+            $(document).on('click', '#saveVendeurModalButton', function() {
+                var form = $('#createVendeurForm');
+                if (form.length > 0 && form.valid()) {
+                    $.ajax({
+                        url: form.attr('action'),
+                        type: 'POST',
+                        data: form.serialize(),
+                        success: function(response) {
+                            if (response.success) {
+                                var newOption = new Option(response.vendeurName, response.vendeurId, true, true);
+                                $('#VendeurID').append(newOption).trigger('change');
+                                $('#addVendeurModal').modal('hide');
+                            } else {
+                                $('#createVendeurFormContainer').html(response.html);
+                            }
+                        },
+                        error: function() {
+                            alert('Une erreur est survenue lors de l\'enregistrement du vendeur.');
+                        }
+                    });
+                }
+            });
+
+            // Réinitialiser le contenu du modal à la fermeture
+            $('#addVendeurModal').on('hidden.bs.modal', function() {
+                $('#createVendeurFormContainer').html('<p>Chargement...</p>');
+            });
+        });
+    </script>
+}

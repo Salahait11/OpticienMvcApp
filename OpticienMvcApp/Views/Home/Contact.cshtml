@@ -1,0 +1,190 @@
+﻿@{
+    ViewBag.Title = "Contactez-nous"; // Titre plus français et adapté
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<main aria-labelledby="title">
+    <!-- Section d'introduction/titre (Hero-like) -->
+    <div class="text-center bg-white p-5 my-5 rounded-lg shadow-sm border-0">
+        <h1 id="title" class="display-4 fw-bold mb-3" style="color: var(--primary-color);">@ViewBag.Title</h1>
+        <p class="lead mb-4" style="color: var(--secondary-color);">
+            Nous sommes là pour vous aider ! N'hésitez pas à nous contacter pour toute question ou demande d'information.
+        </p>
+        <hr class="my-4 w-50 mx-auto" style="border-color: var(--accent-color); opacity: 0.5;">
+        <p class="text-muted">Choisissez la méthode qui vous convient le mieux.</p>
+    </div>
+
+    <!-- Section des informations de contact -->
+    <div class="row justify-content-center my-5">
+        @* Centrer le contenu de cette section *@
+        <div class="col-md-8">
+            @* Limiter la largeur pour une meilleure lisibilité *@
+            <div class="card shadow-sm rounded-lg border-0 hover-card">
+                @* Carte pour encadrer les infos de contact, ombre plus prononcée, coins arrondis, padding interne *@
+                <div class="card-body p-4">
+                    <h3 class="card-title mb-4 fw-bold" style="color: var(--primary-color);">Nos Coordonnées</h3>
+
+                    <div class="row mb-4">
+                        <div class="col-md-6 mb-3 mb-md-0">
+                            @* Colonne pour l'adresse, avec marge sur mobile mais pas sur desktop *@
+                            <div class="contact-info-card p-3 rounded-lg">
+                                <h4 class="mb-3" style="color: var(--primary-color);">
+                                    <i class="fa fa-map-marker me-2" style="color: var(--accent-color);"></i>
+                                    Adresse Principale
+                                </h4>
+                                <address class="fs-5" style="color: var(--secondary-color);">
+                                    @* fs-5 pour la taille de police, text-muted pour une couleur discrète *@
+                                    <strong style="color: var(--primary-color);">Opticien Solutions Inc.</strong><br />
+                                    123, Rue de l'Innovation<br />
+                                    75000 Paris, France<br />
+                                    <abbr title="Téléphone" class="fw-bold" style="color: var(--primary-color);">Tél:</abbr> 
+                                    <span style="color: var(--accent-color);">+33 1 23 45 67 89</span>
+                                </address>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            @* Colonne pour les e-mails *@
+                            <div class="contact-info-card p-3 rounded-lg">
+                                <h4 class="mb-3" style="color: var(--primary-color);">
+                                    <i class="fa fa-envelope me-2" style="color: var(--accent-color);"></i>
+                                    Contact par Email
+                                </h4>
+                                <address class="fs-5" style="color: var(--secondary-color);">
+                                    <strong style="color: var(--primary-color);">Support Technique:</strong><br />
+                                    <a href="mailto:support@opticienapp.com" class="text-decoration-none hover-link">
+                                        support@opticienapp.com
+                                    </a><br />
+                                    <strong style="color: var(--primary-color);">Demandes Commerciales:</strong><br />
+                                    <a href="mailto:sales@opticienapp.com" class="text-decoration-none hover-link">
+                                        sales@opticienapp.com
+                                    </a><br />
+                                    <strong style="color: var(--primary-color);">Presse:</strong><br />
+                                    <a href="mailto:press@opticienapp.com" class="text-decoration-none hover-link">
+                                        press@opticienapp.com
+                                    </a>
+                                </address>
+                            </div>
+                        </div>
+                    </div>
+
+                    <hr class="my-4" style="border-color: var(--accent-color); opacity: 0.2;">
+
+                    <h3 class="card-title mb-4 fw-bold" style="color: var(--primary-color);">
+                        <i class="fa fa-paper-plane me-2" style="color: var(--accent-color);"></i>
+                        Formulaire de Contact
+                    </h3>
+                    <p class="mb-4" style="color: var(--secondary-color);">
+                        Vous pouvez également nous envoyer un message directement via le formulaire ci-dessous. Nous vous répondrons dans les plus brefs délais.
+                    </p>
+
+                    <div class="alert bg-white text-center p-4 shadow-sm rounded-lg border-0" role="alert">
+                        <i class="fa fa-info-circle fa-2x mb-3" style="color: var(--accent-color);"></i>
+                        <p class="mb-0 fs-5" style="color: var(--primary-color);">Formulaire en cours de développement</p>
+                        <small class="text-muted">Le formulaire de contact sera bientôt disponible.</small>
+                    </div>
+
+                    <div class="text-center mt-4">
+                        <a href="https://www.google.com/maps/search/?api=1&query=123+Rue+de+l'Innovation,+Paris,+France" 
+                           target="_blank" 
+                           class="btn btn-lg shadow-sm hover-btn"
+                           style="background-color: var(--accent-color); border-color: var(--accent-color); color: white;">
+                            <i class="fa fa-map-o me-2"></i>
+                            Voir sur la Carte
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<style>
+    .hover-card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .hover-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1) !important;
+    }
+
+    .contact-info-card {
+        transition: all 0.3s ease;
+        background-color: rgba(52, 152, 219, 0.02);
+        border: 1px solid rgba(52, 152, 219, 0.1);
+    }
+
+    .contact-info-card:hover {
+        transform: translateY(-3px);
+        background-color: rgba(52, 152, 219, 0.05);
+    }
+
+    .hover-link {
+        color: var(--accent-color);
+        transition: all 0.3s ease;
+        position: relative;
+    }
+
+    .hover-link:hover {
+        color: var(--primary-color);
+        text-decoration: none;
+    }
+
+    .hover-link::after {
+        content: '';
+        position: absolute;
+        width: 0;
+        height: 1px;
+        bottom: -2px;
+        left: 0;
+        background-color: var(--accent-color);
+        transition: width 0.3s ease;
+    }
+
+    .hover-link:hover::after {
+        width: 100%;
+    }
+
+    .hover-btn {
+        transition: all 0.3s ease;
+    }
+
+    .hover-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 10px rgba(52, 152, 219, 0.2) !important;
+    }
+
+    address {
+        line-height: 1.8;
+    }
+</style>
+
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Animation d'entrée pour la carte principale
+            const card = document.querySelector('.card');
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+            
+            setTimeout(() => {
+                card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                card.style.opacity = '1';
+                card.style.transform = 'translateY(0)';
+            }, 100);
+
+            // Animation séquentielle pour les cartes d'information
+            const infoCards = document.querySelectorAll('.contact-info-card');
+            infoCards.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateX(-20px)';
+                
+                setTimeout(() => {
+                    card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateX(0)';
+                }, 300 + (index * 100));
+            });
+        });
+    </script>
+}

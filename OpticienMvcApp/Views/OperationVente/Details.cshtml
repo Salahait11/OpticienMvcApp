@@ -1,0 +1,346 @@
+﻿@model OpticienMvcApp.OperationVente
+
+@{
+    ViewBag.Title = "Détails de l'opération de vente";
+}
+
+<div class="container-fluid px-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="fw-bold" style="color: var(--primary-color);">
+            <i class="fa fa-info-circle me-2" style="color: var(--accent-color);"></i>
+            @ViewBag.Title
+        </h2>
+        <div class="d-flex gap-2">
+            @Html.ActionLink("Modifier", "Edit", new { id = Model.ID }, 
+                new { @class = "btn shadow-sm", 
+                      style = "background-color: var(--accent-color); border-color: var(--accent-color); color: white;" })
+            @Html.ActionLink("Retour à la liste", "Index", null, 
+                new { @class = "btn shadow-sm", 
+                      style = "border-color: var(--accent-color); color: var(--accent-color);" })
+        </div>
+    </div>
+
+    <div class="card shadow-sm border-0 mb-4">
+        <div class="card-header bg-white py-3">
+            <h4 class="mb-0">Opération @Html.DisplayFor(model => model.NumeroOp)</h4>
+        </div>
+        <div class="card-body p-4">
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="form-label fw-bold">@Html.DisplayNameFor(model => model.NumeroOp)</label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="fa fa-hashtag"></i></span>
+                            <div class="form-control bg-light">@Html.DisplayFor(model => model.NumeroOp)</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="form-label fw-bold">@Html.DisplayNameFor(model => model.Statut)</label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="fa fa-tag"></i></span>
+                            <div class="form-control bg-light">@Html.DisplayFor(model => model.Statut)</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="form-label fw-bold">@Html.DisplayNameFor(model => model.DateDeVente)</label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+                            <div class="form-control bg-light">@Html.DisplayFor(model => model.DateDeVente)</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="form-label fw-bold">@Html.DisplayNameFor(model => model.DateLivrisonPrevu)</label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="fa fa-calendar-check"></i></span>
+                            <div class="form-control bg-light">@Html.DisplayFor(model => model.DateLivrisonPrevu)</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="form-label fw-bold">Client</label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="fa fa-user"></i></span>
+                            <div class="form-control bg-light">
+                                @Html.DisplayFor(model => model.Client.Nom) @Html.DisplayFor(model => model.Client.Prenom)
+                                @Html.ActionLink("(Voir détails)", "Details", "Client", new { id = Model.ClientID }, 
+                                    new { @class = "ms-2", style = "color: var(--accent-color);" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="form-label fw-bold">Médecin (via Ordonnance)</label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="fa fa-user-md"></i></span>
+                            <div class="form-control bg-light">
+                                @if (Model.Ordonnance?.Medecin != null)
+                                {
+                                    @Html.DisplayFor(model => model.Ordonnance.Medecin.Nom) @Html.DisplayFor(model => model.Ordonnance.Medecin.Prenom)
+                                }
+                                else
+                                {
+                                    <span class="text-muted">Non spécifié</span>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="form-label fw-bold">Ordonnance</label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="fa fa-file-medical"></i></span>
+                            <div class="form-control bg-light">
+                                @if (Model.Ordonnance != null)
+                                {
+                                    @Html.DisplayFor(model => model.Ordonnance.DateDePrescription)
+                                }
+                                else
+                                {
+                                    <span class="text-muted">Aucune</span>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="form-label fw-bold">Vendeur</label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="fa fa-user-tie"></i></span>
+                            <div class="form-control bg-light">
+                                @($"{Model.Vendeur.Nom} {Model.Vendeur.Prenom}")
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12">
+                    <div class="form-group">
+                        <label class="form-label fw-bold">@Html.DisplayNameFor(model => model.Remarque)</label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="fa fa-comment"></i></span>
+                            <div class="form-control bg-light">@Html.DisplayFor(model => model.Remarque)</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Section Lignes de Vente -->
+    <div class="card shadow-sm border-0 mb-4">
+        <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
+            <h4 class="mb-0">Lignes de Vente (@(Model.LignOpVente?.Count ?? 0))</h4>
+            @Html.ActionLink("Ajouter une ligne", "Create", "LignOpVente", new { operationVenteId = Model.ID }, 
+                new { @class = "btn shadow-sm", 
+                      style = "background-color: var(--accent-color); border-color: var(--accent-color); color: white;" })
+        </div>
+        <div class="card-body p-4">
+            @if (Model.LignOpVente != null && Model.LignOpVente.Any())
+            {
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Produit</th>
+                                <th>Quantité</th>
+                                <th>Prix Unitaire</th>
+                                <th>Remise (%)</th>
+                                <th>OD VL SPH</th>
+                                <th>OG VL SPH</th>
+                                <th>Sous-total (HT)</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var ligne in Model.LignOpVente)
+                            {
+                                <tr>
+                                    <td>
+                                        @if (ligne.Produit != null)
+                                        {
+                                            @Html.DisplayFor(item => ligne.Produit.Designation)
+                                            @Html.ActionLink("(Détails)", "Details", "Produit", new { id = ligne.ProduitID }, 
+                                                new { @class = "ms-2", style = "color: var(--accent-color);" })
+                                        }
+                                        else
+                                        {
+                                            <span class="text-muted">Produit inconnu (ID: @ligne.ProduitID)</span>
+                                        }
+                                    </td>
+                                    <td>@Html.DisplayFor(item => ligne.Quantite)</td>
+                                    <td>@Html.DisplayFor(item => ligne.PrixUnitaireVendu)</td>
+                                    <td>@Html.DisplayFor(item => ligne.Remise)</td>
+                                    <td>@Html.DisplayFor(item => ligne.Ligne_OD_SPH)</td>
+                                    <td>@Html.DisplayFor(item => ligne.Ligne_OG_SPH)</td>
+                                    <td>@((ligne.Quantite * ligne.PrixUnitaireVendu * (1 - (decimal)ligne.Remise / 100m)).ToString("C2"))</td>
+                                    <td>
+                                        <div class="btn-group">
+                                            @Html.ActionLink("Modifier", "Edit", "LignOpVente", new { id = ligne.ID }, 
+                                                new { @class = "btn btn-sm", style = "color: var(--accent-color);" })
+                                            @Html.ActionLink("Supprimer", "Delete", "LignOpVente", new { id = ligne.ID }, 
+                                                new { @class = "btn btn-sm", style = "color: #dc3545;" })
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                        <tfoot class="table-light">
+                            <tr>
+                                <td colspan="6" class="text-end fw-bold">Total (Hors TVA) :</td>
+                                <td colspan="2">
+                                    @{
+                                        decimal totalOperationHT = Model.LignOpVente.Sum(li => li.Quantite * li.PrixUnitaireVendu * (1 - (decimal)li.Remise / 100m));
+                                    }
+                                    @totalOperationHT.ToString("C2")
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            }
+            else
+            {
+                <p class="text-muted mb-0">Aucune ligne de vente pour cette opération.</p>
+            }
+        </div>
+    </div>
+
+    <!-- Section Paiements -->
+    <div class="card shadow-sm border-0 mb-4">
+        <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
+            <h4 class="mb-0">Paiements Associés (@(Model.PAIEMENT?.Count ?? 0))</h4>
+            @Html.ActionLink("Ajouter un paiement", "Create", "Paiement", new { operationVenteId = Model.ID }, 
+                new { @class = "btn shadow-sm", 
+                      style = "background-color: var(--accent-color); border-color: var(--accent-color); color: white;" })
+        </div>
+        <div class="card-body p-4">
+            @if (Model.PAIEMENT != null && Model.PAIEMENT.Any())
+            {
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Date Paiement</th>
+                                <th>Mode</th>
+                                <th>Montant</th>
+                                <th>Référence</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var paiement in Model.PAIEMENT)
+                            {
+                                <tr>
+                                    <td>@Html.DisplayFor(item => paiement.DatePaiement)</td>
+                                    <td>@Html.DisplayFor(item => paiement.ModeDePaiement)</td>
+                                    <td>@Html.DisplayFor(item => paiement.MontantPaye)</td>
+                                    <td>@Html.DisplayFor(item => paiement.ReferencePaiement)</td>
+                                    <td>
+                                        <div class="btn-group">
+                                            @Html.ActionLink("Modifier", "Edit", "Paiement", new { id = paiement.ID }, 
+                                                new { @class = "btn btn-sm", style = "color: var(--accent-color);" })
+                                            @Html.ActionLink("Supprimer", "Delete", "Paiement", new { id = paiement.ID }, 
+                                                new { @class = "btn btn-sm", style = "color: #dc3545;" })
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                        <tfoot class="table-light">
+                            <tr>
+                                <td colspan="2" class="text-end fw-bold">Total Payé :</td>
+                                <td colspan="3">
+                                    @{
+                                        decimal totalPaye = Model.PAIEMENT.Sum(p => p.MontantPaye);
+                                    }
+                                    @totalPaye.ToString("C2")
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            }
+            else
+            {
+                <p class="text-muted mb-0">Aucun paiement enregistré pour cette opération.</p>
+            }
+        </div>
+    </div>
+</div>
+
+<style>
+    .form-control {
+        border-radius: 8px;
+        border: 1px solid #dee2e6;
+        padding: 0.5rem 1rem;
+    }
+
+    .input-group-text {
+        background-color: var(--accent-color);
+        border-color: var(--accent-color);
+        color: white;
+    }
+
+    .btn {
+        transition: all 0.3s ease;
+    }
+
+    .btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    .table {
+        margin-bottom: 0;
+    }
+
+    .table th {
+        font-weight: 600;
+        border-top: none;
+    }
+
+    .table td {
+        vertical-align: middle;
+    }
+
+    .btn-group .btn {
+        padding: 0.25rem 0.5rem;
+    }
+</style>
+
+@section Scripts {
+    <script>
+        $(document).ready(function() {
+            // Animation d'entrée pour les cartes
+            $('.card').css({
+                'opacity': '0',
+                'transform': 'translateY(20px)'
+            }).each(function(index) {
+                var card = $(this);
+                setTimeout(function() {
+                    card.animate({
+                        'opacity': '1',
+                        'transform': 'translateY(0)'
+                    }, 500);
+                }, index * 100);
+            });
+        });
+    </script>
+}

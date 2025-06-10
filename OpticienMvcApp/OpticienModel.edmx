@@ -1,0 +1,896 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="OPTICIENModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="CategorieProduit">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nom" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Client">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nom" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Prenom" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="DateDeNaissance" Type="date" />
+          <Property Name="Adresse" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="NumeroDeTelephone" Type="varchar" MaxLength="20" />
+          <Property Name="Email" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="DetailMonture">
+          <Key>
+            <PropertyRef Name="ProduitID" />
+          </Key>
+          <Property Name="ProduitID" Type="int" Nullable="false" />
+          <Property Name="Marque" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Modele" Type="varchar" MaxLength="100" />
+          <Property Name="Couleur" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Taille" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="Materiau" Type="varchar" MaxLength="50" />
+          <Property Name="Genre" Type="char" MaxLength="1" />
+        </EntityType>
+        <EntityType Name="DetailVerre">
+          <Key>
+            <PropertyRef Name="ProduitID" />
+          </Key>
+          <Property Name="ProduitID" Type="int" Nullable="false" />
+          <Property Name="TypeTraitement" Type="varchar" MaxLength="255" />
+          <Property Name="Indice" Type="decimal" Precision="3" Scale="2" />
+          <Property Name="DiametrePrecal" Type="decimal" Precision="4" Scale="1" />
+        </EntityType>
+        <EntityType Name="LignOpVente">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="OperationVenteID" Type="int" Nullable="false" />
+          <Property Name="ProduitID" Type="int" Nullable="false" />
+          <Property Name="Quantite" Type="int" Nullable="false" />
+          <Property Name="PrixUnitaireVendu" Type="decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="Remise" Type="decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="Ligne_OD_SPH" Type="varchar" MaxLength="10" />
+          <Property Name="Ligne_OD_CYL" Type="varchar" MaxLength="10" />
+          <Property Name="Ligne_OD_AXE" Type="varchar" MaxLength="10" />
+          <Property Name="Ligne_OD_ADD" Type="varchar" MaxLength="10" />
+          <Property Name="Ligne_OG_SPH" Type="varchar" MaxLength="10" />
+          <Property Name="Ligne_OG_CYL" Type="varchar" MaxLength="10" />
+          <Property Name="Ligne_OG_AXE" Type="varchar" MaxLength="10" />
+          <Property Name="Ligne_OG_ADD" Type="varchar" MaxLength="10" />
+          <Property Name="Ligne_EP_VL" Type="varchar" MaxLength="10" />
+          <Property Name="Ligne_H_Prog" Type="varchar" MaxLength="10" />
+        </EntityType>
+        <EntityType Name="Medecin">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nom" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Prenom" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Gsm" Type="varchar" MaxLength="20" />
+          <Property Name="NumeroRPPS" Type="varchar" MaxLength="15" />
+        </EntityType>
+        <EntityType Name="OperationVente">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NumeroOp" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="DateDeVente" Type="datetime" Nullable="false" />
+          <Property Name="DateLivrisonPrevu" Type="datetime" />
+          <Property Name="Remarque" Type="varchar" MaxLength="500" />
+          <Property Name="ClientID" Type="int" Nullable="false" />
+          <Property Name="OrdID" Type="int" />
+          <Property Name="VendeurID" Type="int" />
+          <Property Name="Statut" Type="varchar" MaxLength="20" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Ordonnance">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DateDePrescription" Type="date" Nullable="false" />
+          <Property Name="DateExpiration" Type="date" />
+          <Property Name="OD_VL_SPH" Type="varchar" MaxLength="10" />
+          <Property Name="OD_VL_CYL" Type="varchar" MaxLength="10" />
+          <Property Name="OD_VL_AXE" Type="varchar" MaxLength="10" />
+          <Property Name="OD_VL_ADD" Type="varchar" MaxLength="10" />
+          <Property Name="OD_VL_EP" Type="varchar" MaxLength="10" />
+          <Property Name="OD_VL_H" Type="varchar" MaxLength="10" />
+          <Property Name="OD_VL_DAIM" Type="varchar" MaxLength="10" />
+          <Property Name="OG_VL_SPH" Type="varchar" MaxLength="10" />
+          <Property Name="OG_VL_CYL" Type="varchar" MaxLength="10" />
+          <Property Name="OG_VL_AXE" Type="varchar" MaxLength="10" />
+          <Property Name="OG_VL_ADD" Type="varchar" MaxLength="10" />
+          <Property Name="OG_VL_EP" Type="varchar" MaxLength="10" />
+          <Property Name="OG_VL_H" Type="varchar" MaxLength="10" />
+          <Property Name="OG_VL_DAIM" Type="varchar" MaxLength="10" />
+          <Property Name="OD_VP_SPH" Type="varchar" MaxLength="10" />
+          <Property Name="OD_VP_CYL" Type="varchar" MaxLength="10" />
+          <Property Name="OD_VP_AXE" Type="varchar" MaxLength="10" />
+          <Property Name="OD_VP_ADD" Type="varchar" MaxLength="10" />
+          <Property Name="OD_VP_EP" Type="varchar" MaxLength="10" />
+          <Property Name="OD_VP_H" Type="varchar" MaxLength="10" />
+          <Property Name="OD_VP_DAIM" Type="varchar" MaxLength="10" />
+          <Property Name="OG_VP_SPH" Type="varchar" MaxLength="10" />
+          <Property Name="OG_VP_CYL" Type="varchar" MaxLength="10" />
+          <Property Name="OG_VP_AXE" Type="varchar" MaxLength="10" />
+          <Property Name="OG_VP_ADD" Type="varchar" MaxLength="10" />
+          <Property Name="OG_VP_EP" Type="varchar" MaxLength="10" />
+          <Property Name="OG_VP_H" Type="varchar" MaxLength="10" />
+          <Property Name="OG_VP_DAIM" Type="varchar" MaxLength="10" />
+          <Property Name="MedecinID" Type="int" />
+        </EntityType>
+        <EntityType Name="PAIEMENT">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DatePaiement" Type="datetime" Nullable="false" />
+          <Property Name="ModeDePaiement" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="MontantPaye" Type="decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="OpVenteID" Type="int" Nullable="false" />
+          <Property Name="ReferencePaiement" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="Produit">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Reference" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Designation" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="CategorieID" Type="int" Nullable="false" />
+          <Property Name="PrixUnitaire" Type="decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="TauxTVA" Type="decimal" Precision="4" Scale="2" Nullable="false" />
+          <Property Name="Fabricant" Type="varchar" MaxLength="100" />
+          <Property Name="Actif" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Vendeur">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nom" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Prenom" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_DetailMonture_Produit">
+          <End Role="Produit" Type="Self.Produit" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="DetailMonture" Type="Self.DetailMonture" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Produit">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="DetailMonture">
+              <PropertyRef Name="ProduitID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DetailVerre_Produit">
+          <End Role="Produit" Type="Self.Produit" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="DetailVerre" Type="Self.DetailVerre" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Produit">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="DetailVerre">
+              <PropertyRef Name="ProduitID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LignOpVente_OperationVente">
+          <End Role="OperationVente" Type="Self.OperationVente" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="LignOpVente" Type="Self.LignOpVente" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OperationVente">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="LignOpVente">
+              <PropertyRef Name="OperationVenteID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LignOpVente_Produit">
+          <End Role="Produit" Type="Self.Produit" Multiplicity="1" />
+          <End Role="LignOpVente" Type="Self.LignOpVente" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Produit">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="LignOpVente">
+              <PropertyRef Name="ProduitID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OperationVente_Client">
+          <End Role="Client" Type="Self.Client" Multiplicity="1" />
+          <End Role="OperationVente" Type="Self.OperationVente" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Client">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="OperationVente">
+              <PropertyRef Name="ClientID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OperationVente_Ordonnance">
+          <End Role="Ordonnance" Type="Self.Ordonnance" Multiplicity="0..1" />
+          <End Role="OperationVente" Type="Self.OperationVente" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Ordonnance">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="OperationVente">
+              <PropertyRef Name="OrdID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OperationVente_Vendeur">
+          <End Role="Vendeur" Type="Self.Vendeur" Multiplicity="0..1" />
+          <End Role="OperationVente" Type="Self.OperationVente" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vendeur">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="OperationVente">
+              <PropertyRef Name="VendeurID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Ordonnance_Medecin">
+          <End Role="Medecin" Type="Self.Medecin" Multiplicity="0..1" />
+          <End Role="Ordonnance" Type="Self.Ordonnance" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Medecin">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Ordonnance">
+              <PropertyRef Name="MedecinID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PAIEMENT_OperationVente">
+          <End Role="OperationVente" Type="Self.OperationVente" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="PAIEMENT" Type="Self.PAIEMENT" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OperationVente">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PAIEMENT">
+              <PropertyRef Name="OpVenteID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Produit_Categorie">
+          <End Role="CategorieProduit" Type="Self.CategorieProduit" Multiplicity="1" />
+          <End Role="Produit" Type="Self.Produit" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CategorieProduit">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Produit">
+              <PropertyRef Name="CategorieID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="OPTICIENModelStoreContainer">
+          <EntitySet Name="CategorieProduit" EntityType="Self.CategorieProduit" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Client" EntityType="Self.Client" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DetailMonture" EntityType="Self.DetailMonture" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DetailVerre" EntityType="Self.DetailVerre" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="LignOpVente" EntityType="Self.LignOpVente" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Medecin" EntityType="Self.Medecin" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="OperationVente" EntityType="Self.OperationVente" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Ordonnance" EntityType="Self.Ordonnance" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PAIEMENT" EntityType="Self.PAIEMENT" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Produit" EntityType="Self.Produit" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Vendeur" EntityType="Self.Vendeur" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_DetailMonture_Produit" Association="Self.FK_DetailMonture_Produit">
+            <End Role="Produit" EntitySet="Produit" />
+            <End Role="DetailMonture" EntitySet="DetailMonture" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DetailVerre_Produit" Association="Self.FK_DetailVerre_Produit">
+            <End Role="Produit" EntitySet="Produit" />
+            <End Role="DetailVerre" EntitySet="DetailVerre" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LignOpVente_OperationVente" Association="Self.FK_LignOpVente_OperationVente">
+            <End Role="OperationVente" EntitySet="OperationVente" />
+            <End Role="LignOpVente" EntitySet="LignOpVente" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LignOpVente_Produit" Association="Self.FK_LignOpVente_Produit">
+            <End Role="Produit" EntitySet="Produit" />
+            <End Role="LignOpVente" EntitySet="LignOpVente" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OperationVente_Client" Association="Self.FK_OperationVente_Client">
+            <End Role="Client" EntitySet="Client" />
+            <End Role="OperationVente" EntitySet="OperationVente" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OperationVente_Ordonnance" Association="Self.FK_OperationVente_Ordonnance">
+            <End Role="Ordonnance" EntitySet="Ordonnance" />
+            <End Role="OperationVente" EntitySet="OperationVente" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OperationVente_Vendeur" Association="Self.FK_OperationVente_Vendeur">
+            <End Role="Vendeur" EntitySet="Vendeur" />
+            <End Role="OperationVente" EntitySet="OperationVente" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Ordonnance_Medecin" Association="Self.FK_Ordonnance_Medecin">
+            <End Role="Medecin" EntitySet="Medecin" />
+            <End Role="Ordonnance" EntitySet="Ordonnance" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PAIEMENT_OperationVente" Association="Self.FK_PAIEMENT_OperationVente">
+            <End Role="OperationVente" EntitySet="OperationVente" />
+            <End Role="PAIEMENT" EntitySet="PAIEMENT" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Produit_Categorie" Association="Self.FK_Produit_Categorie">
+            <End Role="CategorieProduit" EntitySet="CategorieProduit" />
+            <End Role="Produit" EntitySet="Produit" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="OPTICIENModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="CategorieProduit">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nom" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Produit" Relationship="Self.FK_Produit_Categorie" FromRole="CategorieProduit" ToRole="Produit" />
+        </EntityType>
+        <EntityType Name="Client">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nom" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Prenom" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="DateDeNaissance" Type="DateTime" Precision="0" />
+          <Property Name="Adresse" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="NumeroDeTelephone" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="OperationVente" Relationship="Self.FK_OperationVente_Client" FromRole="Client" ToRole="OperationVente" />
+        </EntityType>
+        <EntityType Name="DetailMonture">
+          <Key>
+            <PropertyRef Name="ProduitID" />
+          </Key>
+          <Property Name="ProduitID" Type="Int32" Nullable="false" />
+          <Property Name="Marque" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Modele" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Couleur" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Taille" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Materiau" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Genre" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <NavigationProperty Name="Produit" Relationship="Self.FK_DetailMonture_Produit" FromRole="DetailMonture" ToRole="Produit" />
+        </EntityType>
+        <EntityType Name="DetailVerre">
+          <Key>
+            <PropertyRef Name="ProduitID" />
+          </Key>
+          <Property Name="ProduitID" Type="Int32" Nullable="false" />
+          <Property Name="TypeTraitement" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Indice" Type="Decimal" Precision="3" Scale="2" />
+          <Property Name="DiametrePrecal" Type="Decimal" Precision="4" Scale="1" />
+          <NavigationProperty Name="Produit" Relationship="Self.FK_DetailVerre_Produit" FromRole="DetailVerre" ToRole="Produit" />
+        </EntityType>
+        <EntityType Name="LignOpVente">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="OperationVenteID" Type="Int32" Nullable="false" />
+          <Property Name="ProduitID" Type="Int32" Nullable="false" />
+          <Property Name="Quantite" Type="Int32" Nullable="false" />
+          <Property Name="PrixUnitaireVendu" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="Remise" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="Ligne_OD_SPH" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Ligne_OD_CYL" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Ligne_OD_AXE" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Ligne_OD_ADD" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Ligne_OG_SPH" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Ligne_OG_CYL" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Ligne_OG_AXE" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Ligne_OG_ADD" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Ligne_EP_VL" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Ligne_H_Prog" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="OperationVente" Relationship="Self.FK_LignOpVente_OperationVente" FromRole="LignOpVente" ToRole="OperationVente" />
+          <NavigationProperty Name="Produit" Relationship="Self.FK_LignOpVente_Produit" FromRole="LignOpVente" ToRole="Produit" />
+        </EntityType>
+        <EntityType Name="Medecin">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nom" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Prenom" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Gsm" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="NumeroRPPS" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Ordonnance" Relationship="Self.FK_Ordonnance_Medecin" FromRole="Medecin" ToRole="Ordonnance" />
+        </EntityType>
+        <EntityType Name="OperationVente">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NumeroOp" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="DateDeVente" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="DateLivrisonPrevu" Type="DateTime" Precision="3" />
+          <Property Name="Remarque" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="ClientID" Type="Int32" Nullable="false" />
+          <Property Name="OrdID" Type="Int32" />
+          <Property Name="VendeurID" Type="Int32" />
+          <Property Name="Statut" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Client" Relationship="Self.FK_OperationVente_Client" FromRole="OperationVente" ToRole="Client" />
+          <NavigationProperty Name="LignOpVente" Relationship="Self.FK_LignOpVente_OperationVente" FromRole="OperationVente" ToRole="LignOpVente" />
+          <NavigationProperty Name="Ordonnance" Relationship="Self.FK_OperationVente_Ordonnance" FromRole="OperationVente" ToRole="Ordonnance" />
+          <NavigationProperty Name="PAIEMENT" Relationship="Self.FK_PAIEMENT_OperationVente" FromRole="OperationVente" ToRole="PAIEMENT" />
+          <NavigationProperty Name="Vendeur" Relationship="OPTICIENModel.FK_OperationVente_Vendeur" FromRole="OperationVente" ToRole="Vendeur" />
+        </EntityType>
+        <EntityType Name="Ordonnance">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DateDePrescription" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="DateExpiration" Type="DateTime" Precision="0" />
+          <Property Name="OD_VL_SPH" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="OD_VL_CYL" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="OD_VL_AXE" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="OD_VL_ADD" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="OD_VL_EP" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="OD_VL_H" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="OD_VL_DAIM" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="OG_VL_SPH" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="OG_VL_CYL" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="OG_VL_AXE" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="OG_VL_ADD" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="OG_VL_EP" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="OG_VL_H" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="OG_VL_DAIM" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="OD_VP_SPH" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="OD_VP_CYL" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="OD_VP_AXE" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="OD_VP_ADD" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="OD_VP_EP" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="OD_VP_H" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="OD_VP_DAIM" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="OG_VP_SPH" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="OG_VP_CYL" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="OG_VP_AXE" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="OG_VP_ADD" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="OG_VP_EP" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="OG_VP_H" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="OG_VP_DAIM" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="MedecinID" Type="Int32" />
+          <NavigationProperty Name="Medecin" Relationship="Self.FK_Ordonnance_Medecin" FromRole="Ordonnance" ToRole="Medecin" />
+          <NavigationProperty Name="OperationVente" Relationship="Self.FK_OperationVente_Ordonnance" FromRole="Ordonnance" ToRole="OperationVente" />
+        </EntityType>
+        <EntityType Name="PAIEMENT">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DatePaiement" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ModeDePaiement" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="MontantPaye" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="OpVenteID" Type="Int32" Nullable="false" />
+          <Property Name="ReferencePaiement" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="OperationVente" Relationship="Self.FK_PAIEMENT_OperationVente" FromRole="PAIEMENT" ToRole="OperationVente" />
+        </EntityType>
+        <EntityType Name="Produit">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Reference" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Designation" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="CategorieID" Type="Int32" Nullable="false" />
+          <Property Name="PrixUnitaire" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="TauxTVA" Type="Decimal" Precision="4" Scale="2" Nullable="false" />
+          <Property Name="Fabricant" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Actif" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="CategorieProduit" Relationship="Self.FK_Produit_Categorie" FromRole="Produit" ToRole="CategorieProduit" />
+          <NavigationProperty Name="DetailMonture" Relationship="Self.FK_DetailMonture_Produit" FromRole="Produit" ToRole="DetailMonture" />
+          <NavigationProperty Name="DetailVerre" Relationship="Self.FK_DetailVerre_Produit" FromRole="Produit" ToRole="DetailVerre" />
+          <NavigationProperty Name="LignOpVente" Relationship="Self.FK_LignOpVente_Produit" FromRole="Produit" ToRole="LignOpVente" />
+        </EntityType>
+        <Association Name="FK_Produit_Categorie">
+          <End Role="CategorieProduit" Type="Self.CategorieProduit" Multiplicity="1" />
+          <End Role="Produit" Type="Self.Produit" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CategorieProduit">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Produit">
+              <PropertyRef Name="CategorieID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OperationVente_Client">
+          <End Role="Client" Type="Self.Client" Multiplicity="1" />
+          <End Role="OperationVente" Type="Self.OperationVente" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Client">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="OperationVente">
+              <PropertyRef Name="ClientID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DetailMonture_Produit">
+          <End Role="Produit" Type="Self.Produit" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="DetailMonture" Type="Self.DetailMonture" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Produit">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="DetailMonture">
+              <PropertyRef Name="ProduitID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DetailVerre_Produit">
+          <End Role="Produit" Type="Self.Produit" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="DetailVerre" Type="Self.DetailVerre" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Produit">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="DetailVerre">
+              <PropertyRef Name="ProduitID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LignOpVente_OperationVente">
+          <End Role="OperationVente" Type="Self.OperationVente" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="LignOpVente" Type="Self.LignOpVente" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OperationVente">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="LignOpVente">
+              <PropertyRef Name="OperationVenteID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LignOpVente_Produit">
+          <End Role="Produit" Type="Self.Produit" Multiplicity="1" />
+          <End Role="LignOpVente" Type="Self.LignOpVente" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Produit">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="LignOpVente">
+              <PropertyRef Name="ProduitID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Ordonnance_Medecin">
+          <End Role="Medecin" Type="Self.Medecin" Multiplicity="0..1" />
+          <End Role="Ordonnance" Type="Self.Ordonnance" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Medecin">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Ordonnance">
+              <PropertyRef Name="MedecinID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OperationVente_Ordonnance">
+          <End Role="Ordonnance" Type="Self.Ordonnance" Multiplicity="0..1" />
+          <End Role="OperationVente" Type="Self.OperationVente" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Ordonnance">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="OperationVente">
+              <PropertyRef Name="OrdID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PAIEMENT_OperationVente">
+          <End Role="OperationVente" Type="Self.OperationVente" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="PAIEMENT" Type="Self.PAIEMENT" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OperationVente">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PAIEMENT">
+              <PropertyRef Name="OpVenteID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="OPTICIENEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="CategorieProduit" EntityType="Self.CategorieProduit" />
+          <EntitySet Name="Client" EntityType="Self.Client" />
+          <EntitySet Name="DetailMonture" EntityType="Self.DetailMonture" />
+          <EntitySet Name="DetailVerre" EntityType="Self.DetailVerre" />
+          <EntitySet Name="LignOpVente" EntityType="Self.LignOpVente" />
+          <EntitySet Name="Medecin" EntityType="Self.Medecin" />
+          <EntitySet Name="OperationVente" EntityType="Self.OperationVente" />
+          <EntitySet Name="Ordonnance" EntityType="Self.Ordonnance" />
+          <EntitySet Name="PAIEMENT" EntityType="Self.PAIEMENT" />
+          <EntitySet Name="Produit" EntityType="Self.Produit" />
+          <AssociationSet Name="FK_Produit_Categorie" Association="Self.FK_Produit_Categorie">
+            <End Role="CategorieProduit" EntitySet="CategorieProduit" />
+            <End Role="Produit" EntitySet="Produit" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OperationVente_Client" Association="Self.FK_OperationVente_Client">
+            <End Role="Client" EntitySet="Client" />
+            <End Role="OperationVente" EntitySet="OperationVente" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DetailMonture_Produit" Association="Self.FK_DetailMonture_Produit">
+            <End Role="Produit" EntitySet="Produit" />
+            <End Role="DetailMonture" EntitySet="DetailMonture" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DetailVerre_Produit" Association="Self.FK_DetailVerre_Produit">
+            <End Role="Produit" EntitySet="Produit" />
+            <End Role="DetailVerre" EntitySet="DetailVerre" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LignOpVente_OperationVente" Association="Self.FK_LignOpVente_OperationVente">
+            <End Role="OperationVente" EntitySet="OperationVente" />
+            <End Role="LignOpVente" EntitySet="LignOpVente" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LignOpVente_Produit" Association="Self.FK_LignOpVente_Produit">
+            <End Role="Produit" EntitySet="Produit" />
+            <End Role="LignOpVente" EntitySet="LignOpVente" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Ordonnance_Medecin" Association="Self.FK_Ordonnance_Medecin">
+            <End Role="Medecin" EntitySet="Medecin" />
+            <End Role="Ordonnance" EntitySet="Ordonnance" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OperationVente_Ordonnance" Association="Self.FK_OperationVente_Ordonnance">
+            <End Role="Ordonnance" EntitySet="Ordonnance" />
+            <End Role="OperationVente" EntitySet="OperationVente" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PAIEMENT_OperationVente" Association="Self.FK_PAIEMENT_OperationVente">
+            <End Role="OperationVente" EntitySet="OperationVente" />
+            <End Role="PAIEMENT" EntitySet="PAIEMENT" />
+          </AssociationSet>
+          <EntitySet Name="Vendeur" EntityType="OPTICIENModel.Vendeur" />
+          <AssociationSet Name="FK_OperationVente_Vendeur" Association="OPTICIENModel.FK_OperationVente_Vendeur">
+            <End Role="Vendeur" EntitySet="Vendeur" />
+            <End Role="OperationVente" EntitySet="OperationVente" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Vendeur">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nom" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Prenom" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="OperationVente" Relationship="OPTICIENModel.FK_OperationVente_Vendeur" FromRole="Vendeur" ToRole="OperationVente" />
+        </EntityType>
+        <Association Name="FK_OperationVente_Vendeur">
+          <End Type="OPTICIENModel.Vendeur" Role="Vendeur" Multiplicity="0..1" />
+          <End Type="OPTICIENModel.OperationVente" Role="OperationVente" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vendeur">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="OperationVente">
+              <PropertyRef Name="VendeurID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="OPTICIENModelStoreContainer" CdmEntityContainer="OPTICIENEntities">
+          <EntitySetMapping Name="CategorieProduit">
+            <EntityTypeMapping TypeName="OPTICIENModel.CategorieProduit">
+              <MappingFragment StoreEntitySet="CategorieProduit">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Nom" ColumnName="Nom" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Client">
+            <EntityTypeMapping TypeName="OPTICIENModel.Client">
+              <MappingFragment StoreEntitySet="Client">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Nom" ColumnName="Nom" />
+                <ScalarProperty Name="Prenom" ColumnName="Prenom" />
+                <ScalarProperty Name="DateDeNaissance" ColumnName="DateDeNaissance" />
+                <ScalarProperty Name="Adresse" ColumnName="Adresse" />
+                <ScalarProperty Name="NumeroDeTelephone" ColumnName="NumeroDeTelephone" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DetailMonture">
+            <EntityTypeMapping TypeName="OPTICIENModel.DetailMonture">
+              <MappingFragment StoreEntitySet="DetailMonture">
+                <ScalarProperty Name="ProduitID" ColumnName="ProduitID" />
+                <ScalarProperty Name="Marque" ColumnName="Marque" />
+                <ScalarProperty Name="Modele" ColumnName="Modele" />
+                <ScalarProperty Name="Couleur" ColumnName="Couleur" />
+                <ScalarProperty Name="Taille" ColumnName="Taille" />
+                <ScalarProperty Name="Materiau" ColumnName="Materiau" />
+                <ScalarProperty Name="Genre" ColumnName="Genre" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DetailVerre">
+            <EntityTypeMapping TypeName="OPTICIENModel.DetailVerre">
+              <MappingFragment StoreEntitySet="DetailVerre">
+                <ScalarProperty Name="ProduitID" ColumnName="ProduitID" />
+                <ScalarProperty Name="TypeTraitement" ColumnName="TypeTraitement" />
+                <ScalarProperty Name="Indice" ColumnName="Indice" />
+                <ScalarProperty Name="DiametrePrecal" ColumnName="DiametrePrecal" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LignOpVente">
+            <EntityTypeMapping TypeName="OPTICIENModel.LignOpVente">
+              <MappingFragment StoreEntitySet="LignOpVente">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="OperationVenteID" ColumnName="OperationVenteID" />
+                <ScalarProperty Name="ProduitID" ColumnName="ProduitID" />
+                <ScalarProperty Name="Quantite" ColumnName="Quantite" />
+                <ScalarProperty Name="PrixUnitaireVendu" ColumnName="PrixUnitaireVendu" />
+                <ScalarProperty Name="Remise" ColumnName="Remise" />
+                <ScalarProperty Name="Ligne_OD_SPH" ColumnName="Ligne_OD_SPH" />
+                <ScalarProperty Name="Ligne_OD_CYL" ColumnName="Ligne_OD_CYL" />
+                <ScalarProperty Name="Ligne_OD_AXE" ColumnName="Ligne_OD_AXE" />
+                <ScalarProperty Name="Ligne_OD_ADD" ColumnName="Ligne_OD_ADD" />
+                <ScalarProperty Name="Ligne_OG_SPH" ColumnName="Ligne_OG_SPH" />
+                <ScalarProperty Name="Ligne_OG_CYL" ColumnName="Ligne_OG_CYL" />
+                <ScalarProperty Name="Ligne_OG_AXE" ColumnName="Ligne_OG_AXE" />
+                <ScalarProperty Name="Ligne_OG_ADD" ColumnName="Ligne_OG_ADD" />
+                <ScalarProperty Name="Ligne_EP_VL" ColumnName="Ligne_EP_VL" />
+                <ScalarProperty Name="Ligne_H_Prog" ColumnName="Ligne_H_Prog" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Medecin">
+            <EntityTypeMapping TypeName="OPTICIENModel.Medecin">
+              <MappingFragment StoreEntitySet="Medecin">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Nom" ColumnName="Nom" />
+                <ScalarProperty Name="Prenom" ColumnName="Prenom" />
+                <ScalarProperty Name="Gsm" ColumnName="Gsm" />
+                <ScalarProperty Name="NumeroRPPS" ColumnName="NumeroRPPS" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OperationVente">
+            <EntityTypeMapping TypeName="OPTICIENModel.OperationVente">
+              <MappingFragment StoreEntitySet="OperationVente">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="NumeroOp" ColumnName="NumeroOp" />
+                <ScalarProperty Name="DateDeVente" ColumnName="DateDeVente" />
+                <ScalarProperty Name="DateLivrisonPrevu" ColumnName="DateLivrisonPrevu" />
+                <ScalarProperty Name="Remarque" ColumnName="Remarque" />
+                <ScalarProperty Name="ClientID" ColumnName="ClientID" />
+                <ScalarProperty Name="OrdID" ColumnName="OrdID" />
+                <ScalarProperty Name="VendeurID" ColumnName="VendeurID" />
+                <ScalarProperty Name="Statut" ColumnName="Statut" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Ordonnance">
+            <EntityTypeMapping TypeName="OPTICIENModel.Ordonnance">
+              <MappingFragment StoreEntitySet="Ordonnance">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="DateDePrescription" ColumnName="DateDePrescription" />
+                <ScalarProperty Name="DateExpiration" ColumnName="DateExpiration" />
+                <ScalarProperty Name="OD_VL_SPH" ColumnName="OD_VL_SPH" />
+                <ScalarProperty Name="OD_VL_CYL" ColumnName="OD_VL_CYL" />
+                <ScalarProperty Name="OD_VL_AXE" ColumnName="OD_VL_AXE" />
+                <ScalarProperty Name="OD_VL_ADD" ColumnName="OD_VL_ADD" />
+                <ScalarProperty Name="OD_VL_EP" ColumnName="OD_VL_EP" />
+                <ScalarProperty Name="OD_VL_H" ColumnName="OD_VL_H" />
+                <ScalarProperty Name="OD_VL_DAIM" ColumnName="OD_VL_DAIM" />
+                <ScalarProperty Name="OG_VL_SPH" ColumnName="OG_VL_SPH" />
+                <ScalarProperty Name="OG_VL_CYL" ColumnName="OG_VL_CYL" />
+                <ScalarProperty Name="OG_VL_AXE" ColumnName="OG_VL_AXE" />
+                <ScalarProperty Name="OG_VL_ADD" ColumnName="OG_VL_ADD" />
+                <ScalarProperty Name="OG_VL_EP" ColumnName="OG_VL_EP" />
+                <ScalarProperty Name="OG_VL_H" ColumnName="OG_VL_H" />
+                <ScalarProperty Name="OG_VL_DAIM" ColumnName="OG_VL_DAIM" />
+                <ScalarProperty Name="OD_VP_SPH" ColumnName="OD_VP_SPH" />
+                <ScalarProperty Name="OD_VP_CYL" ColumnName="OD_VP_CYL" />
+                <ScalarProperty Name="OD_VP_AXE" ColumnName="OD_VP_AXE" />
+                <ScalarProperty Name="OD_VP_ADD" ColumnName="OD_VP_ADD" />
+                <ScalarProperty Name="OD_VP_EP" ColumnName="OD_VP_EP" />
+                <ScalarProperty Name="OD_VP_H" ColumnName="OD_VP_H" />
+                <ScalarProperty Name="OD_VP_DAIM" ColumnName="OD_VP_DAIM" />
+                <ScalarProperty Name="OG_VP_SPH" ColumnName="OG_VP_SPH" />
+                <ScalarProperty Name="OG_VP_CYL" ColumnName="OG_VP_CYL" />
+                <ScalarProperty Name="OG_VP_AXE" ColumnName="OG_VP_AXE" />
+                <ScalarProperty Name="OG_VP_ADD" ColumnName="OG_VP_ADD" />
+                <ScalarProperty Name="OG_VP_EP" ColumnName="OG_VP_EP" />
+                <ScalarProperty Name="OG_VP_H" ColumnName="OG_VP_H" />
+                <ScalarProperty Name="OG_VP_DAIM" ColumnName="OG_VP_DAIM" />
+                <ScalarProperty Name="MedecinID" ColumnName="MedecinID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PAIEMENT">
+            <EntityTypeMapping TypeName="OPTICIENModel.PAIEMENT">
+              <MappingFragment StoreEntitySet="PAIEMENT">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="DatePaiement" ColumnName="DatePaiement" />
+                <ScalarProperty Name="ModeDePaiement" ColumnName="ModeDePaiement" />
+                <ScalarProperty Name="MontantPaye" ColumnName="MontantPaye" />
+                <ScalarProperty Name="OpVenteID" ColumnName="OpVenteID" />
+                <ScalarProperty Name="ReferencePaiement" ColumnName="ReferencePaiement" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Produit">
+            <EntityTypeMapping TypeName="OPTICIENModel.Produit">
+              <MappingFragment StoreEntitySet="Produit">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Reference" ColumnName="Reference" />
+                <ScalarProperty Name="Designation" ColumnName="Designation" />
+                <ScalarProperty Name="CategorieID" ColumnName="CategorieID" />
+                <ScalarProperty Name="PrixUnitaire" ColumnName="PrixUnitaire" />
+                <ScalarProperty Name="TauxTVA" ColumnName="TauxTVA" />
+                <ScalarProperty Name="Fabricant" ColumnName="Fabricant" />
+                <ScalarProperty Name="Actif" ColumnName="Actif" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Vendeur">
+            <EntityTypeMapping TypeName="OPTICIENModel.Vendeur">
+              <MappingFragment StoreEntitySet="Vendeur">
+                <ScalarProperty Name="Prenom" ColumnName="Prenom" />
+                <ScalarProperty Name="Nom" ColumnName="Nom" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Aucun" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

@@ -1,0 +1,148 @@
+﻿@model OpticienMvcApp.LignOpVente
+
+@{
+    ViewBag.Title = "Supprimer la ligne de vente";
+}
+
+<div class="container-fluid px-4 py-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="fw-bold" style="color: var(--primary-color);">
+            <i class="fa fa-trash-alt me-2" style="color: #dc3545;"></i>
+            @ViewBag.Title
+        </h2>
+        <div class="btn-group">
+            @Html.ActionLink("Retour à l'Opération", "Details", "OperationVente", 
+                new { id = Model.OperationVenteID }, 
+                new { @class = "btn shadow-sm", 
+                      style = "border-color: var(--accent-color); color: var(--accent-color);" })
+            @Html.ActionLink("Retour à la liste", "Index", null, 
+                new { @class = "btn shadow-sm", 
+                      style = "border-color: var(--accent-color); color: var(--accent-color);" })
+        </div>
+    </div>
+
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        <i class="fa fa-exclamation-triangle me-2"></i>
+        <strong>Attention !</strong> Êtes-vous sûr de vouloir supprimer cette ligne de vente ? Cette action est irréversible.
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+
+    <div class="card shadow-sm border-0">
+        <div class="card-header bg-white py-3">
+            <h5 class="mb-0 fw-bold">
+                <i class="fa fa-info-circle me-2" style="color: var(--accent-color);"></i>
+                Détails de la Ligne de Vente
+            </h5>
+        </div>
+        <div class="card-body p-4">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="mb-4">
+                        <label class="text-muted mb-1">Opération de Vente</label>
+                        @if (Model.OperationVente != null)
+                        {
+                            <div class="d-flex align-items-center">
+                                <p class="fw-bold mb-0 me-2">@Html.DisplayFor(model => model.OperationVente.NumeroOp)</p>
+                                @Html.ActionLink("Détails", "Details", "OperationVente", 
+                                    new { id = Model.OperationVenteID }, 
+                                    new { @class = "btn btn-sm", style = "color: var(--accent-color);" })
+                            </div>
+                        }
+                        else
+                        {
+                            <p class="text-danger mb-0">Opération inconnue (@Model.OperationVenteID)</p>
+                        }
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="mb-4">
+                        <label class="text-muted mb-1">Produit</label>
+                        @if (Model.Produit != null)
+                        {
+                            <div class="d-flex align-items-center">
+                                <p class="fw-bold mb-0 me-2">@Html.DisplayFor(model => model.Produit.Designation)</p>
+                                @Html.ActionLink("Détails", "Details", "Produit", 
+                                    new { id = Model.ProduitID }, 
+                                    new { @class = "btn btn-sm", style = "color: var(--accent-color);" })
+                            </div>
+                        }
+                        else
+                        {
+                            <p class="text-danger mb-0">Produit inconnu (@Model.ProduitID)</p>
+                        }
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="mb-4">
+                        <label class="text-muted mb-1">@Html.DisplayNameFor(model => model.Quantite)</label>
+                        <p class="fw-bold mb-0">
+                            <i class="fa fa-hashtag text-muted me-2"></i>
+                            @Html.DisplayFor(model => model.Quantite)
+                        </p>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="mb-4">
+                        <label class="text-muted mb-1">@Html.DisplayNameFor(model => model.PrixUnitaireVendu)</label>
+                        <p class="fw-bold mb-0" style="color: var(--accent-color);">
+                            <i class="fa fa-euro-sign text-muted me-2"></i>
+                            @Html.DisplayFor(model => model.PrixUnitaireVendu)
+                        </p>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="mb-4">
+                        <label class="text-muted mb-1">@Html.DisplayNameFor(model => model.Remise)</label>
+                        <p class="fw-bold mb-0">
+                            <i class="fa fa-percent text-muted me-2"></i>
+                            @Html.DisplayFor(model => model.Remise)
+                        </p>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="mb-4">
+                        <label class="text-muted mb-1">OD VL SPH</label>
+                        <p class="fw-bold mb-0">
+                            <i class="fa fa-eye text-muted me-2"></i>
+                            @Html.DisplayFor(model => model.Ligne_OD_SPH)
+                        </p>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="mb-4">
+                        <label class="text-muted mb-1">OG VL SPH</label>
+                        <p class="fw-bold mb-0">
+                            <i class="fa fa-eye text-muted me-2"></i>
+                            @Html.DisplayFor(model => model.Ligne_OG_SPH)
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+                <div class="d-flex justify-content-end mt-4">
+                    <button type="submit" class="btn shadow-sm" style="background-color: #dc3545; border-color: #dc3545; color: white;">
+                        <i class="fa fa-trash-alt me-2"></i>Confirmer la suppression
+                    </button>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            // Animation d'entrée pour la carte
+            $('.card').hide().fadeIn(500);
+        });
+    </script>
+}

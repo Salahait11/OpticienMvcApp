@@ -1,0 +1,236 @@
+﻿@model OpticienMvcApp.Ordonnance
+
+@{
+    ViewBag.Title = "Modifier l'ordonnance";
+}
+
+<div class="container-fluid px-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="fw-bold" style="color: var(--primary-color);">@ViewBag.Title</h2>
+        @Html.ActionLink("Retour à la liste", "Index", null, 
+            new { @class = "btn shadow-sm", 
+                  style = "border-color: var(--accent-color); color: var(--accent-color);" })
+    </div>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(model => model.ID)
+
+        <div class="card shadow-sm border-0 mb-4">
+            <div class="card-body p-4">
+                <h4 class="card-title mb-4" style="color: var(--primary-color);">
+                    <i class="fa fa-info-circle me-2" style="color: var(--accent-color);"></i>
+                    Informations Générales
+                </h4>
+
+                @Html.ValidationSummary(true, "", new { @class = "alert alert-danger" })
+
+                <div class="row g-3">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.DateDePrescription, htmlAttributes: new { @class = "form-label fw-bold" })
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+                                @Html.TextBoxFor(model => model.DateDePrescription, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date" })
+                            </div>
+                            @Html.ValidationMessageFor(model => model.DateDePrescription, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.DateExpiration, htmlAttributes: new { @class = "form-label fw-bold" })
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fa fa-calendar-check"></i></span>
+                                @Html.TextBoxFor(model => model.DateExpiration, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date" })
+                            </div>
+                            @Html.ValidationMessageFor(model => model.DateExpiration, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.MedecinID, "Médecin Prescripteur", htmlAttributes: new { @class = "form-label fw-bold" })
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fa fa-user-md"></i></span>
+                                @Html.DropDownList("MedecinID", null, "Sélectionner un médecin", htmlAttributes: new { @class = "form-select" })
+                            </div>
+                            @Html.ValidationMessageFor(model => model.MedecinID, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card shadow-sm border-0 mb-4">
+            <div class="card-body p-4">
+                <h4 class="card-title mb-4" style="color: var(--primary-color);">
+                    <i class="fa fa-eye me-2" style="color: var(--accent-color);"></i>
+                    Correction Vision de Loin (VL)
+                </h4>
+
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead style="background-color: var(--primary-color);">
+                            <tr>
+                                <th class="text-white p-3">Oeil</th>
+                                <th class="text-white p-3">SPH</th>
+                                <th class="text-white p-3">CYL</th>
+                                <th class="text-white p-3">AXE</th>
+                                <th class="text-white p-3">ADD</th>
+                                <th class="text-white p-3">EP</th>
+                                <th class="text-white p-3">H</th>
+                                <th class="text-white p-3">DAIM</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="align-middle p-3">
+                                    <span class="badge" style="background-color: var(--accent-color);">OD</span>
+                                </td>
+                                <td class="p-3">@Html.EditorFor(model => model.OD_VL_SPH, new { htmlAttributes = new { @class = "form-control" } })</td>
+                                <td class="p-3">@Html.EditorFor(model => model.OD_VL_CYL, new { htmlAttributes = new { @class = "form-control" } })</td>
+                                <td class="p-3">@Html.EditorFor(model => model.OD_VL_AXE, new { htmlAttributes = new { @class = "form-control" } })</td>
+                                <td class="p-3">@Html.EditorFor(model => model.OD_VL_ADD, new { htmlAttributes = new { @class = "form-control" } })</td>
+                                <td class="p-3">@Html.EditorFor(model => model.OD_VL_EP, new { htmlAttributes = new { @class = "form-control" } })</td>
+                                <td class="p-3">@Html.EditorFor(model => model.OD_VL_H, new { htmlAttributes = new { @class = "form-control" } })</td>
+                                <td class="p-3">@Html.EditorFor(model => model.OD_VL_DAIM, new { htmlAttributes = new { @class = "form-control" } })</td>
+                            </tr>
+                            <tr>
+                                <td class="align-middle p-3">
+                                    <span class="badge" style="background-color: var(--accent-color);">OG</span>
+                                </td>
+                                <td class="p-3">@Html.EditorFor(model => model.OG_VL_SPH, new { htmlAttributes = new { @class = "form-control" } })</td>
+                                <td class="p-3">@Html.EditorFor(model => model.OG_VL_CYL, new { htmlAttributes = new { @class = "form-control" } })</td>
+                                <td class="p-3">@Html.EditorFor(model => model.OG_VL_AXE, new { htmlAttributes = new { @class = "form-control" } })</td>
+                                <td class="p-3">@Html.EditorFor(model => model.OG_VL_ADD, new { htmlAttributes = new { @class = "form-control" } })</td>
+                                <td class="p-3">@Html.EditorFor(model => model.OG_VL_EP, new { htmlAttributes = new { @class = "form-control" } })</td>
+                                <td class="p-3">@Html.EditorFor(model => model.OG_VL_H, new { htmlAttributes = new { @class = "form-control" } })</td>
+                                <td class="p-3">@Html.EditorFor(model => model.OG_VL_DAIM, new { htmlAttributes = new { @class = "form-control" } })</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="card shadow-sm border-0 mb-4">
+            <div class="card-body p-4">
+                <h4 class="card-title mb-4" style="color: var(--primary-color);">
+                    <i class="fa fa-eye me-2" style="color: var(--accent-color);"></i>
+                    Correction Vision de Près (VP)
+                </h4>
+
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead style="background-color: var(--primary-color);">
+                            <tr>
+                                <th class="text-white p-3">Oeil</th>
+                                <th class="text-white p-3">SPH</th>
+                                <th class="text-white p-3">CYL</th>
+                                <th class="text-white p-3">AXE</th>
+                                <th class="text-white p-3">ADD</th>
+                                <th class="text-white p-3">EP</th>
+                                <th class="text-white p-3">H</th>
+                                <th class="text-white p-3">DAIM</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="align-middle p-3">
+                                    <span class="badge" style="background-color: var(--accent-color);">OD</span>
+                                </td>
+                                <td class="p-3">@Html.EditorFor(model => model.OD_VP_SPH, new { htmlAttributes = new { @class = "form-control" } })</td>
+                                <td class="p-3">@Html.EditorFor(model => model.OD_VP_CYL, new { htmlAttributes = new { @class = "form-control" } })</td>
+                                <td class="p-3">@Html.EditorFor(model => model.OD_VP_AXE, new { htmlAttributes = new { @class = "form-control" } })</td>
+                                <td class="p-3">@Html.EditorFor(model => model.OD_VP_ADD, new { htmlAttributes = new { @class = "form-control" } })</td>
+                                <td class="p-3">@Html.EditorFor(model => model.OD_VP_EP, new { htmlAttributes = new { @class = "form-control" } })</td>
+                                <td class="p-3">@Html.EditorFor(model => model.OD_VP_H, new { htmlAttributes = new { @class = "form-control" } })</td>
+                                <td class="p-3">@Html.EditorFor(model => model.OD_VP_DAIM, new { htmlAttributes = new { @class = "form-control" } })</td>
+                            </tr>
+                            <tr>
+                                <td class="align-middle p-3">
+                                    <span class="badge" style="background-color: var(--accent-color);">OG</span>
+                                </td>
+                                <td class="p-3">@Html.EditorFor(model => model.OG_VP_SPH, new { htmlAttributes = new { @class = "form-control" } })</td>
+                                <td class="p-3">@Html.EditorFor(model => model.OG_VP_CYL, new { htmlAttributes = new { @class = "form-control" } })</td>
+                                <td class="p-3">@Html.EditorFor(model => model.OG_VP_AXE, new { htmlAttributes = new { @class = "form-control" } })</td>
+                                <td class="p-3">@Html.EditorFor(model => model.OG_VP_ADD, new { htmlAttributes = new { @class = "form-control" } })</td>
+                                <td class="p-3">@Html.EditorFor(model => model.OG_VP_EP, new { htmlAttributes = new { @class = "form-control" } })</td>
+                                <td class="p-3">@Html.EditorFor(model => model.OG_VP_H, new { htmlAttributes = new { @class = "form-control" } })</td>
+                                <td class="p-3">@Html.EditorFor(model => model.OG_VP_DAIM, new { htmlAttributes = new { @class = "form-control" } })</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="d-flex justify-content-end gap-2">
+            <input type="submit" value="Enregistrer" class="btn shadow-sm" 
+                   style="background-color: var(--accent-color); border-color: var(--accent-color); color: white;" />
+            @Html.ActionLink("Annuler", "Details", new { id = Model.ID }, 
+                new { @class = "btn shadow-sm", 
+                      style = "border-color: var(--accent-color); color: var(--accent-color);" })
+        </div>
+    }
+</div>
+
+<style>
+    .form-control, .form-select {
+        border-radius: 8px;
+        border: 1px solid #dee2e6;
+        padding: 0.5rem 1rem;
+        transition: all 0.3s ease;
+    }
+
+    .form-control:focus, .form-select:focus {
+        border-color: var(--accent-color);
+        box-shadow: 0 0 0 0.2rem rgba(52, 152, 219, 0.25);
+    }
+
+    .input-group-text {
+        background-color: var(--accent-color);
+        border-color: var(--accent-color);
+        color: white;
+    }
+
+    .table th {
+        font-weight: 600;
+        white-space: nowrap;
+    }
+
+    .table td {
+        white-space: nowrap;
+    }
+
+    .btn {
+        transition: all 0.3s ease;
+    }
+
+    .btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+</style>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Animation d'entrée pour les cartes
+            const cards = document.querySelectorAll('.card');
+            cards.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                
+                setTimeout(() => {
+                    card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, index * 200);
+            });
+        });
+    </script>
+}

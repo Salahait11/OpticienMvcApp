@@ -1,0 +1,45 @@
+﻿@model OpticienMvcApp.Medecin
+
+@{
+    ViewBag.Title = $"Détails du médecin : {Model.Nom} {Model.Prenom}"; // Dynamic French title
+}
+
+<div class="container-fluid">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="card mt-4">
+                <div class="card-header">
+                    <h3 class="card-title"><i class="fa fa-user-md me-2"></i>@ViewBag.Title</h3>
+                </div>
+                <div class="card-body">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item d-flex align-items-center">
+                            <span class="me-2"><i class="fa fa-user"></i></span>
+                            <strong class="me-2">@Html.DisplayNameFor(model => model.Nom) :</strong>
+                            <span class="text-primary">@Html.DisplayFor(model => model.Nom)</span>
+                        </li>
+                        <li class="list-group-item d-flex align-items-center">
+                            <span class="me-2"><i class="fa fa-user"></i></span>
+                            <strong class="me-2">@Html.DisplayNameFor(model => model.Prenom) :</strong>
+                            <span class="text-dark">@Html.DisplayFor(model => model.Prenom)</span>
+                        </li>
+                        <li class="list-group-item d-flex align-items-center">
+                            <span class="me-2"><i class="fa fa-phone"></i></span>
+                            <strong class="me-2">@Html.DisplayNameFor(model => model.Gsm) :</strong>
+                            <span class="text-secondary">@Html.DisplayFor(model => model.Gsm)</span>
+                        </li>
+                        <li class="list-group-item d-flex align-items-center">
+                            <span class="me-2"><i class="fa fa-id-card"></i></span>
+                            <strong class="me-2">@Html.DisplayNameFor(model => model.NumeroRPPS) :</strong>
+                            <span class="badge badge-info">@Html.DisplayFor(model => model.NumeroRPPS)</span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="card-footer text-end">
+                    @Html.ActionLink("Modifier", "Edit", new { id = Model.ID }, new { @class = "btn btn-primary me-2" })
+                    @Html.ActionLink("Retour à la liste", "Index", null, new { @class = "btn btn-secondary" })
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

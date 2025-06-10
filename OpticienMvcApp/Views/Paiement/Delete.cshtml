@@ -1,0 +1,149 @@
+﻿@model OpticienMvcApp.PAIEMENT
+
+@{
+    ViewBag.Title = "Supprimer le paiement";
+}
+
+<div class="container-fluid px-4 py-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="fw-bold" style="color: var(--primary-color);">
+            <i class="fa fa-trash-alt me-2" style="color: var(--accent-color);"></i>
+            @ViewBag.Title
+        </h2>
+        @Html.ActionLink("Retour à la liste", "Index", null, 
+            new { @class = "btn shadow-sm", 
+                  style = "border-color: var(--accent-color); color: var(--accent-color);" })
+    </div>
+
+    <div class="alert alert-warning shadow-sm mb-4">
+        <div class="d-flex align-items-center">
+            <i class="fa fa-exclamation-triangle me-3 fs-4"></i>
+            <div>
+                <h5 class="alert-heading mb-1">Êtes-vous sûr de vouloir supprimer ce paiement ?</h5>
+                <p class="mb-0">Cette action est irréversible.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="card shadow-sm border-0">
+        <div class="card-header bg-white py-3">
+            <h5 class="mb-0 fw-bold">
+                <i class="fa fa-info-circle me-2" style="color: var(--accent-color);"></i>
+                Détails du Paiement
+            </h5>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="mb-4">
+                        <label class="text-muted mb-1">Opération de Vente</label>
+                        <p class="fw-bold mb-0">
+                            @if (Model.OperationVente != null)
+                            {
+                                @Html.DisplayFor(model => model.OperationVente.NumeroOp)
+                            }
+                            else
+                            {
+                                <span class="text-muted">Opération introuvable</span>
+                            }
+                        </p>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="mb-4">
+                        <label class="text-muted mb-1">@Html.DisplayNameFor(model => model.DatePaiement)</label>
+                        <p class="fw-bold mb-0">
+                            <i class="fa fa-calendar text-muted me-2"></i>
+                            @Html.DisplayFor(model => model.DatePaiement)
+                        </p>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="mb-4">
+                        <label class="text-muted mb-1">@Html.DisplayNameFor(model => model.ModeDePaiement)</label>
+                        <p class="fw-bold mb-0">
+                            <span class="badge bg-info text-white">
+                                @Html.DisplayFor(model => model.ModeDePaiement)
+                            </span>
+                        </p>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="mb-4">
+                        <label class="text-muted mb-1">@Html.DisplayNameFor(model => model.MontantPaye)</label>
+                        <p class="fw-bold mb-0" style="color: var(--accent-color);">
+                            <i class="fa fa-coins text-muted me-2"></i>
+                            @Html.DisplayFor(model => model.MontantPaye)
+                        </p>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="mb-4">
+                        <label class="text-muted mb-1">@Html.DisplayNameFor(model => model.ReferencePaiement)</label>
+                        <p class="fw-bold mb-0">
+                            <i class="fa fa-hashtag text-muted me-2"></i>
+                            @Html.DisplayFor(model => model.ReferencePaiement)
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        <div class="d-flex justify-content-end gap-2 mt-4">
+            <input type="submit" value="Supprimer" class="btn shadow-sm" 
+                   style="background-color: #e74c3c; border-color: #e74c3c; color: white;" />
+            @Html.ActionLink("Annuler", "Index", null, 
+                new { @class = "btn shadow-sm", 
+                      style = "border-color: var(--accent-color); color: var(--accent-color);" })
+        </div>
+    }
+</div>
+
+<style>
+    .alert {
+        border-radius: 8px;
+        border: none;
+    }
+
+    .card {
+        border-radius: 12px;
+        overflow: hidden;
+    }
+
+    .card-header {
+        border-bottom: 1px solid rgba(0,0,0,0.05);
+    }
+
+    .btn {
+        transition: all 0.3s ease;
+    }
+
+    .btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    .badge {
+        padding: 0.5em 0.8em;
+        font-weight: 500;
+    }
+</style>
+
+@section Scripts {
+    <script>
+        $(document).ready(function() {
+            // Animation d'entrée pour la carte
+            $('.card').css({
+                'opacity': '0',
+                'transform': 'translateY(20px)'
+            }).animate({
+                'opacity': '1',
+                'transform': 'translateY(0)'
+            }, 500);
+        });
+    </script>
+}

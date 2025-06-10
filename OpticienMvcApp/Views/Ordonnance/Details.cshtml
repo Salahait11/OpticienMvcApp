@@ -1,0 +1,204 @@
+﻿@model OpticienMvcApp.Ordonnance
+
+@{
+    ViewBag.Title = "Détails de l'ordonnance";
+}
+
+<div class="container-fluid px-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="fw-bold" style="color: var(--primary-color);">@ViewBag.Title</h2>
+        @Html.ActionLink("Retour à la liste", "Index", null, 
+            new { @class = "btn shadow-sm", 
+                  style = "border-color: var(--accent-color); color: var(--accent-color);" })
+    </div>
+
+    <div class="card shadow-sm border-0 mb-4">
+        <div class="card-body p-4">
+            <h4 class="card-title mb-4" style="color: var(--primary-color);">
+                <i class="fa fa-info-circle me-2" style="color: var(--accent-color);"></i>
+                Informations Générales
+            </h4>
+
+            <div class="row g-3">
+                <div class="col-md-4">
+                    <div class="d-flex align-items-center mb-3">
+                        <i class="fa fa-calendar me-3" style="color: var(--accent-color);"></i>
+                        <div>
+                            <small class="text-muted d-block">Date de prescription</small>
+                            <strong>@Html.DisplayFor(model => model.DateDePrescription)</strong>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="d-flex align-items-center mb-3">
+                        <i class="fa fa-calendar-check me-3" style="color: var(--accent-color);"></i>
+                        <div>
+                            <small class="text-muted d-block">Date d'expiration</small>
+                            <strong>@Html.DisplayFor(model => model.DateExpiration)</strong>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="d-flex align-items-center mb-3">
+                        <i class="fa fa-user-md me-3" style="color: var(--accent-color);"></i>
+                        <div>
+                            <small class="text-muted d-block">Médecin Prescripteur</small>
+                            <strong>@Html.DisplayFor(model => model.Medecin.Nom)</strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card shadow-sm border-0 mb-4">
+        <div class="card-body p-4">
+            <h4 class="card-title mb-4" style="color: var(--primary-color);">
+                <i class="fa fa-eye me-2" style="color: var(--accent-color);"></i>
+                Correction Vision de Loin (VL)
+            </h4>
+
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead style="background-color: var(--primary-color);">
+                        <tr>
+                            <th class="text-white p-3">Oeil</th>
+                            <th class="text-white p-3">SPH</th>
+                            <th class="text-white p-3">CYL</th>
+                            <th class="text-white p-3">AXE</th>
+                            <th class="text-white p-3">ADD</th>
+                            <th class="text-white p-3">EP</th>
+                            <th class="text-white p-3">H</th>
+                            <th class="text-white p-3">DAIM</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="align-middle p-3">
+                                <span class="badge" style="background-color: var(--accent-color);">OD</span>
+                            </td>
+                            <td class="p-3">@Html.DisplayFor(model => model.OD_VL_SPH)</td>
+                            <td class="p-3">@Html.DisplayFor(model => model.OD_VL_CYL)</td>
+                            <td class="p-3">@Html.DisplayFor(model => model.OD_VL_AXE)</td>
+                            <td class="p-3">@Html.DisplayFor(model => model.OD_VL_ADD)</td>
+                            <td class="p-3">@Html.DisplayFor(model => model.OD_VL_EP)</td>
+                            <td class="p-3">@Html.DisplayFor(model => model.OD_VL_H)</td>
+                            <td class="p-3">@Html.DisplayFor(model => model.OD_VL_DAIM)</td>
+                        </tr>
+                        <tr>
+                            <td class="align-middle p-3">
+                                <span class="badge" style="background-color: var(--accent-color);">OG</span>
+                            </td>
+                            <td class="p-3">@Html.DisplayFor(model => model.OG_VL_SPH)</td>
+                            <td class="p-3">@Html.DisplayFor(model => model.OG_VL_CYL)</td>
+                            <td class="p-3">@Html.DisplayFor(model => model.OG_VL_AXE)</td>
+                            <td class="p-3">@Html.DisplayFor(model => model.OG_VL_ADD)</td>
+                            <td class="p-3">@Html.DisplayFor(model => model.OG_VL_EP)</td>
+                            <td class="p-3">@Html.DisplayFor(model => model.OG_VL_H)</td>
+                            <td class="p-3">@Html.DisplayFor(model => model.OG_VL_DAIM)</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="card shadow-sm border-0 mb-4">
+        <div class="card-body p-4">
+            <h4 class="card-title mb-4" style="color: var(--primary-color);">
+                <i class="fa fa-eye me-2" style="color: var(--accent-color);"></i>
+                Correction Vision de Près (VP)
+            </h4>
+
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead style="background-color: var(--primary-color);">
+                        <tr>
+                            <th class="text-white p-3">Oeil</th>
+                            <th class="text-white p-3">SPH</th>
+                            <th class="text-white p-3">CYL</th>
+                            <th class="text-white p-3">AXE</th>
+                            <th class="text-white p-3">ADD</th>
+                            <th class="text-white p-3">EP</th>
+                            <th class="text-white p-3">H</th>
+                            <th class="text-white p-3">DAIM</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="align-middle p-3">
+                                <span class="badge" style="background-color: var(--accent-color);">OD</span>
+                            </td>
+                            <td class="p-3">@Html.DisplayFor(model => model.OD_VP_SPH)</td>
+                            <td class="p-3">@Html.DisplayFor(model => model.OD_VP_CYL)</td>
+                            <td class="p-3">@Html.DisplayFor(model => model.OD_VP_AXE)</td>
+                            <td class="p-3">@Html.DisplayFor(model => model.OD_VP_ADD)</td>
+                            <td class="p-3">@Html.DisplayFor(model => model.OD_VP_EP)</td>
+                            <td class="p-3">@Html.DisplayFor(model => model.OD_VP_H)</td>
+                            <td class="p-3">@Html.DisplayFor(model => model.OD_VP_DAIM)</td>
+                        </tr>
+                        <tr>
+                            <td class="align-middle p-3">
+                                <span class="badge" style="background-color: var(--accent-color);">OG</span>
+                            </td>
+                            <td class="p-3">@Html.DisplayFor(model => model.OG_VP_SPH)</td>
+                            <td class="p-3">@Html.DisplayFor(model => model.OG_VP_CYL)</td>
+                            <td class="p-3">@Html.DisplayFor(model => model.OG_VP_AXE)</td>
+                            <td class="p-3">@Html.DisplayFor(model => model.OG_VP_ADD)</td>
+                            <td class="p-3">@Html.DisplayFor(model => model.OG_VP_EP)</td>
+                            <td class="p-3">@Html.DisplayFor(model => model.OG_VP_H)</td>
+                            <td class="p-3">@Html.DisplayFor(model => model.OG_VP_DAIM)</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="d-flex justify-content-end gap-2">
+        @Html.ActionLink("Modifier", "Edit", new { id = Model.ID }, 
+            new { @class = "btn shadow-sm", 
+                  style = "background-color: var(--accent-color); border-color: var(--accent-color); color: white;" })
+    </div>
+</div>
+
+<style>
+    .table th {
+        font-weight: 600;
+        white-space: nowrap;
+    }
+
+    .table td {
+        white-space: nowrap;
+    }
+
+    .btn {
+        transition: all 0.3s ease;
+    }
+
+    .btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+</style>
+
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Animation d'entrée pour les cartes
+            const cards = document.querySelectorAll('.card');
+            cards.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                
+                setTimeout(() => {
+                    card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, index * 200);
+            });
+        });
+    </script>
+}

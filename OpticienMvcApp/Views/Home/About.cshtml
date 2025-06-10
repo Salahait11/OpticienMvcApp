@@ -1,0 +1,147 @@
+﻿@{
+    ViewBag.Title = "À Propos"; // Titre plus français et adapté
+    Layout = "~/Views/Shared/_Layout.cshtml"; // Assurez-vous que le layout est bien défini
+}
+
+<main aria-labelledby="title">
+    <!-- Section d'introduction/titre (Hero-like) -->
+    <div class="text-center bg-white p-5 my-5 rounded-lg shadow-sm border-0">
+        @* Fond clair, padding, marges, coins arrondis, ombre *@
+        <h1 id="title" class="display-4 fw-bold mb-3" style="color: var(--primary-color);">@ViewBag.Title de Opticien</h1> @* Titre principal, plus grand, couleur, gras *@
+        <p class="lead mb-4" style="color: var(--secondary-color);">@ViewBag.Message</p> @* Message introductif, taille lead, couleur secondaire *@
+        <hr class="my-4 w-50 mx-auto" style="border-color: var(--accent-color); opacity: 0.5;"> @* Ligne de séparation stylisée *@
+        <p class="text-muted">Découvrez notre mission, nos valeurs et ce qui nous motive à vous offrir la meilleure solution.</p> @* Texte d'accompagnement plus discret *@
+    </div>
+
+    <!-- Section d'information détaillée (avec cartes si applicable) -->
+    <div class="row justify-content-center my-5">
+        @* Centrer le contenu de cette section *@
+        <div class="col-md-8">
+            @* Limiter la largeur du texte pour une meilleure lisibilité *@
+            <div class="card shadow-sm rounded-lg border-0 hover-card">
+                @* Carte pour encadrer le contenu, ombre, coins arrondis, pas de bordure *@
+                <div class="card-body p-4">
+                    @* Padding intérieur de la carte *@
+                    <h3 class="card-title mb-3 fw-bold" style="color: var(--primary-color);">Notre Mission</h3> @* Titre de section dans la carte *@
+                    <p class="card-text fs-5 mb-4" style="color: var(--secondary-color);">
+                        Chez Opticien, notre mission est de simplifier la gestion quotidienne des opticiens. Nous fournissons des outils intuitifs et puissants pour gérer les clients, les ordonnances, les produits, les ventes et les paiements, afin que vous puissiez vous concentrer sur ce qui compte le plus : vos patients.
+                    </p>
+
+                    <h3 class="card-title mb-3 fw-bold" style="color: var(--primary-color);">Nos Valeurs</h3>
+                    <ul class="list-group list-group-flush mb-4">
+                        @* Liste stylisée Bootstrap *@
+                        <li class="list-group-item d-flex align-items-center hover-list-item">
+                            <span class="badge me-2" style="background-color: var(--accent-color);">1</span>
+                            <span style="color: var(--secondary-color);">
+                                <strong style="color: var(--primary-color);">Innovation :</strong> Nous cherchons constamment à améliorer nos outils et à intégrer les dernières technologies pour répondre à vos besoins évolutifs.
+                            </span>
+                        </li>
+                        <li class="list-group-item d-flex align-items-center hover-list-item">
+                            <span class="badge me-2" style="background-color: var(--accent-color);">2</span>
+                            <span style="color: var(--secondary-color);">
+                                <strong style="color: var(--primary-color);">Simplicité :</strong> L'expérience utilisateur est au cœur de notre développement. Notre application est conçue pour être intuitive et facile à prendre en main.
+                            </span>
+                        </li>
+                        <li class="list-group-item d-flex align-items-center hover-list-item">
+                            <span class="badge me-2" style="background-color: var(--accent-color);">3</span>
+                            <span style="color: var(--secondary-color);">
+                                <strong style="color: var(--primary-color);">Fiabilité :</strong> Nous nous engageons à offrir une solution stable et sécurisée pour la gestion de vos données critiques.
+                            </span>
+                        </li>
+                        <li class="list-group-item d-flex align-items-center hover-list-item">
+                            <span class="badge me-2" style="background-color: var(--accent-color);">4</span>
+                            <span style="color: var(--secondary-color);">
+                                <strong style="color: var(--primary-color);">Support :</strong> Notre équipe est dédiée à vous accompagner et à vous fournir un support réactif et efficace.
+                            </span>
+                        </li>
+                    </ul>
+
+                    <h3 class="card-title mb-3 fw-bold" style="color: var(--primary-color);">Contactez-nous</h3>
+                    <p class="card-text" style="color: var(--secondary-color);">
+                        Pour toute question ou information complémentaire, n'hésitez pas à nous contacter. Nous sommes là pour vous aider.
+                    </p>
+                    <div class="text-center mt-4">
+                        @Html.ActionLink("Nous Contacter", "Contact", "Home", null, 
+                            new { @class = "btn btn-lg shadow-sm", 
+                                  style = "background-color: var(--accent-color); border-color: var(--accent-color); color: white;" })
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<style>
+    .hover-card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .hover-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1) !important;
+    }
+
+    .hover-list-item {
+        transition: all 0.3s ease;
+        border: none;
+        border-bottom: 1px solid rgba(0,0,0,0.1);
+    }
+
+    .hover-list-item:hover {
+        background-color: rgba(52, 152, 219, 0.05);
+        transform: translateX(5px);
+    }
+
+    .hover-list-item:last-child {
+        border-bottom: none;
+    }
+
+    .badge {
+        padding: 0.5em 1em;
+        font-weight: 500;
+        transition: transform 0.3s ease;
+    }
+
+    .hover-list-item:hover .badge {
+        transform: scale(1.1);
+    }
+
+    .btn {
+        transition: all 0.3s ease;
+    }
+
+    .btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+</style>
+
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Animation d'entrée pour la carte
+            const card = document.querySelector('.card');
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+            
+            setTimeout(() => {
+                card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                card.style.opacity = '1';
+                card.style.transform = 'translateY(0)';
+            }, 100);
+
+            // Animation séquentielle pour les éléments de la liste
+            const listItems = document.querySelectorAll('.list-group-item');
+            listItems.forEach((item, index) => {
+                item.style.opacity = '0';
+                item.style.transform = 'translateX(-20px)';
+                
+                setTimeout(() => {
+                    item.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                    item.style.opacity = '1';
+                    item.style.transform = 'translateX(0)';
+                }, 300 + (index * 100));
+            });
+        });
+    </script>
+}

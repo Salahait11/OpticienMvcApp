@@ -1,0 +1,183 @@
+﻿@model IEnumerable<OpticienMvcApp.Produit>
+
+@{
+    ViewBag.Title = "Liste des Produits";
+}
+
+<div class="container-fluid px-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="fw-bold" style="color: var(--primary-color);">@ViewBag.Title</h2>
+        @Html.ActionLink("Nouveau Produit", "Create", null, 
+            new { @class = "btn shadow-sm", 
+                  style = "background-color: var(--accent-color); border-color: var(--accent-color); color: white;" })
+    </div>
+
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger alert-dismissible fade show shadow-sm" role="alert">
+            <i class="fa fa-exclamation-circle me-2"></i>
+            @TempData["ErrorMessage"]
+            <button type="button" class="btn-close" data-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show shadow-sm" role="alert">
+            <i class="fa fa-check-circle me-2"></i>
+            @TempData["SuccessMessage"]
+            <button type="button" class="btn-close" data-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+
+    @if (Model != null && Model.Any())
+    {
+        <div class="card shadow-sm border-0">
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover mb-0">
+                        <thead style="background-color: var(--primary-color);">
+                            <tr>
+                                <th class="text-white p-3">@Html.DisplayNameFor(model => model.Reference)</th>
+                                <th class="text-white p-3">@Html.DisplayNameFor(model => model.Designation)</th>
+                                <th class="text-white p-3">@Html.DisplayNameFor(model => model.CategorieID)</th>
+                                <th class="text-white p-3">@Html.DisplayNameFor(model => model.Fabricant)</th>
+                                <th class="text-white p-3">@Html.DisplayNameFor(model => model.PrixUnitaire)</th>
+                                <th class="text-white p-3">@Html.DisplayNameFor(model => model.TauxTVA)</th>
+                                <th class="text-white p-3">@Html.DisplayNameFor(model => model.Actif)</th>
+                                <th class="text-white p-3 text-center">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr class="hover-row">
+                                    <td class="align-middle p-3">
+                                        <span class="text-primary fw-bold">@Html.DisplayFor(modelItem => item.Reference)</span>
+                                    </td>
+                                    <td class="align-middle p-3">
+                                        <span class="text-dark">@Html.DisplayFor(modelItem => item.Designation)</span>
+                                    </td>
+                                    <td class="align-middle p-3">
+                                        <span class="badge" style="background-color: var(--accent-color);">@Html.DisplayFor(modelItem => item.CategorieProduit.Nom)</span>
+                                    </td>
+                                    <td class="align-middle p-3">
+                                        <span class="text-secondary">@Html.DisplayFor(modelItem => item.Fabricant)</span>
+                                    </td>
+                                    <td class="align-middle p-3">
+                                        <span class="text-success fw-bold">@Html.DisplayFor(modelItem => item.PrixUnitaire) DHS</span>
+                                    </td>
+                                    <td class="align-middle p-3">
+                                        <span class="text-info">@Html.DisplayFor(modelItem => item.TauxTVA)%</span>
+                                    </td>
+                                    <td class="align-middle p-3">
+                                        @if (item.Actif)
+                                        {
+                                            <span class="badge" style="background-color: #28a745;">Actif</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge" style="background-color: #dc3545;">Inactif</span>
+                                        }
+                                    </td>
+                                    <td class="align-middle p-3 text-center">
+                                        <div class="btn-group">
+                                            @Html.ActionLink("Modifier", "Edit", new { id = item.ID }, 
+                                                new { @class = "btn btn-sm me-1", 
+                                                      style = "border-color: var(--accent-color); color: var(--accent-color);" })
+                                            @Html.ActionLink("Détails", "Details", new { id = item.ID }, 
+                                                new { @class = "btn btn-sm me-1", 
+                                                      style = "border-color: var(--accent-color); color: var(--accent-color);" })
+                                            @Html.ActionLink("Supprimer", "Delete", new { id = item.ID }, 
+                                                new { @class = "btn btn-sm", 
+                                                      style = "border-color: #dc3545; color: #dc3545;" })
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="alert bg-white text-center p-4 shadow-sm rounded-lg border-0" role="alert">
+            <i class="fa fa-info-circle fa-2x mb-3" style="color: var(--accent-color);"></i>
+            <p class="mb-0 fs-5" style="color: var(--primary-color);">Aucun produit trouvé.</p>
+            <small class="text-muted">Commencez par créer un nouveau produit pour le voir apparaître ici.</small>
+        </div>
+    }
+</div>
+
+<style>
+    .hover-row {
+        transition: all 0.3s ease;
+    }
+
+    .hover-row:hover {
+        background-color: rgba(52, 152, 219, 0.05);
+        transform: translateX(5px);
+    }
+
+    .btn {
+        transition: all 0.3s ease;
+    }
+
+    .btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    .alert {
+        border: none;
+        border-radius: 8px;
+    }
+
+    .table th {
+        font-weight: 600;
+        white-space: nowrap;
+    }
+
+    .table td {
+        white-space: nowrap;
+    }
+
+    .btn-group {
+        display: flex;
+        gap: 0.5rem;
+    }
+
+    .btn-group .btn {
+        flex: 1;
+    }
+</style>
+
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Animation d'entrée pour les lignes du tableau
+            const rows = document.querySelectorAll('.hover-row');
+            rows.forEach((row, index) => {
+                row.style.opacity = '0';
+                row.style.transform = 'translateX(-20px)';
+                
+                setTimeout(() => {
+                    row.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                    row.style.opacity = '1';
+                    row.style.transform = 'translateX(0)';
+                }, index * 50);
+            });
+
+            // Gestion des alertes
+            const alerts = document.querySelectorAll('.alert');
+            alerts.forEach(alert => {
+                setTimeout(() => {
+                    alert.style.opacity = '0';
+                    alert.style.transition = 'opacity 0.5s ease';
+                    setTimeout(() => alert.remove(), 500);
+                }, 5000);
+            });
+        });
+    </script>
+}

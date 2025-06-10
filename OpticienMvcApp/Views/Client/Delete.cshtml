@@ -1,0 +1,161 @@
+﻿@model OpticienMvcApp.Client
+
+@{
+    ViewBag.Title = "Supprimer le client";
+}
+
+<div class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-sm rounded-lg border-0 hover-card">
+                <div class="card-body p-4">
+                    <div class="text-center mb-4">
+                        <i class="fa fa-exclamation-triangle fa-3x mb-3" style="color: var(--accent-color);"></i>
+                        <h2 class="card-title" style="color: var(--primary-color);">@ViewBag.Title</h2>
+                    </div>
+
+                    <div class="alert alert-warning text-center mb-4" role="alert">
+                        <i class="fa fa-question-circle me-2"></i>
+                        Êtes-vous sûr(e) de vouloir supprimer ce client ?
+                    </div>
+
+                    <div class="client-details p-4 rounded-lg" style="background-color: rgba(52, 152, 219, 0.02);">
+                        <h4 class="mb-4" style="color: var(--primary-color);">
+                            <i class="fa fa-user me-2" style="color: var(--accent-color);"></i>
+                            Détails du client à supprimer
+                        </h4>
+
+                        <dl class="row">
+                            <dt class="col-sm-4 fw-bold" style="color: var(--primary-color);">
+                                @Html.DisplayNameFor(model => model.Nom)
+                            </dt>
+                            <dd class="col-sm-8 mb-3" style="color: var(--secondary-color);">
+                                @Html.DisplayFor(model => model.Nom)
+                            </dd>
+
+                            <dt class="col-sm-4 fw-bold" style="color: var(--primary-color);">
+                                @Html.DisplayNameFor(model => model.Prenom)
+                            </dt>
+                            <dd class="col-sm-8 mb-3" style="color: var(--secondary-color);">
+                                @Html.DisplayFor(model => model.Prenom)
+                            </dd>
+                        </dl>
+                    </div>
+
+                    @using (Html.BeginForm())
+                    {
+                        @Html.AntiForgeryToken()
+
+                        <div class="form-actions text-center mt-4">
+                            <button type="submit" class="btn btn-lg hover-btn me-2" style="background-color: #dc3545; border-color: #dc3545; color: white;">
+                                <i class="fa fa-trash me-2"></i>
+                                Supprimer
+                            </button>
+                            @Html.ActionLink("Annuler", "Details", new { id = Model.ID }, new { @class = "btn btn-lg btn-outline-secondary hover-btn me-2" })
+                            @Html.ActionLink("Retour à la liste", "Index", null, new { @class = "btn btn-lg btn-link hover-link" })
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .hover-card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .hover-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1) !important;
+    }
+
+    .hover-btn {
+        transition: all 0.3s ease;
+    }
+
+    .hover-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 10px rgba(52, 152, 219, 0.2) !important;
+    }
+
+    .hover-link {
+        color: var(--accent-color);
+        transition: all 0.3s ease;
+        position: relative;
+        text-decoration: none;
+    }
+
+    .hover-link:hover {
+        color: var(--primary-color);
+    }
+
+    .hover-link::after {
+        content: '';
+        position: absolute;
+        width: 0;
+        height: 1px;
+        bottom: -2px;
+        left: 0;
+        background-color: var(--accent-color);
+        transition: width 0.3s ease;
+    }
+
+    .hover-link:hover::after {
+        width: 100%;
+    }
+
+    .alert {
+        border: none;
+        border-radius: 8px;
+    }
+
+    .client-details {
+        border: 1px solid rgba(52, 152, 219, 0.1);
+        transition: all 0.3s ease;
+    }
+
+    .client-details:hover {
+        background-color: rgba(52, 152, 219, 0.05) !important;
+    }
+</style>
+
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Animation d'entrée pour la carte
+            const card = document.querySelector('.card');
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+            
+            setTimeout(() => {
+                card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                card.style.opacity = '1';
+                card.style.transform = 'translateY(0)';
+            }, 100);
+
+            // Animation de l'alerte
+            const alert = document.querySelector('.alert');
+            alert.style.opacity = '0';
+            alert.style.transform = 'scale(0.9)';
+            
+            setTimeout(() => {
+                alert.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                alert.style.opacity = '1';
+                alert.style.transform = 'scale(1)';
+            }, 200);
+
+            // Animation des détails du client
+            const details = document.querySelector('.client-details');
+            details.style.opacity = '0';
+            details.style.transform = 'translateX(-20px)';
+            
+            setTimeout(() => {
+                details.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                details.style.opacity = '1';
+                details.style.transform = 'translateX(0)';
+            }, 300);
+        });
+    </script>
+}

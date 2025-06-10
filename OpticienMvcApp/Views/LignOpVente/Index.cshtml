@@ -1,0 +1,120 @@
+﻿@model IEnumerable<OpticienMvcApp.LignOpVente>
+
+@{
+    ViewBag.Title = "Liste des Lignes de Vente";
+}
+
+<div class="container-fluid px-4 py-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="fw-bold" style="color: var(--primary-color);">
+            <i class="fa fa-list me-2" style="color: var(--accent-color);"></i>
+            @ViewBag.Title
+        </h2>
+        @Html.ActionLink("Nouvelle Ligne", "Create", null, 
+            new { @class = "btn shadow-sm", 
+                  style = "background-color: var(--accent-color); border-color: var(--accent-color); color: white;" })
+    </div>
+
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <i class="fa fa-exclamation-circle me-2"></i>
+            @TempData["ErrorMessage"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+
+    <div class="card shadow-sm border-0">
+        <div class="card-header bg-white py-3">
+            <div class="d-flex justify-content-between align-items-center">
+                <h5 class="mb-0 fw-bold">
+                    <i class="fa fa-info-circle me-2" style="color: var(--accent-color);"></i>
+                    Toutes les Lignes de Vente
+                </h5>
+                <small class="text-muted">
+                    Pour ajouter/modifier des lignes spécifiques à une opération, utilisez la page de l'Opération de Vente
+                </small>
+            </div>
+        </div>
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead>
+                        <tr class="bg-light">
+                            <th class="border-0 ps-4">Opération de Vente</th>
+                            <th class="border-0">Produit</th>
+                            <th class="border-0">Quantité</th>
+                            <th class="border-0">Prix Unitaire</th>
+                            <th class="border-0">Remise</th>
+                            <th class="border-0">OD VL SPH</th>
+                            <th class="border-0">OG VL SPH</th>
+                            <th class="border-0 text-end pe-4">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td class="ps-4">
+                                    @if (item.OperationVente != null)
+                                    {
+                                        <div class="d-flex align-items-center">
+                                            <span class="fw-bold me-2">@Html.DisplayFor(modelItem => item.OperationVente.NumeroOp)</span>
+                                            @Html.ActionLink("Détails", "Details", "OperationVente", 
+                                                new { id = item.OperationVenteID }, 
+                                                new { @class = "btn btn-sm", style = "color: var(--accent-color);" })
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <span class="text-danger">Opération inconnue (@item.OperationVenteID)</span>
+                                    }
+                                </td>
+                                <td>
+                                    @if (item.Produit != null)
+                                    {
+                                        <div class="d-flex align-items-center">
+                                            <span class="fw-bold me-2">@Html.DisplayFor(modelItem => item.Produit.Designation)</span>
+                                            @Html.ActionLink("Détails", "Details", "Produit", 
+                                                new { id = item.ProduitID }, 
+                                                new { @class = "btn btn-sm", style = "color: var(--accent-color);" })
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <span class="text-danger">Produit inconnu (@item.ProduitID)</span>
+                                    }
+                                </td>
+                                <td>@Html.DisplayFor(modelItem => item.Quantite)</td>
+                                <td>@Html.DisplayFor(modelItem => item.PrixUnitaireVendu)</td>
+                                <td>@Html.DisplayFor(modelItem => item.Remise)</td>
+                                <td>@Html.DisplayFor(modelItem => item.Ligne_OD_SPH)</td>
+                                <td>@Html.DisplayFor(modelItem => item.Ligne_OG_SPH)</td>
+                                <td class="text-end pe-4">
+                                    <div class="btn-group">
+                                        @Html.ActionLink("Modifier", "Edit", new { id = item.ID }, 
+                                            new { @class = "btn btn-sm", style = "color: var(--accent-color);" })
+                                        @Html.ActionLink("Détails", "Details", new { id = item.ID }, 
+                                            new { @class = "btn btn-sm", style = "color: #3498db;" })
+                                        @Html.ActionLink("Supprimer", "Delete", new { id = item.ID }, 
+                                            new { @class = "btn btn-sm", style = "color: #dc3545;" })
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    <script>
+        $(document).ready(function () {
+            $('.alert-dismissible').fadeTo(5000, 500).slideUp(500, function () {
+                $(this).alert('close');
+            });
+        });
+    </script>
+}

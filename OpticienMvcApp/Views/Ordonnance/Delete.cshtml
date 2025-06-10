@@ -1,0 +1,113 @@
+﻿@model OpticienMvcApp.Ordonnance
+
+@{
+    ViewBag.Title = "Supprimer l'ordonnance";
+}
+
+<div class="container-fluid px-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="fw-bold" style="color: var(--primary-color);">@ViewBag.Title</h2>
+        @Html.ActionLink("Retour à la liste", "Index", null, 
+            new { @class = "btn shadow-sm", 
+                  style = "border-color: var(--accent-color); color: var(--accent-color);" })
+    </div>
+
+    <div class="card shadow-sm border-0 mb-4">
+        <div class="card-body p-4">
+            <div class="alert alert-warning mb-4">
+                <i class="fa fa-exclamation-triangle me-2"></i>
+                <strong>Attention :</strong> Êtes-vous sûr(e) de vouloir supprimer cette ordonnance ?
+            </div>
+
+            <h4 class="card-title mb-4" style="color: var(--primary-color);">
+                <i class="fa fa-file-medical me-2" style="color: var(--accent-color);"></i>
+                Détails de l'ordonnance
+            </h4>
+
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <div class="d-flex align-items-center mb-3">
+                        <i class="fa fa-calendar me-3" style="color: var(--accent-color);"></i>
+                        <div>
+                            <small class="text-muted d-block">Date de prescription</small>
+                            <strong>@Html.DisplayFor(model => model.DateDePrescription)</strong>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="d-flex align-items-center mb-3">
+                        <i class="fa fa-calendar-check me-3" style="color: var(--accent-color);"></i>
+                        <div>
+                            <small class="text-muted d-block">Date d'expiration</small>
+                            <strong>@Html.DisplayFor(model => model.DateExpiration)</strong>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12">
+                    <div class="d-flex align-items-center mb-3">
+                        <i class="fa fa-user-md me-3" style="color: var(--accent-color);"></i>
+                        <div>
+                            <small class="text-muted d-block">Médecin Prescripteur</small>
+                            <strong>
+                                @if (Model.Medecin != null)
+                                {
+                                    @Html.DisplayFor(m => m.Medecin.Nom) @Html.DisplayFor(m => m.Medecin.Prenom)
+                                }
+                                else
+                                {
+                                    <span class="text-muted">Non spécifié</span>
+                                }
+                            </strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+                <div class="d-flex justify-content-end gap-2 mt-4">
+                    <input type="submit" value="Supprimer" class="btn shadow-sm" 
+                           style="background-color: #dc3545; border-color: #dc3545; color: white;" />
+                    @Html.ActionLink("Annuler", "Details", new { id = Model.ID }, 
+                        new { @class = "btn shadow-sm", 
+                              style = "border-color: var(--accent-color); color: var(--accent-color);" })
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<style>
+    .btn {
+        transition: all 0.3s ease;
+    }
+
+    .btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    .alert {
+        border-radius: 8px;
+        border: none;
+    }
+</style>
+
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const card = document.querySelector('.card');
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+            
+            setTimeout(() => {
+                card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                card.style.opacity = '1';
+                card.style.transform = 'translateY(0)';
+            }, 100);
+        });
+    </script>
+}

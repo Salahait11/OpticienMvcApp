@@ -1,0 +1,308 @@
+﻿@model OpticienMvcApp.Produit
+
+@{
+    ViewBag.Title = "Détails du Produit";
+}
+
+<div class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-12">
+            <div class="card shadow-sm rounded-lg border-0 hover-card">
+                <div class="card-body p-4">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h2 class="card-title mb-0" style="color: var(--primary-color);">
+                            <i class="fa fa-info-circle me-2" style="color: var(--accent-color);"></i>
+                            @ViewBag.Title
+                        </h2>
+                    </div>
+
+                    <div class="card mb-4 border-0 shadow-sm">
+                        <div class="card-header bg-white">
+                            <h4 class="mb-0" style="color: var(--primary-color);">
+                                <i class="fa fa-cube me-2" style="color: var(--accent-color);"></i>
+                                Informations Générales
+                            </h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <div class="detail-item">
+                                        <label class="detail-label">@Html.DisplayNameFor(model => model.Reference)</label>
+                                        <div class="detail-value">@Html.DisplayFor(model => model.Reference)</div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <div class="detail-item">
+                                        <label class="detail-label">@Html.DisplayNameFor(model => model.Designation)</label>
+                                        <div class="detail-value">@Html.DisplayFor(model => model.Designation)</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.CategorieID, "Catégorie", htmlAttributes: new { @class = "form-label" })
+                                        <div class="input-group">
+                                            <span class="input-group-text"><i class="fa fa-tags"></i></span>
+                                            @Html.DisplayFor(model => model.CategorieProduit.Nom, new { @class = "form-control" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <div class="detail-item">
+                                        <label class="detail-label">@Html.DisplayNameFor(model => model.Fabricant)</label>
+                                        <div class="detail-value">@Html.DisplayFor(model => model.Fabricant)</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <div class="detail-item">
+                                        <label class="detail-label">@Html.DisplayNameFor(model => model.PrixUnitaire)</label>
+                                        <div class="detail-value">@Html.DisplayFor(model => model.PrixUnitaire)</div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <div class="detail-item">
+                                        <label class="detail-label">@Html.DisplayNameFor(model => model.TauxTVA)</label>
+                                        <div class="detail-value">@Html.DisplayFor(model => model.TauxTVA)</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <div class="detail-item">
+                                        <label class="detail-label">@Html.DisplayNameFor(model => model.Actif)</label>
+                                        <div class="detail-value">
+                                            @if (Model.Actif)
+                                            {
+                                                <span class="badge bg-success">Actif</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="badge bg-danger">Inactif</span>
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Détails Monture -->
+                    @if (Model.DetailMonture != null)
+                    {
+                        <div class="card mb-4">
+                            <div class="card-header">
+                                <h5 class="mb-0">Détails de la Monture</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.DetailMonture.Marque, htmlAttributes: new { @class = "form-label" })
+                                            <div class="input-group">
+                                                <span class="input-group-text"><i class="fa fa-tag"></i></span>
+                                                @Html.DisplayFor(model => model.DetailMonture.Marque, new { @class = "form-control" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.DetailMonture.Modele, htmlAttributes: new { @class = "form-label" })
+                                            <div class="input-group">
+                                                <span class="input-group-text"><i class="fa fa-barcode"></i></span>
+                                                @Html.DisplayFor(model => model.DetailMonture.Modele, new { @class = "form-control" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.DetailMonture.Couleur, htmlAttributes: new { @class = "form-label" })
+                                            <div class="input-group">
+                                                <span class="input-group-text"><i class="fa fa-palette"></i></span>
+                                                @Html.DisplayFor(model => model.DetailMonture.Couleur, new { @class = "form-control" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.DetailMonture.Taille, htmlAttributes: new { @class = "form-label" })
+                                            <div class="input-group">
+                                                <span class="input-group-text"><i class="fa fa-ruler"></i></span>
+                                                @Html.DisplayFor(model => model.DetailMonture.Taille, new { @class = "form-control" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.DetailMonture.Materiau, htmlAttributes: new { @class = "form-label" })
+                                            <div class="input-group">
+                                                <span class="input-group-text"><i class="fa fa-cube"></i></span>
+                                                @Html.DisplayFor(model => model.DetailMonture.Materiau, new { @class = "form-control" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.DetailMonture.Genre, htmlAttributes: new { @class = "form-label" })
+                                            <div class="input-group">
+                                                <span class="input-group-text"><i class="fa fa-user"></i></span>
+                                                @Html.DisplayFor(model => model.DetailMonture.Genre, new { @class = "form-control" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+
+                    <!-- Détails Verre -->
+                    @if (Model.DetailVerre != null)
+                    {
+                        <div class="card mb-4">
+                            <div class="card-header">
+                                <h5 class="mb-0">Détails du Verre</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.DetailVerre.TypeTraitement, htmlAttributes: new { @class = "form-label" })
+                                            <div class="input-group">
+                                                <span class="input-group-text"><i class="fa fa-glasses"></i></span>
+                                                @Html.DisplayFor(model => model.DetailVerre.TypeTraitement, new { @class = "form-control" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.DetailVerre.Indice, htmlAttributes: new { @class = "form-label" })
+                                            <div class="input-group">
+                                                <span class="input-group-text"><i class="fa fa-hashtag"></i></span>
+                                                @Html.DisplayFor(model => model.DetailVerre.Indice, new { @class = "form-control" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.DetailVerre.DiametrePrecal, htmlAttributes: new { @class = "form-label" })
+                                            <div class="input-group">
+                                                <span class="input-group-text"><i class="fa fa-circle"></i></span>
+                                                @Html.DisplayFor(model => model.DetailVerre.DiametrePrecal, new { @class = "form-control" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+
+                    <div class="form-group">
+                        <div class="d-flex justify-content-between">
+                            @Html.ActionLink("Modifier", "Edit", new { id = Model.ID }, new { @class = "btn btn-primary" })
+                            @Html.ActionLink("Retour à la liste", "Index", null, new { @class = "btn btn-secondary" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .hover-card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .hover-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1) !important;
+    }
+
+    .hover-btn {
+        transition: all 0.3s ease;
+    }
+
+    .hover-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 10px rgba(52, 152, 219, 0.2) !important;
+    }
+
+    .detail-item {
+        padding: 1rem;
+        background-color: rgba(52, 152, 219, 0.05);
+        border-radius: 8px;
+        transition: all 0.3s ease;
+    }
+
+    .detail-item:hover {
+        background-color: rgba(52, 152, 219, 0.1);
+        transform: translateX(5px);
+    }
+
+    .detail-label {
+        display: block;
+        font-weight: 500;
+        color: var(--secondary-color);
+        margin-bottom: 0.5rem;
+    }
+
+    .detail-value {
+        color: var(--primary-color);
+        font-size: 1.1rem;
+    }
+
+    .card {
+        transition: all 0.3s ease;
+    }
+
+    .card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1) !important;
+    }
+
+    .badge {
+        padding: 0.5em 0.8em;
+        font-weight: 500;
+    }
+</style>
+
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Animation d'entrée pour la carte
+            const card = document.querySelector('.card');
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+            
+            setTimeout(() => {
+                card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                card.style.opacity = '1';
+                card.style.transform = 'translateY(0)';
+            }, 100);
+
+            // Animation des éléments de détail
+            const detailItems = document.querySelectorAll('.detail-item');
+            detailItems.forEach((item, index) => {
+                item.style.opacity = '0';
+                item.style.transform = 'translateX(-20px)';
+                
+                setTimeout(() => {
+                    item.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                    item.style.opacity = '1';
+                    item.style.transform = 'translateX(0)';
+                }, 200 + (index * 100));
+            });
+        });
+    </script>
+}

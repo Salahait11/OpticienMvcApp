@@ -1,0 +1,208 @@
+﻿@model IEnumerable<OpticienMvcApp.OperationVente>
+
+@{
+    ViewBag.Title = "Liste des Opérations de Vente";
+}
+
+<div class="container-fluid px-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="fw-bold" style="color: var(--primary-color);">
+            <i class="fa fa-shopping-cart me-2" style="color: var(--accent-color);"></i>
+            @ViewBag.Title
+        </h2>
+        @Html.ActionLink("Créer une nouvelle opération", "Create", null, 
+            new { @class = "btn shadow-sm", 
+                  style = "background-color: var(--accent-color); border-color: var(--accent-color); color: white;" })
+    </div>
+
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger alert-dismissible fade show shadow-sm" role="alert">
+            <i class="fa fa-exclamation-circle me-2"></i>
+            @TempData["ErrorMessage"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+
+    <div class="card shadow-sm border-0">
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover mb-0">
+                    <thead style="background-color: var(--primary-color);">
+                        <tr>
+                            <th class="text-white p-3">N° Opération</th>
+                            <th class="text-white p-3">Date de Vente</th>
+                            <th class="text-white p-3">Livraison Prévue</th>
+                            <th class="text-white p-3">Statut</th>
+                            <th class="text-white p-3">Client</th>
+                            <th class="text-white p-3">Médecin</th>
+                            <th class="text-white p-3">Date Ordonnance</th>
+                            <th class="text-white p-3">Vendeur</th>
+                            <th class="text-white p-3">Remarque</th>
+                            <th class="text-white p-3 text-center">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td class="p-3">
+                                    <span class="fw-bold">@Html.DisplayFor(modelItem => item.NumeroOp)</span>
+                                </td>
+                                <td class="p-3">
+                                    @Html.DisplayFor(modelItem => item.DateDeVente, "{0:dd/MM/yyyy}")
+                                </td>
+                                <td class="p-3">
+                                    @Html.DisplayFor(modelItem => item.DateLivrisonPrevu, "{0:dd/MM/yyyy}")
+                                </td>
+                                <td class="p-3">
+                                    <span class="badge" style="background-color: var(--accent-color);">
+                                        @Html.DisplayFor(modelItem => item.Statut)
+                                    </span>
+                                </td>
+                                <td class="p-3">
+                                    <span class="fw-bold">
+                                        @Html.DisplayFor(modelItem => item.Client.Nom) @Html.DisplayFor(modelItem => item.Client.Prenom)
+                                    </span>
+                                </td>
+                                <td class="p-3">
+                                    @if (item.Ordonnance?.Medecin != null)
+                                    {
+                                        <span class="text-muted">
+                                            @Html.DisplayFor(modelItem => item.Ordonnance.Medecin.Nom) @Html.DisplayFor(modelItem => item.Ordonnance.Medecin.Prenom)
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="text-muted">N/A</span>
+                                    }
+                                </td>
+                                <td class="p-3">
+                                    @if (item.Ordonnance != null)
+                                    {
+                                        @Html.DisplayFor(modelItem => item.Ordonnance.DateDePrescription, "{0:dd/MM/yyyy}")
+                                    }
+                                    else
+                                    {
+                                        <span class="text-muted">Aucune</span>
+                                    }
+                                </td>
+                                <td class="p-3">
+                                    <span class="text-muted">
+                                        @($"{item.Vendeur.Nom} {item.Vendeur.Prenom}")
+                                    </span>
+                                </td>
+                                <td class="p-3">
+                                    @if (!string.IsNullOrEmpty(item.Remarque))
+                                    {
+                                        <span class="text-muted">@Html.DisplayFor(modelItem => item.Remarque)</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="text-muted">-</span>
+                                    }
+                                </td>
+                                <td class="p-3 text-center">
+                                    <div class="btn-group">
+                                        @Html.ActionLink("Modifier", "Edit", new { id = item.ID }, 
+                                            new { @class = "btn btn-sm shadow-sm", 
+                                                  style = "background-color: var(--accent-color); border-color: var(--accent-color); color: white;" })
+                                        @Html.ActionLink("Détails", "Details", new { id = item.ID }, 
+                                            new { @class = "btn btn-sm shadow-sm", 
+                                                  style = "background-color: #28a745; border-color: #28a745; color: white;" })
+                                        @Html.ActionLink("Supprimer", "Delete", new { id = item.ID }, 
+                                            new { @class = "btn btn-sm shadow-sm", 
+                                                  style = "background-color: #dc3545; border-color: #dc3545; color: white;" })
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .table th {
+        font-weight: 600;
+        white-space: nowrap;
+    }
+
+    .table td {
+        white-space: nowrap;
+        vertical-align: middle;
+    }
+
+    .btn {
+        transition: all 0.3s ease;
+        margin: 0 2px;
+        border-radius: 6px;
+        font-weight: 500;
+        letter-spacing: 0.3px;
+    }
+
+    .btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        filter: brightness(110%);
+    }
+
+    .btn:active {
+        transform: translateY(0);
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .btn-group {
+        display: flex;
+        gap: 4px;
+    }
+
+    .alert {
+        border-radius: 8px;
+        border: none;
+    }
+</style>
+
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Animation d'entrée pour les lignes du tableau
+            const rows = document.querySelectorAll('tbody tr');
+            rows.forEach((row, index) => {
+                row.style.opacity = '0';
+                row.style.transform = 'translateY(20px)';
+                
+                setTimeout(() => {
+                    row.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                    row.style.opacity = '1';
+                    row.style.transform = 'translateY(0)';
+                }, index * 100);
+            });
+
+            // Animation des boutons au survol
+            const buttons = document.querySelectorAll('.btn');
+            buttons.forEach(btn => {
+                btn.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-2px)';
+                    this.style.boxShadow = '0 4px 8px rgba(0,0,0,0.2)';
+                });
+                
+                btn.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0)';
+                    this.style.boxShadow = '0 2px 4px rgba(0,0,0,0.1)';
+                });
+            });
+
+            // Fermeture automatique des alertes
+            const alerts = document.querySelectorAll('.alert');
+            alerts.forEach(alert => {
+                setTimeout(() => {
+                    alert.classList.remove('show');
+                    setTimeout(() => alert.remove(), 500);
+                }, 5000);
+            });
+        });
+    </script>
+}

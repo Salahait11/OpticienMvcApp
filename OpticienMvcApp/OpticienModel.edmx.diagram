@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="2635d55fe70f4e60bf596dcd36674efe" Name="Diagram1" ZoomLevel="77">
+        <EntityTypeShape EntityType="OPTICIENModel.CategorieProduit" Width="1.5" PointX="0.75" PointY="5.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="OPTICIENModel.Client" Width="1.5" PointX="3.75" PointY="10.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="OPTICIENModel.DetailMonture" Width="1.5" PointX="5.25" PointY="4" IsExpanded="true" />
+        <EntityTypeShape EntityType="OPTICIENModel.DetailVerre" Width="1.5" PointX="5.25" PointY="7.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="OPTICIENModel.LignOpVente" Width="1.5" PointX="8.25" PointY="4.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="OPTICIENModel.Medecin" Width="1.5" PointX="1.5" PointY="16.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="OPTICIENModel.OperationVente" Width="1.5" PointX="6" PointY="13.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="OPTICIENModel.Ordonnance" Width="1.5" PointX="3.75" PointY="13.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="OPTICIENModel.PAIEMENT" Width="1.5" PointX="8.25" PointY="14.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="OPTICIENModel.Produit" Width="1.5" PointX="3" PointY="5" IsExpanded="true" />
+        <AssociationConnector Association="OPTICIENModel.FK_Produit_Categorie" ManuallyRouted="false" />
+        <AssociationConnector Association="OPTICIENModel.FK_OperationVente_Client" ManuallyRouted="false" />
+        <AssociationConnector Association="OPTICIENModel.FK_DetailMonture_Produit" ManuallyRouted="false" />
+        <AssociationConnector Association="OPTICIENModel.FK_DetailVerre_Produit" ManuallyRouted="false" />
+        <AssociationConnector Association="OPTICIENModel.FK_LignOpVente_OperationVente" ManuallyRouted="false" />
+        <AssociationConnector Association="OPTICIENModel.FK_LignOpVente_Produit" ManuallyRouted="false" />
+        <AssociationConnector Association="OPTICIENModel.FK_Ordonnance_Medecin" ManuallyRouted="false" />
+        <AssociationConnector Association="OPTICIENModel.FK_OperationVente_Ordonnance" ManuallyRouted="false" />
+        <AssociationConnector Association="OPTICIENModel.FK_PAIEMENT_OperationVente" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="OPTICIENModel.Vendeur" Width="1.5" PointX="1.625" PointY="13.75" />
+        <AssociationConnector Association="OPTICIENModel.FK_OperationVente_Vendeur" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

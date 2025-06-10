@@ -1,0 +1,47 @@
+﻿@model OpticienMvcApp.Medecin
+
+@{
+    ViewBag.Title = "Supprimer le médecin";
+}
+
+<div class="container-fluid">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="card mt-4 border-danger">
+                <div class="card-header bg-danger text-white">
+                    <h3 class="card-title"><i class="fa fa-user-md me-2"></i>@ViewBag.Title</h3>
+                </div>
+                <div class="card-body">
+                    <div class="alert alert-danger d-flex align-items-center" role="alert">
+                        <i class="fa fa-exclamation-triangle fa-2x me-3"></i>
+                        <div>
+                            <strong>Êtes-vous sûr(e) de vouloir supprimer ce médecin ?</strong>
+                        </div>
+                    </div>
+                    <h5 class="mb-3">Détails du médecin à supprimer :</h5>
+                    <ul class="list-group list-group-flush mb-4">
+                        <li class="list-group-item d-flex align-items-center">
+                            <span class="me-2"><i class="fa fa-user"></i></span>
+                            <strong class="me-2">@Html.DisplayNameFor(model => model.Nom) :</strong>
+                            <span class="text-primary">@Html.DisplayFor(model => model.Nom)</span>
+                        </li>
+                        <li class="list-group-item d-flex align-items-center">
+                            <span class="me-2"><i class="fa fa-user"></i></span>
+                            <strong class="me-2">@Html.DisplayNameFor(model => model.Prenom) :</strong>
+                            <span class="text-dark">@Html.DisplayFor(model => model.Prenom)</span>
+                        </li>
+                    </ul>
+                    @using (Html.BeginForm())
+                    {
+                        @Html.AntiForgeryToken()
+                        <div class="form-actions mt-4 text-end">
+                            <input type="submit" value="Supprimer" class="btn btn-danger me-2" />
+                            @Html.ActionLink("Annuler", "Details", new { id = Model.ID }, new { @class = "btn btn-secondary me-2" })
+                            @Html.ActionLink("Retour à la liste", "Index", null, new { @class = "btn btn-link" })
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

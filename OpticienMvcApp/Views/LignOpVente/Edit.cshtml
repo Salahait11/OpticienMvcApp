@@ -1,0 +1,182 @@
+﻿@model OpticienMvcApp.LignOpVente
+
+@{
+    ViewBag.Title = "Modifier la ligne de vente";
+}
+
+<div class="container-fluid px-4 py-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="fw-bold" style="color: var(--primary-color);">
+            <i class="fa fa-edit me-2" style="color: var(--accent-color);"></i>
+            @ViewBag.Title
+        </h2>
+        <div class="btn-group">
+            @if (ViewBag.ParentOperationVenteId != null)
+            {
+                @Html.ActionLink("Retour à l'Opération", "Details", "OperationVente", 
+                    new { id = ViewBag.ParentOperationVenteId }, 
+                    new { @class = "btn shadow-sm", 
+                          style = "border-color: var(--accent-color); color: var(--accent-color);" })
+            }
+            @Html.ActionLink("Retour à la liste", "Index", null, 
+                new { @class = "btn shadow-sm", 
+                      style = "border-color: var(--accent-color); color: var(--accent-color);" })
+        </div>
+    </div>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true, "", new { @class = "alert alert-danger" })
+        @Html.HiddenFor(model => model.ID)
+
+        <div class="card shadow-sm border-0">
+            <div class="card-header bg-white py-3">
+                <h5 class="mb-0 fw-bold">
+                    <i class="fa fa-shopping-cart me-2" style="color: var(--accent-color);"></i>
+                    Informations de la Ligne de Vente
+                </h5>
+            </div>
+            <div class="card-body p-4">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group mb-4">
+                            <label class="form-label text-muted mb-2">
+                                <i class="fa fa-shopping-cart me-2"></i>
+                                @Html.LabelFor(model => model.OperationVenteID, "Opération de Vente")
+                            </label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-white">
+                                    <i class="fa fa-list text-muted"></i>
+                                </span>
+                                @Html.DropDownListFor(model => model.OperationVenteID, 
+                                    ViewBag.OperationVenteID as SelectList, 
+                                    "-- Sélectionner Opération --", 
+                                    new { @class = "form-control" })
+                            </div>
+                            @Html.ValidationMessageFor(model => model.OperationVenteID, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group mb-4">
+                            <label class="form-label text-muted mb-2">
+                                <i class="fa fa-box me-2"></i>
+                                @Html.LabelFor(model => model.ProduitID, "Produit")
+                            </label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-white">
+                                    <i class="fa fa-list text-muted"></i>
+                                </span>
+                                @Html.DropDownListFor(model => model.ProduitID, 
+                                    ViewBag.ProduitID as SelectList, 
+                                    "-- Sélectionner Produit --", 
+                                    new { @class = "form-control" })
+                            </div>
+                            @Html.ValidationMessageFor(model => model.ProduitID, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group mb-4">
+                            <label class="form-label text-muted mb-2">
+                                <i class="fa fa-hashtag me-2"></i>
+                                @Html.LabelFor(model => model.Quantite, "Quantité")
+                            </label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-white">
+                                    <i class="fa fa-calculator text-muted"></i>
+                                </span>
+                                @Html.EditorFor(model => model.Quantite, new { htmlAttributes = new { @class = "form-control" } })
+                            </div>
+                            @Html.ValidationMessageFor(model => model.Quantite, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group mb-4">
+                            <label class="form-label text-muted mb-2">
+                                <i class="fa fa-euro-sign me-2"></i>
+                                @Html.LabelFor(model => model.PrixUnitaireVendu, "Prix Unitaire")
+                            </label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-white">
+                                    <i class="fa fa-money-bill text-muted"></i>
+                                </span>
+                                @Html.EditorFor(model => model.PrixUnitaireVendu, new { htmlAttributes = new { @class = "form-control", type = "number", step = "0.01" } })
+                            </div>
+                            @Html.ValidationMessageFor(model => model.PrixUnitaireVendu, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group mb-4">
+                            <label class="form-label text-muted mb-2">
+                                <i class="fa fa-percent me-2"></i>
+                                @Html.LabelFor(model => model.Remise, "Remise")
+                            </label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-white">
+                                    <i class="fa fa-tag text-muted"></i>
+                                </span>
+                                @Html.EditorFor(model => model.Remise, new { htmlAttributes = new { @class = "form-control", type = "number", step = "0.01" } })
+                            </div>
+                            @Html.ValidationMessageFor(model => model.Remise, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group mb-4">
+                            <label class="form-label text-muted mb-2">
+                                <i class="fa fa-eye me-2"></i>
+                                @Html.LabelFor(model => model.Ligne_OD_SPH)
+                            </label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-white">
+                                    <i class="fa fa-glasses text-muted"></i>
+                                </span>
+                                @Html.EditorFor(model => model.Ligne_OD_SPH, 
+                                    new { htmlAttributes = new { @class = "form-control" } })
+                            </div>
+                            @Html.ValidationMessageFor(model => model.Ligne_OD_SPH, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group mb-4">
+                            <label class="form-label text-muted mb-2">
+                                <i class="fa fa-eye me-2"></i>
+                                @Html.LabelFor(model => model.Ligne_OG_SPH)
+                            </label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-white">
+                                    <i class="fa fa-glasses text-muted"></i>
+                                </span>
+                                @Html.EditorFor(model => model.Ligne_OG_SPH, 
+                                    new { htmlAttributes = new { @class = "form-control" } })
+                            </div>
+                            @Html.ValidationMessageFor(model => model.Ligne_OG_SPH, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="d-flex justify-content-end mt-4">
+                    <button type="submit" class="btn shadow-sm" style="background-color: var(--accent-color); color: white;">
+                        <i class="fa fa-save me-2"></i>
+                        Enregistrer les modifications
+                    </button>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        $(document).ready(function() {
+            // Animation d'entrée pour la carte
+            $('.card').hide().fadeIn(500);
+        });
+    </script>
+}

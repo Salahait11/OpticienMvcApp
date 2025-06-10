@@ -1,0 +1,79 @@
+﻿@model OpticienMvcApp.CategorieProduit
+
+@{
+    ViewBag.Title = "Détails de la catégorie"; // French title for the page
+}
+
+<div class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-sm rounded-lg border-0 hover-card">
+                <div class="card-body p-4">
+                    <div class="text-center mb-4">
+                        <i class="fa fa-tags fa-3x mb-3" style="color: var(--accent-color);"></i>
+                        <h2 class="card-title mb-0" style="color: var(--primary-color);">
+                            @ViewBag.Title
+                        </h2>
+                    </div>
+
+                    <div class="bg-light rounded-lg p-4 mb-4">
+                        <dl class="row mb-0">
+                            <dt class="col-sm-3" style="color: var(--secondary-color);">
+                                @Html.DisplayNameFor(model => model.Nom)
+                            </dt>
+                            <dd class="col-sm-9" style="color: var(--primary-color);">
+                                @Html.DisplayFor(model => model.Nom)
+                            </dd>
+                        </dl>
+                    </div>
+
+                    <div class="d-flex justify-content-center gap-3">
+                        @Html.ActionLink("Modifier", "Edit", new { id = Model.ID }, new { @class = "btn btn-lg hover-btn", style = "background-color: var(--accent-color); border-color: var(--accent-color); color: white;" })
+                        @Html.ActionLink("Retour à la liste", "Index", null, new { @class = "btn btn-lg btn-outline-secondary hover-btn" })
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .hover-card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .hover-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1) !important;
+    }
+
+    .hover-btn {
+        transition: all 0.3s ease;
+    }
+
+    .hover-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 10px rgba(52, 152, 219, 0.2) !important;
+    }
+
+    .bg-light {
+        background-color: rgba(52, 152, 219, 0.05) !important;
+    }
+</style>
+
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Animation d'entrée pour la carte
+            const card = document.querySelector('.card');
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+            
+            setTimeout(() => {
+                card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                card.style.opacity = '1';
+                card.style.transform = 'translateY(0)';
+            }, 100);
+        });
+    </script>
+}

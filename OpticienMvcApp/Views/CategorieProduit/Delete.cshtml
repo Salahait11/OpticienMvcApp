@@ -1,0 +1,113 @@
+﻿@model OpticienMvcApp.CategorieProduit
+
+@{
+    ViewBag.Title = "Supprimer la catégorie";
+}
+
+<div class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-sm rounded-lg border-0 hover-card">
+                <div class="card-body p-4">
+                    <div class="text-center mb-4">
+                        <i class="fa fa-exclamation-triangle fa-3x mb-3" style="color: var(--danger-color);"></i>
+                        <h2 class="card-title mb-0" style="color: var(--primary-color);">
+                            @ViewBag.Title
+                        </h2>
+                    </div>
+
+                    <div class="alert alert-warning alert-dismissible fade show rounded-lg" role="alert">
+                        <i class="fa fa-exclamation-circle me-2"></i>
+                        Êtes-vous sûr(e) de vouloir supprimer cette catégorie ?
+                    </div>
+
+                    <div class="bg-light rounded-lg p-4 mb-4">
+                        <h4 class="mb-3" style="color: var(--primary-color);">
+                            <i class="fa fa-tags me-2" style="color: var(--accent-color);"></i>
+                            Détails de la catégorie
+                        </h4>
+                        <dl class="row mb-0">
+                            <dt class="col-sm-3" style="color: var(--secondary-color);">
+                                @Html.DisplayNameFor(model => model.Nom)
+                            </dt>
+                            <dd class="col-sm-9" style="color: var(--primary-color);">
+                                @Html.DisplayFor(model => model.Nom)
+                            </dd>
+                        </dl>
+                    </div>
+
+                    @using (Html.BeginForm())
+                    {
+                        @Html.AntiForgeryToken()
+
+                        <div class="d-flex justify-content-center gap-3">
+                            <button type="submit" class="btn btn-lg hover-btn delete-btn">
+                                <i class="fa fa-trash me-2"></i>
+                                Supprimer
+                            </button>
+                            @Html.ActionLink("Retour à la liste", "Index", null, new { @class = "btn btn-lg btn-outline-secondary hover-btn" })
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .hover-card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .hover-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1) !important;
+    }
+
+    .hover-btn {
+        transition: all 0.3s ease;
+    }
+
+    .hover-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 10px rgba(52, 152, 219, 0.2) !important;
+    }
+
+    .delete-btn {
+        background-color: #dc3545 !important;
+        border-color: #dc3545 !important;
+        color: white !important;
+    }
+
+    .delete-btn:hover {
+        background-color: #c82333 !important;
+        border-color: #bd2130 !important;
+        box-shadow: 0 4px 10px rgba(220, 53, 69, 0.3) !important;
+    }
+
+    .alert {
+        border: none;
+        border-radius: 8px;
+    }
+
+    .bg-light {
+        background-color: rgba(52, 152, 219, 0.05) !important;
+    }
+</style>
+
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Animation d'entrée pour la carte
+            const card = document.querySelector('.card');
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+            
+            setTimeout(() => {
+                card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                card.style.opacity = '1';
+                card.style.transform = 'translateY(0)';
+            }, 100);
+        });
+    </script>
+}
