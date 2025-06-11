@@ -185,11 +185,11 @@
                                         }
                                     </td>
                                     <td>@Html.DisplayFor(item => ligne.Quantite)</td>
-                                    <td>@Html.DisplayFor(item => ligne.PrixUnitaireVendu)</td>
-                                    <td>@Html.DisplayFor(item => ligne.Remise)</td>
+                                    <td>@ligne.PrixUnitaireVendu.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture)</td>
+                                    <td>@ligne.Remise.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture)</td>
                                     <td>@Html.DisplayFor(item => ligne.Ligne_OD_SPH)</td>
                                     <td>@Html.DisplayFor(item => ligne.Ligne_OG_SPH)</td>
-                                    <td>@((ligne.Quantite * ligne.PrixUnitaireVendu * (1 - (decimal)ligne.Remise / 100m)).ToString("C2"))</td>
+                                    <td>@((ligne.Quantite * ligne.PrixUnitaireVendu * (1 - (decimal)ligne.Remise / 100m)).ToString("0.00", System.Globalization.CultureInfo.InvariantCulture))</td>
                                     <td>
                                         <div class="btn-group">
                                             @Html.ActionLink("Modifier", "Edit", "LignOpVente", new { id = ligne.ID }, 

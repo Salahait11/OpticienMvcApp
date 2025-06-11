@@ -127,6 +127,25 @@
             </div>
         </div>
 
+        <!-- Section des lignes de vente -->
+        <div class="card shadow-sm border-0 mb-4">
+            <div class="card-header bg-white">
+                <h4 class="mb-0">
+                    <i class="fa fa-shopping-cart me-2" style="color: var(--accent-color);"></i>
+                    Produits de la vente
+                </h4>
+            </div>
+            <div class="card-body p-4">
+                <div id="lignesVente">
+                    <!-- Les lignes de vente seront ajoutées ici dynamiquement -->
+                </div>
+
+                <button type="button" class="btn btn-outline-primary mt-3" id="ajouterLigne">
+                    <i class="fa fa-plus me-2"></i>Ajouter un produit
+                </button>
+            </div>
+        </div>
+
         <div class="d-flex justify-content-end gap-2">
             <input type="submit" value="Créer" class="btn shadow-sm" 
                    style="background-color: var(--accent-color); border-color: var(--accent-color); color: white;" />
@@ -154,6 +173,133 @@
         </div>
     </div>
 </div>
+
+<!-- Template pour une nouvelle ligne de vente -->
+<template id="ligneVenteTemplate">
+    <div class="ligne-vente card mb-3">
+        <div class="card-body">
+            <div class="row g-3">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="form-label fw-bold">Produit</label>
+                        <select class="form-select produit-select" name="LignesVente[INDEX].ProduitID">
+                            <option value="">-- Sélectionner un produit --</option>
+                            @if (ViewBag.Produits != null)
+                            {
+                                foreach (var produit in ViewBag.Produits as SelectList)
+                                {
+                                    <option value="@produit.Value">@produit.Text</option>
+                                }
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label class="form-label fw-bold">Quantité</label>
+                        <input type="number" class="form-control" name="LignesVente[INDEX].Quantite" min="1" value="1">
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label class="form-label fw-bold">Prix unitaire</label>
+                        <input type="number" class="form-control" name="LignesVente[INDEX].PrixUnitaireVendu" step="0.01">
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label class="form-label fw-bold">Remise (%)</label>
+                        <input type="number" class="form-control" name="LignesVente[INDEX].Remise" step="0.01" value="0">
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label class="form-label fw-bold">&nbsp;</label>
+                        <button type="button" class="btn btn-danger w-100 supprimer-ligne">
+                            <i class="fa fa-trash"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Caractéristiques optiques -->
+            <div class="row g-3 mt-2 caracteristiques-optiques" style="display: none;">
+                <div class="col-md-6">
+                    <h6 class="fw-bold">Œil Droit (OD)</h6>
+                    <div class="row g-2">
+                        <div class="col-6">
+                            <input type="text" class="form-control" name="LignesVente[INDEX].Ligne_OD_SPH" placeholder="SPH">
+                        </div>
+                        <div class="col-6">
+                            <input type="text" class="form-control" name="LignesVente[INDEX].Ligne_OD_CYL" placeholder="CYL">
+                        </div>
+                        <div class="col-6">
+                            <input type="text" class="form-control" name="LignesVente[INDEX].Ligne_OD_AXE" placeholder="AXE">
+                        </div>
+                        <div class="col-6">
+                            <input type="text" class="form-control" name="LignesVente[INDEX].Ligne_OD_ADD" placeholder="ADD">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <h6 class="fw-bold">Œil Gauche (OG)</h6>
+                    <div class="row g-2">
+                        <div class="col-6">
+                            <input type="text" class="form-control" name="LignesVente[INDEX].Ligne_OG_SPH" placeholder="SPH">
+                        </div>
+                        <div class="col-6">
+                            <input type="text" class="form-control" name="LignesVente[INDEX].Ligne_OG_CYL" placeholder="CYL">
+                        </div>
+                        <div class="col-6">
+                            <input type="text" class="form-control" name="LignesVente[INDEX].Ligne_OG_AXE" placeholder="AXE">
+                        </div>
+                        <div class="col-6">
+                            <input type="text" class="form-control" name="LignesVente[INDEX].Ligne_OG_ADD" placeholder="ADD">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        $(document).ready(function() {
+            let ligneIndex = 0;
+
+            // Fonction pour ajouter une nouvelle ligne de vente
+            $('#ajouterLigne').click(function() {
+                const template = document.getElementById('ligneVenteTemplate').innerHTML;
+                const newLigne = template.replace(/INDEX/g, ligneIndex);
+                $('#lignesVente').append(newLigne);
+                ligneIndex++;
+            });
+
+            // Gérer la suppression d'une ligne
+            $(document).on('click', '.supprimer-ligne', function() {
+                $(this).closest('.ligne-vente').remove();
+            });
+
+            // Gérer le changement de produit
+            $(document).on('change', '.produit-select', function() {
+                const produitId = $(this).val();
+                const caracteristiquesOptiques = $(this).closest('.ligne-vente').find('.caracteristiques-optiques');
+                
+                if (produitId) {
+                    // Ici, vous pouvez ajouter une logique pour déterminer si le produit nécessite des caractéristiques optiques
+                    caracteristiquesOptiques.show();
+                } else {
+                    caracteristiquesOptiques.hide();
+                }
+            });
+
+            // Ajouter automatiquement une première ligne
+            $('#ajouterLigne').click();
+        });
+    </script>
+}
 
 <style>
     .form-control, .form-select {
@@ -196,57 +342,19 @@
     .modal-body {
         padding: 1.5rem;
     }
+
+    .ligne-vente {
+        transition: all 0.3s ease;
+    }
+
+    .ligne-vente:hover {
+        box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+    }
+
+    .caracteristiques-optiques {
+        background-color: #f8f9fa;
+        border-radius: 0.5rem;
+        padding: 1rem;
+        margin-top: 1rem;
+    }
 </style>
-
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-    <script>
-        $(document).ready(function() {
-            // Animation d'entrée pour la carte
-            $('.card').css({
-                'opacity': '0',
-                'transform': 'translateY(20px)'
-            }).animate({
-                'opacity': '1',
-                'transform': 'translateY(0)'
-            }, 500);
-
-            // Gérer l'ouverture de la modale
-            $('#createVendeurModal').on('show.bs.modal', function() {
-                $.get('@Url.Action("CreatePartial", "Vendeur")', function(data) {
-                    $('#createVendeurFormContainer').html(data);
-                });
-            });
-
-            // Gérer la soumission du formulaire de création de vendeur
-            $(document).on('click', '#submitVendeur', function(e) {
-                e.preventDefault();
-                e.stopPropagation();
-                
-                var form = $('#createVendeurForm');
-                var formData = {
-                    Nom: form.find('#Nom').val(),
-                    Prenom: form.find('#Prenom').val()
-                };
-
-                $.ajax({
-                    url: '@Url.Action("CreatePartial", "Vendeur")',
-                    type: 'POST',
-                    data: formData,
-                    success: function(response) {
-                        if (response.success) {
-                            var newOption = new Option(response.vendeurName, response.vendeurId, true, true);
-                            $('#VendeurID').append(newOption).trigger('change');
-                            $('#createVendeurModal').modal('hide');
-                        } else {
-                            $('#createVendeurFormContainer').html(response.html);
-                        }
-                    },
-                    error: function() {
-                        alert('Une erreur est survenue lors de l\'enregistrement du vendeur.');
-                    }
-                });
-            });
-        });
-    </script>
-}

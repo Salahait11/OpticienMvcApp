@@ -120,6 +120,128 @@
             </div>
         </div>
 
+        <!-- Section des lignes de vente -->
+        <div class="card shadow-sm border-0 mb-4">
+            <div class="card-header bg-white">
+                <h4 class="mb-0">
+                    <i class="fa fa-shopping-cart me-2" style="color: var(--accent-color);"></i>
+                    Produits de la vente
+                </h4>
+            </div>
+            <div class="card-body p-4">
+                <div id="lignesVente">
+                    @if (Model.LignOpVente != null && Model.LignOpVente.Any())
+                    {
+                        foreach (var ligne in Model.LignOpVente)
+                        {
+                            <div class="ligne-vente card mb-3">
+                                <div class="card-body">
+                                    <div class="row g-3">
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label class="form-label fw-bold">Produit</label>
+                                                <select class="form-select produit-select" name="LignesVente[@Model.LignOpVente.ToList().IndexOf(ligne)].ProduitID">
+                                                    <option value="">-- Sélectionner un produit --</option>
+                                                    @if (ViewBag.Produits != null)
+                                                    {
+                                                        foreach (var produit in ViewBag.Produits as SelectList)
+                                                        {
+                                                            <option value="@produit.Value" @(produit.Value == ligne.ProduitID.ToString() ? "selected" : "")>
+                                                                @produit.Text
+                                                            </option>
+                                                        }
+                                                    }
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label class="form-label fw-bold">Quantité</label>
+                                                <input type="number" class="form-control" name="LignesVente[@Model.LignOpVente.ToList().IndexOf(ligne)].Quantite" 
+                                                       min="1" value="@ligne.Quantite">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label class="form-label fw-bold">Prix unitaire</label>
+                                                <input type="number" class="form-control" name="LignesVente[@Model.LignOpVente.ToList().IndexOf(ligne)].PrixUnitaireVendu" 
+                                                       step="0.01" value="@ligne.PrixUnitaireVendu.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture)">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label class="form-label fw-bold">Remise (%)</label>
+                                                <input type="number" class="form-control" name="LignesVente[@Model.LignOpVente.ToList().IndexOf(ligne)].Remise" 
+                                                       step="0.01" value="@ligne.Remise.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture)">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label class="form-label fw-bold">&nbsp;</label>
+                                                <button type="button" class="btn btn-danger w-100 supprimer-ligne">
+                                                    <i class="fa fa-trash"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Caractéristiques optiques -->
+                                    <div class="row g-3 mt-2 caracteristiques-optiques" style="display: @(ligne.ProduitID > 0 ? "block" : "none");">
+                                        <div class="col-md-6">
+                                            <h6 class="fw-bold">Œil Droit (OD)</h6>
+                                            <div class="row g-2">
+                                                <div class="col-6">
+                                                    <input type="text" class="form-control" name="LignesVente[@Model.LignOpVente.ToList().IndexOf(ligne)].Ligne_OD_SPH" 
+                                                           placeholder="SPH" value="@ligne.Ligne_OD_SPH">
+                                                </div>
+                                                <div class="col-6">
+                                                    <input type="text" class="form-control" name="LignesVente[@Model.LignOpVente.ToList().IndexOf(ligne)].Ligne_OD_CYL" 
+                                                           placeholder="CYL" value="@ligne.Ligne_OD_CYL">
+                                                </div>
+                                                <div class="col-6">
+                                                    <input type="text" class="form-control" name="LignesVente[@Model.LignOpVente.ToList().IndexOf(ligne)].Ligne_OD_AXE" 
+                                                           placeholder="AXE" value="@ligne.Ligne_OD_AXE">
+                                                </div>
+                                                <div class="col-6">
+                                                    <input type="text" class="form-control" name="LignesVente[@Model.LignOpVente.ToList().IndexOf(ligne)].Ligne_OD_ADD" 
+                                                           placeholder="ADD" value="@ligne.Ligne_OD_ADD">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <h6 class="fw-bold">Œil Gauche (OG)</h6>
+                                            <div class="row g-2">
+                                                <div class="col-6">
+                                                    <input type="text" class="form-control" name="LignesVente[@Model.LignOpVente.ToList().IndexOf(ligne)].Ligne_OG_SPH" 
+                                                           placeholder="SPH" value="@ligne.Ligne_OG_SPH">
+                                                </div>
+                                                <div class="col-6">
+                                                    <input type="text" class="form-control" name="LignesVente[@Model.LignOpVente.ToList().IndexOf(ligne)].Ligne_OG_CYL" 
+                                                           placeholder="CYL" value="@ligne.Ligne_OG_CYL">
+                                                </div>
+                                                <div class="col-6">
+                                                    <input type="text" class="form-control" name="LignesVente[@Model.LignOpVente.ToList().IndexOf(ligne)].Ligne_OG_AXE" 
+                                                           placeholder="AXE" value="@ligne.Ligne_OG_AXE">
+                                                </div>
+                                                <div class="col-6">
+                                                    <input type="text" class="form-control" name="LignesVente[@Model.LignOpVente.ToList().IndexOf(ligne)].Ligne_OG_ADD" 
+                                                           placeholder="ADD" value="@ligne.Ligne_OG_ADD">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    }
+                </div>
+
+                <button type="button" class="btn btn-outline-primary mt-3" id="ajouterLigne">
+                    <i class="fa fa-plus me-2"></i>Ajouter un produit
+                </button>
+            </div>
+        </div>
+
         <div class="d-flex justify-content-end gap-2">
             <input type="submit" value="Enregistrer" class="btn shadow-sm" 
                    style="background-color: var(--accent-color); border-color: var(--accent-color); color: white;" />
@@ -156,58 +278,128 @@
     </div>
 </div>
 
-<style>
-    .form-control, .form-select {
-        border-radius: 8px;
-        border: 1px solid #dee2e6;
-        padding: 0.5rem 1rem;
-        transition: all 0.3s ease;
-    }
+<!-- Template pour une nouvelle ligne de vente -->
+<template id="ligneVenteTemplate">
+    <div class="ligne-vente card mb-3">
+        <div class="card-body">
+            <div class="row g-3">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="form-label fw-bold">Produit</label>
+                        <select class="form-select produit-select" name="LignesVente[INDEX].ProduitID">
+                            <option value="">-- Sélectionner un produit --</option>
+                            @if (ViewBag.Produits != null)
+                            {
+                                foreach (var produit in ViewBag.Produits as SelectList)
+                                {
+                                    <option value="@produit.Value">@produit.Text</option>
+                                }
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label class="form-label fw-bold">Quantité</label>
+                        <input type="number" class="form-control" name="LignesVente[INDEX].Quantite" min="1" value="1">
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label class="form-label fw-bold">Prix unitaire</label>
+                        <input type="number" class="form-control" name="LignesVente[INDEX].PrixUnitaireVendu" 
+                               step="0.01" value="0.00">
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label class="form-label fw-bold">Remise (%)</label>
+                        <input type="number" class="form-control" name="LignesVente[INDEX].Remise" 
+                               step="0.01" value="0.00">
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label class="form-label fw-bold">&nbsp;</label>
+                        <button type="button" class="btn btn-danger w-100 supprimer-ligne">
+                            <i class="fa fa-trash"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
 
-    .form-control:focus, .form-select:focus {
-        border-color: var(--accent-color);
-        box-shadow: 0 0 0 0.2rem rgba(52, 152, 219, 0.25);
-    }
-
-    .input-group-text {
-        background-color: var(--accent-color);
-        border-color: var(--accent-color);
-        color: white;
-    }
-
-    .btn {
-        transition: all 0.3s ease;
-    }
-
-    .btn:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    }
-
-    .modal-content {
-        border-radius: 12px;
-        border: none;
-    }
-
-    .modal-header {
-        border-bottom: 1px solid #dee2e6;
-        padding: 1rem;
-    }
-
-    .modal-body {
-        padding: 1.5rem;
-    }
-
-    .modal-footer {
-        border-top: 1px solid #dee2e6;
-        padding: 1rem;
-    }
-</style>
+            <!-- Caractéristiques optiques -->
+            <div class="row g-3 mt-2 caracteristiques-optiques" style="display: none;">
+                <div class="col-md-6">
+                    <h6 class="fw-bold">Œil Droit (OD)</h6>
+                    <div class="row g-2">
+                        <div class="col-6">
+                            <input type="text" class="form-control" name="LignesVente[INDEX].Ligne_OD_SPH" placeholder="SPH">
+                        </div>
+                        <div class="col-6">
+                            <input type="text" class="form-control" name="LignesVente[INDEX].Ligne_OD_CYL" placeholder="CYL">
+                        </div>
+                        <div class="col-6">
+                            <input type="text" class="form-control" name="LignesVente[INDEX].Ligne_OD_AXE" placeholder="AXE">
+                        </div>
+                        <div class="col-6">
+                            <input type="text" class="form-control" name="LignesVente[INDEX].Ligne_OD_ADD" placeholder="ADD">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <h6 class="fw-bold">Œil Gauche (OG)</h6>
+                    <div class="row g-2">
+                        <div class="col-6">
+                            <input type="text" class="form-control" name="LignesVente[INDEX].Ligne_OG_SPH" placeholder="SPH">
+                        </div>
+                        <div class="col-6">
+                            <input type="text" class="form-control" name="LignesVente[INDEX].Ligne_OG_CYL" placeholder="CYL">
+                        </div>
+                        <div class="col-6">
+                            <input type="text" class="form-control" name="LignesVente[INDEX].Ligne_OG_AXE" placeholder="AXE">
+                        </div>
+                        <div class="col-6">
+                            <input type="text" class="form-control" name="LignesVente[INDEX].Ligne_OG_ADD" placeholder="ADD">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
     <script>
         $(document).ready(function() {
+            let ligneIndex = @(Model.LignOpVente?.Count ?? 0);
+
+            // Fonction pour ajouter une nouvelle ligne de vente
+            $('#ajouterLigne').click(function() {
+                const template = document.getElementById('ligneVenteTemplate').innerHTML;
+                const newLigne = template.replace(/INDEX/g, ligneIndex);
+                $('#lignesVente').append(newLigne);
+                ligneIndex++;
+            });
+
+            // Gérer la suppression d'une ligne
+            $(document).on('click', '.supprimer-ligne', function() {
+                $(this).closest('.ligne-vente').remove();
+            });
+
+            // Gérer le changement de produit
+            $(document).on('change', '.produit-select', function() {
+                const produitId = $(this).val();
+                const caracteristiquesOptiques = $(this).closest('.ligne-vente').find('.caracteristiques-optiques');
+                
+                if (produitId) {
+                    caracteristiquesOptiques.show();
+                } else {
+                    caracteristiquesOptiques.hide();
+                }
+            });
+
             // Animation d'entrée pour la carte
             $('.card').css({
                 'opacity': '0',
@@ -255,3 +447,66 @@
         });
     </script>
 }
+
+<style>
+    .form-control, .form-select {
+        border-radius: 8px;
+        border: 1px solid #dee2e6;
+        padding: 0.5rem 1rem;
+        transition: all 0.3s ease;
+    }
+
+    .form-control:focus, .form-select:focus {
+        border-color: var(--accent-color);
+        box-shadow: 0 0 0 0.2rem rgba(52, 152, 219, 0.25);
+    }
+
+    .input-group-text {
+        background-color: var(--accent-color);
+        border-color: var(--accent-color);
+        color: white;
+    }
+
+    .btn {
+        transition: all 0.3s ease;
+    }
+
+    .btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    .modal-content {
+        border-radius: 12px;
+        border: none;
+    }
+
+    .modal-header {
+        border-bottom: 1px solid #dee2e6;
+        padding: 1rem;
+    }
+
+    .modal-body {
+        padding: 1.5rem;
+    }
+
+    .modal-footer {
+        border-top: 1px solid #dee2e6;
+        padding: 1rem;
+    }
+
+    .ligne-vente {
+        transition: all 0.3s ease;
+    }
+
+    .ligne-vente:hover {
+        box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+    }
+
+    .caracteristiques-optiques {
+        background-color: #f8f9fa;
+        border-radius: 0.5rem;
+        padding: 1rem;
+        margin-top: 1rem;
+    }
+</style>
