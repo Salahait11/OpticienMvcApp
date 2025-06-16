@@ -1,169 +1,218 @@
 ﻿@{
-    ViewBag.Title = "Accueil - Opticien";
+    ViewBag.Title = "Tableau de Bord - Opticien";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<!-- Section d'introduction (Hero Section) -->
-<div class="jumbotron text-center bg-white p-5 my-5 rounded-lg shadow-sm border-0">
-    @* jumbotron pour un look classique, p-5 pour un bon padding, my-5 pour espacer, rounded-lg pour des coins arrondis, shadow-sm pour une légère ombre *@
-    <h1 class="display-4 fw-bold mb-3" style="color: var(--primary-color);">Bienvenue dans l'application Opticien</h1> @* fw-bold pour font-weight-bold, mb-3 pour l'espacement *@
-    <p class="lead" style="color: var(--secondary-color);">Gérez facilement vos clients, ordonnances, produits, ventes et paiements. Une solution complète et intuitive.</p> @* text-secondary pour une couleur plus douce *@
-    <hr class="my-4 w-50 mx-auto" style="border-color: var(--accent-color); opacity: 0.5;"> @* Ligne de séparation plus courte, centrée, colorée et semi-transparente *@
-    <p class="text-muted">Optimisez la gestion de votre point de vente et améliorez l'expérience client.</p>
-    <div class="mt-4">
-        @Html.ActionLink("Démarrer la Gestion", "Index", "Client", null, new { @class = "btn btn-lg shadow-sm", style = "background-color: var(--accent-color); border-color: var(--accent-color); color: white;" }) @* Bouton principal, plus grand, avec ombre *@
-        @Html.ActionLink("Explorer les Fonctionnalités", "About", "Home", null, new { @class = "btn btn-outline-secondary btn-lg ms-3" }) @* Bouton secondaire, outline, espacé *@
-    </div>
+<!-- Section d'introduction -->
+<div class="jumbotron text-center bg-white p-5 my-4 rounded-lg shadow-sm border-0">
+    <h1 class="display-4 fw-bold mb-3" style="color: var(--primary-color);">Tableau de Bord</h1>
+    <p class="lead" style="color: var(--secondary-color);">Vue d'ensemble de votre activité</p>
 </div>
 
-<!-- Statistiques principales (Cards Section) -->
-<h2 class="text-center fw-bold mb-4" style="color: var(--primary-color);">Statistiques Clés</h2> @* Titre de section plus impactant *@
-<div class="row row-cols-1 row-cols-md-3 g-4 mb-5">
-    @* row-cols-1 et row-cols-md-3 pour le responsive, g-4 pour l'espacement entre les colonnes *@
-    <div class="col">
-        <div class="card h-100 shadow-sm rounded-lg border-0 hover-card">
-            @* Card, shadow plus prononcée, pas de bordure par défaut *@
-            <div class="card-body text-center d-flex flex-column justify-content-between">
-                <h3 class="card-title mb-3" style="color: var(--accent-color);">Clients</h3> @* Titre dans la carte *@
-                <p class="card-text display-4 fw-bold" style="color: var(--primary-color);">@ViewBag.TotalClients</p> @* fs-2 pour une taille de police très grande pour le nombre, fw-bold pour gras *@
-                <p class="text-muted mb-4">clients enregistrés.</p> @* texte descriptif muted *@
-                @Html.ActionLink("Gérer les clients", "Index", "Client", null, new { @class = "btn btn-sm mt-auto", style = "border-color: var(--accent-color); color: var(--accent-color);" }) @* btn-sm pour un bouton plus petit ici *@
-            </div>
-        </div>
+<!-- Alertes -->
+@if (ViewBag.Alertes != null && ViewBag.Alertes.Count > 0)
+{
+    <div class="alert alert-warning alert-dismissible fade show shadow-sm mb-4" role="alert">
+        <h5 class="alert-heading mb-2"><i class="fa fa-exclamation-triangle me-2"></i>Alertes</h5>
+        <ul class="mb-0">
+            @foreach (var alerte in ViewBag.Alertes)
+            {
+                <li>@alerte</li>
+            }
+        </ul>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
-    <div class="col">
-        <div class="card h-100 shadow-sm rounded-lg border-0 hover-card">
-            <div class="card-body text-center d-flex flex-column justify-content-between">
-                <h3 class="card-title mb-3" style="color: var(--accent-color);">Produits</h3>
-                <p class="card-text display-4 fw-bold" style="color: var(--primary-color);">@ViewBag.ActiveProducts</p>
-                <p class="text-muted mb-4">produits actifs dans votre catalogue.</p>
-                @Html.ActionLink("Gérer les produits", "Index", "Produit", null, new { @class = "btn btn-sm mt-auto", style = "border-color: var(--accent-color); color: var(--accent-color);" })
-            </div>
-        </div>
-    </div>
-    <div class="col">
-        <div class="card h-100 shadow-sm rounded-lg border-0 hover-card">
-            <div class="card-body text-center d-flex flex-column justify-content-between">
-                <h3 class="card-title mb-3" style="color: var(--accent-color);">Ordonnances</h3>
-                <p class="card-text display-4 fw-bold" style="color: var(--primary-color);">@ViewBag.ValidOrdonnances</p>
-                <p class="text-muted mb-4">ordonnances valides actuellement.</p>
-                @Html.ActionLink("Gérer les ventes", "Index", "OperationVente", null, new { @class = "btn btn-sm mt-auto", style = "border-color: var(--accent-color); color: var(--accent-color);" })
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Section des dernières ventes (Table Section) -->
-@{
-    var lastSales = ViewBag.LastSales as List<OpticienMvcApp.OperationVente>;
 }
 
-<h2 class="text-center fw-bold mb-4" style="color: var(--primary-color);">Dernières Opérations de Vente</h2> @* Titre de section plus impactant *@
+<!-- Statistiques principales -->
+<div class="row row-cols-1 row-cols-md-4 g-4 mb-4">
+    <div class="col">
+        <div class="card h-100 shadow-sm rounded-lg border-0 hover-card">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h6 class="text-muted mb-1">CA du Mois</h6>
+                        <h3 class="mb-0 fw-bold" style="color: var(--primary-color);">@ViewBag.MonthlyRevenue.ToString("C")</h3>
+                    </div>
+                    <div class="stat-icon" style="background-color: rgba(52, 152, 219, 0.1);">
+                        <i class="fa fa-chart-line text-primary"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col">
+        <div class="card h-100 shadow-sm rounded-lg border-0 hover-card">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h6 class="text-muted mb-1">CA Annuel</h6>
+                        <h3 class="mb-0 fw-bold" style="color: var(--primary-color);">@ViewBag.YearlyRevenue.ToString("C")</h3>
+                    </div>
+                    <div class="stat-icon" style="background-color: rgba(46, 204, 113, 0.1);">
+                        <i class="fa fa-calendar-alt text-success"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col">
+        <div class="card h-100 shadow-sm rounded-lg border-0 hover-card">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h6 class="text-muted mb-1">Nouveaux Clients</h6>
+                        <h3 class="mb-0 fw-bold" style="color: var(--primary-color);">@ViewBag.NewClientsThisMonth</h3>
+                    </div>
+                    <div class="stat-icon" style="background-color: rgba(155, 89, 182, 0.1);">
+                        <i class="fa fa-users text-purple"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col">
+        <div class="card h-100 shadow-sm rounded-lg border-0 hover-card">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h6 class="text-muted mb-1">Taux de Conversion</h6>
+                        <h3 class="mb-0 fw-bold" style="color: var(--primary-color);">@ViewBag.ConversionRate.ToString("F1")%</h3>
+                    </div>
+                    <div class="stat-icon" style="background-color: rgba(241, 196, 15, 0.1);">
+                        <i class="fa fa-percentage text-warning"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
-@if (lastSales != null && lastSales.Any())
-{
-    <div class="table-responsive shadow-sm rounded-lg overflow-hidden">
-        @* shadow-sm et rounded-lg pour la table, overflow-hidden pour que les coins arrondis fonctionnent avec table-responsive *@
-        <table class="table table-hover mb-0">
-            @* Supprimé table-bordered pour un look plus moderne, mb-0 pour retirer la marge par défaut *@
-            <thead style="background-color: var(--primary-color);">
-                @* En-tête de tableau avec la couleur principale *@
-                <tr>
-                    <th scope="col" class="p-3 text-white">Numéro Op.</th> @* p-3 pour un padding plus généreux dans les cellules de l'en-tête *@
-                    <th scope="col" class="p-3 text-white">Date Vente</th>
-                    <th scope="col" class="p-3 text-white">Statut</th>
-                    <th scope="col" class="p-3 text-white">Client</th>
-                    <th scope="col" class="p-3 text-white">Actions</th> @* Renommé pour être plus clair *@
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var sale in lastSales)
-                {
+<!-- Graphiques et statistiques détaillées -->
+<div class="row mb-4">
+    <!-- Graphique des ventes par catégorie -->
+    <div class="col-md-6 mb-4">
+        <div class="card shadow-sm rounded-lg border-0 h-100">
+            <div class="card-body">
+                <h5 class="card-title mb-4" style="color: var(--primary-color);">
+                    <i class="fa fa-chart-pie me-2" style="color: var(--accent-color);"></i>
+                    Ventes par Catégorie
+                </h5>
+                <canvas id="salesByCategoryChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- Top 5 des produits les plus vendus -->
+    <div class="col-md-6 mb-4">
+        <div class="card shadow-sm rounded-lg border-0 h-100">
+            <div class="card-body">
+                <h5 class="card-title mb-4" style="color: var(--primary-color);">
+                    <i class="fa fa-star me-2" style="color: var(--accent-color);"></i>
+                    Top 5 des Produits
+                </h5>
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Produit</th>
+                                <th class="text-end">Quantité Vendue</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (dynamic product in ViewBag.TopProducts)
+                            {
+                                <tr>
+                                    <td>@product.Designation</td>
+                                    <td class="text-end">@product.Quantity</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Dernières ventes -->
+<div class="card shadow-sm rounded-lg border-0 mb-4">
+    <div class="card-body">
+        <h5 class="card-title mb-4" style="color: var(--primary-color);">
+            <i class="fa fa-history me-2" style="color: var(--accent-color);"></i>
+            Dernières Ventes
+        </h5>
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
                     <tr>
-                        <td class="align-middle py-3">
-                            <span class="badge" style="background-color: var(--accent-color);">@sale.NumeroOp</span>
-                        </td>
-                        <td class="align-middle py-3">@sale.DateDeVente.ToString("dd/MM/yyyy")</td>
-                        <td class="align-middle py-3">
-                            @{
-                                string statusClass = "bg-secondary"; // Default
-                                if (sale.Statut == "Terminé") { statusClass = "bg-success"; }
-                                else if (sale.Statut == "En Cours") { statusClass = "bg-warning"; }
-                                else if (sale.Statut == "Annulé") { statusClass = "bg-danger"; }
-                            }
-                            <span class="badge @statusClass text-white fw-bold">@sale.Statut</span> @* bg-*, text-white, fw-bold *@
-                        </td>
-                        <td class="align-middle py-3">
-                            @if (sale.Client != null)
-                            {
-                                <a href="@Url.Action("Details", "Client", new { id = sale.Client.ID })" 
-                                   class="text-decoration-none" 
-                                   style="color: var(--accent-color); font-weight: 500;">
-                                    @($"{sale.Client.Nom} {sale.Client.Prenom}")
-                                </a>
-                            }
-                            else
-                            {
-                                <span class="text-danger fw-light fst-italic">Client inconnu</span> @* fst-italic pour italic *@
-                            }
-                        </td>
-                        <td class="align-middle py-3">
-                            @Html.ActionLink("Voir détails", "Details", "OperationVente", 
-                                new { id = sale.ID }, 
-                                new { @class = "btn btn-sm", 
-                                      style = "border-color: var(--accent-color); color: var(--accent-color);" })
-                        </td>
+                        <th>N° Op.</th>
+                        <th>Date</th>
+                        <th>Client</th>
+                        <th>Vendeur</th>
+                        <th>Montant</th>
+                        <th>Statut</th>
                     </tr>
-                }
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    @foreach (var sale in ViewBag.LastSales)
+                    {
+                        <tr>
+                            <td>@sale.NumeroOp</td>
+                            <td>@sale.DateDeVente.ToString("dd/MM/yyyy")</td>
+                            <td>@($"{sale.Client?.Nom} {sale.Client?.Prenom}")</td>
+                            <td>@($"{sale.Vendeur?.Nom} {sale.Vendeur?.Prenom}")</td>
+                            <td>@sale.MontantTotal.ToString("C")</td>
+                            <td>
+                                @{
+                                    string statusClass = "bg-secondary";
+                                    if (sale.Statut == "Terminé") { statusClass = "bg-success"; }
+                                    else if (sale.Statut == "En Cours") { statusClass = "bg-warning"; }
+                                    else if (sale.Statut == "Annulé") { statusClass = "bg-danger"; }
+                                }
+                                <span class="badge @statusClass">@sale.Statut</span>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
     </div>
-}
-else
-{
-    <div class="alert bg-white text-center p-4 my-4 shadow-sm rounded-lg border-0" role="alert">
-        @* alert, p-4, shadow-sm, rounded-lg *@
-        <p class="mb-0 fs-5" style="color: var(--primary-color);">Aucune opération de vente récente à afficher.</p> @* fs-5, text-dark *@
-        <small class="text-muted">Commencez par enregistrer une nouvelle vente pour la voir apparaître ici.</small>
-    </div>
-}
-
-<style>
-    .hover-card {
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-
-    .hover-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 4px 15px rgba(0,0,0,0.1) !important;
-    }
-
-    .btn {
-        transition: all 0.3s ease;
-    }
-
-    .btn:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    }
-
-    .table tbody tr {
-        transition: background-color 0.3s ease;
-    }
-
-    .table tbody tr:hover {
-        background-color: rgba(52, 152, 219, 0.05);
-    }
-
-    .badge {
-        padding: 0.5em 1em;
-        font-weight: 500;
-    }
-</style>
+</div>
 
 @section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
-        // Animation d'entrée pour les cartes
+        // Graphique des ventes par catégorie
+        var ctx = document.getElementById('salesByCategoryChart').getContext('2d');
+        var salesData = @Html.Raw(Json.Encode(ViewBag.SalesByCategory));
+        
+        new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: salesData.map(item => item.Category),
+                datasets: [{
+                    data: salesData.map(item => item.Total),
+                    backgroundColor: [
+                        'rgba(52, 152, 219, 0.8)',
+                        'rgba(46, 204, 113, 0.8)',
+                        'rgba(155, 89, 182, 0.8)',
+                        'rgba(241, 196, 15, 0.8)',
+                        'rgba(231, 76, 60, 0.8)'
+                    ]
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'bottom'
+                    }
+                }
+            }
+        });
+
+        // Animation des cartes
         document.addEventListener('DOMContentLoaded', function() {
             const cards = document.querySelectorAll('.card');
             cards.forEach((card, index) => {
@@ -178,3 +227,41 @@ else
         });
     </script>
 }
+
+<style>
+    .hover-card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .hover-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1) !important;
+    }
+
+    .stat-icon {
+        width: 48px;
+        height: 48px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .stat-icon i {
+        font-size: 24px;
+    }
+
+    .text-purple {
+        color: #9b59b6;
+    }
+
+    .table th {
+        font-weight: 600;
+        color: var(--primary-color);
+    }
+
+    .badge {
+        padding: 0.5em 1em;
+        font-weight: 500;
+    }
+</style>

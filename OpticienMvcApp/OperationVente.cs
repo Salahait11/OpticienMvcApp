@@ -11,6 +11,7 @@ namespace OpticienMvcApp
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations.Schema;
     
     public partial class OperationVente
     {
@@ -30,6 +31,9 @@ namespace OpticienMvcApp
         public Nullable<int> OrdID { get; set; }
         public Nullable<int> VendeurID { get; set; }
         public string Statut { get; set; }
+    
+        [NotMapped]
+        public decimal MontantTotal { get; set; }
     
         public virtual Client Client { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
