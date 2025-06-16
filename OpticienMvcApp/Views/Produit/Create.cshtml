@@ -87,6 +87,72 @@
                             </div>
                         </div>
 
+                        <!-- Section des détails de monture -->
+                        <div id="montureDetails" style="display: none;">
+                            <h4 class="mt-4 mb-3">Détails de la monture</h4>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.DetailMonture.Marque, "Marque", htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-10">
+                                            @Html.EditorFor(model => model.DetailMonture.Marque, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.ValidationMessageFor(model => model.DetailMonture.Marque, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.DetailMonture.Couleur, "Couleur", htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-10">
+                                            @Html.EditorFor(model => model.DetailMonture.Couleur, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.ValidationMessageFor(model => model.DetailMonture.Couleur, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.DetailMonture.Taille, "Taille", htmlAttributes: new { @class = "form-label" })
+                                        @Html.EditorFor(model => model.DetailMonture.Taille, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.DetailMonture.Taille, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.DetailMonture.Modele, "Modèle", htmlAttributes: new { @class = "form-label" })
+                                        @Html.EditorFor(model => model.DetailMonture.Modele, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.DetailMonture.Modele, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.DetailMonture.Materiau, "Matériau", htmlAttributes: new { @class = "form-label" })
+                                        @Html.EditorFor(model => model.DetailMonture.Materiau, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.DetailMonture.Materiau, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.DetailMonture.Genre, "Genre", htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-10">
+                                            @Html.DropDownListFor(model => model.DetailMonture.Genre, 
+                                                new List<SelectListItem> {
+                                                    new SelectListItem { Text = "Homme", Value = "H" },
+                                                    new SelectListItem { Text = "Femme", Value = "F" },
+                                                    new SelectListItem { Text = "Unisexe", Value = "U" }
+                                                }, 
+                                                "Sélectionnez un genre", 
+                                                new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(model => model.DetailMonture.Genre, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                         <div class="form-group mt-4">
                             <div class="btn-group">
                                 <button type="submit" class="btn btn-primary">
@@ -106,6 +172,14 @@
     @Scripts.Render("~/bundles/jqueryval")
     <script>
         $(document).ready(function () {
+            // Empêcher le rafraîchissement automatique du formulaire
+            $('form').on('submit', function (e) {
+                if (!$(this).valid()) {
+                    e.preventDefault();
+                    return false;
+                }
+            });
+
             // Activer les tooltips Bootstrap
             $('[data-toggle="tooltip"]').tooltip();
 
@@ -128,6 +202,64 @@
 
             $('#PrixUnitaire, #TauxTVA').on('input', function() {
                 formatNumber(this);
+            });
+
+            // Gestion de l'affichage des détails de monture
+            function toggleMontureDetails() {
+                var categorieId = $('#CategorieID').val();
+                if (categorieId === "1") { // ID de la catégorie Monture
+                    $('#montureDetails').show();
+                    // Marquer les champs obligatoires
+                    $('#DetailMonture_Marque, #DetailMonture_Couleur, #DetailMonture_Taille').addClass('required');
+                } else {
+                    $('#montureDetails').hide();
+                    // Réinitialiser les champs
+                    $('#montureDetails input').val('');
+                }
+            }
+
+            // Écouter le changement de catégorie
+            $('#CategorieID').on('change', function(e) {
+                e.preventDefault();
+                toggleMontureDetails();
+            });
+            
+            // Exécuter au chargement de la page
+            toggleMontureDetails();
+
+            // Validation côté client
+            $.validator.addMethod("requiredIfMonture", function(value, element) {
+                var categorieId = $('#CategorieID').val();
+                if (categorieId === "1") {
+                    return value.length > 0;
+                }
+                return true;
+            }, "Ce champ est obligatoire pour une monture");
+
+            // Ajouter les règles de validation
+            $('form').validate({
+                rules: {
+                    'DetailMonture.Marque': {
+                        requiredIfMonture: true
+                    },
+                    'DetailMonture.Couleur': {
+                        requiredIfMonture: true
+                    },
+                    'DetailMonture.Taille': {
+                        requiredIfMonture: true
+                    }
+                },
+                messages: {
+                    'DetailMonture.Marque': {
+                        requiredIfMonture: "La marque est obligatoire pour une monture"
+                    },
+                    'DetailMonture.Couleur': {
+                        requiredIfMonture: "La couleur est obligatoire pour une monture"
+                    },
+                    'DetailMonture.Taille': {
+                        requiredIfMonture: "La taille est obligatoire pour une monture"
+                    }
+                }
             });
         });
     </script>

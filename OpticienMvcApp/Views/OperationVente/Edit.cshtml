@@ -41,7 +41,17 @@
                             @Html.LabelFor(model => model.Statut, htmlAttributes: new { @class = "form-label fw-bold" })
                             <div class="input-group">
                                 <span class="input-group-text"><i class="fa fa-tag"></i></span>
-                                @Html.TextBoxFor(model => model.Statut, new { @class = "form-control" })
+                                @Html.DropDownListFor(model => model.Statut, 
+                                    new List<SelectListItem> {
+                                        new SelectListItem { Text = "En cours", Value = "En cours" },
+                                        new SelectListItem { Text = "Commandé", Value = "Commandé" },
+                                        new SelectListItem { Text = "Prêt", Value = "Prêt" },
+                                        new SelectListItem { Text = "Livré", Value = "Livré" },
+                                        new SelectListItem { Text = "Payé", Value = "Payé" },
+                                        new SelectListItem { Text = "Annulé", Value = "Annulé" }
+                                    }, 
+                                    "Sélectionnez un statut", 
+                                    new { @class = "form-select" })
                             </div>
                             @Html.ValidationMessageFor(model => model.Statut, "", new { @class = "text-danger" })
                         </div>
@@ -254,25 +264,18 @@
 
 <!-- Modal pour ajouter un vendeur -->
 <div class="modal fade" id="addVendeurModal" tabindex="-1" aria-labelledby="addVendeurModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
-            <div class="modal-header">
+            <div class="modal-header" style="background-color: var(--accent-color); color: white;">
                 <h5 class="modal-title" id="addVendeurModalLabel">
-                    <i class="fa fa-user-plus me-2" style="color: var(--accent-color);"></i>
-                    Ajouter un nouveau vendeur
+                    <i class="fa fa-user-plus me-2"></i>Nouveau Vendeur
                 </h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <div id="createVendeurFormContainer"></div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn" style="border-color: var(--accent-color); color: var(--accent-color);" 
-                        data-bs-dismiss="modal">Annuler</button>
-                <button type="button" id="saveVendeurModalButton" class="btn" 
-                        style="background-color: var(--accent-color); border-color: var(--accent-color); color: white;">
-                    Créer le vendeur
-                </button>
+                <div id="createVendeurFormContainer">
+                    <p>Chargement...</p>
+                </div>
             </div>
         </div>
     </div>
@@ -409,17 +412,19 @@
                 'transform': 'translateY(0)'
             }, 500);
 
-            // Gérer l'ouverture de la modale
+            // Chargement du formulaire de création de vendeur
             $('#addVendeurModal').on('show.bs.modal', function() {
                 $.get('@Url.Action("CreatePartial", "Vendeur")', function(data) {
                     $('#createVendeurFormContainer').html(data);
                 });
             });
 
-            // Gérer la soumission du formulaire de création de vendeur
-            $(document).on('click', '#saveVendeurModalButton', function() {
-                var form = $('#createVendeurForm');
-                if (form.length > 0 && form.valid()) {
+            // Soumission du formulaire de création de vendeur
+            $(document).on('submit', '#createVendeurForm', function(e) {
+                e.preventDefault();
+                var form = $(this);
+                
+                if (form.valid()) {
                     $.ajax({
                         url: form.attr('action'),
                         type: 'POST',
@@ -429,18 +434,20 @@
                                 var newOption = new Option(response.vendeurName, response.vendeurId, true, true);
                                 $('#VendeurID').append(newOption).trigger('change');
                                 $('#addVendeurModal').modal('hide');
+                                toastr.success('Vendeur créé avec succès');
                             } else {
                                 $('#createVendeurFormContainer').html(response.html);
+                                toastr.error('Erreur lors de la création du vendeur');
                             }
                         },
                         error: function() {
-                            alert('Une erreur est survenue lors de l\'enregistrement du vendeur.');
+                            toastr.error('Une erreur est survenue lors de l\'enregistrement du vendeur');
                         }
                     });
                 }
             });
 
-            // Réinitialiser le contenu du modal à la fermeture
+            // Réinitialisation du formulaire à la fermeture de la modal
             $('#addVendeurModal').on('hidden.bs.modal', function() {
                 $('#createVendeurFormContainer').html('<p>Chargement...</p>');
             });

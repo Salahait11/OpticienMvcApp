@@ -1,22 +1,72 @@
 ﻿@model OpticienMvcApp.Vendeur
 
 <div id="createVendeurForm">
-    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @using (Html.BeginForm("CreatePartial", "Vendeur", FormMethod.Post, new { id = "createVendeurForm" }))
+    {
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-    <div class="form-group">
-        @Html.LabelFor(model => model.Nom, "Nom", htmlAttributes: new { @class = "control-label" })
-        @Html.EditorFor(model => model.Nom, new { htmlAttributes = new { @class = "form-control", required = "required" } })
-        @Html.ValidationMessageFor(model => model.Nom, "", new { @class = "text-danger" })
-    </div>
+        <div class="row g-3">
+            <div class="col-md-6">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Nom, "Nom", htmlAttributes: new { @class = "form-label fw-bold" })
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="fa fa-user"></i></span>
+                        @Html.EditorFor(model => model.Nom, new { htmlAttributes = new { @class = "form-control", required = "required", placeholder = "Entrez le nom" } })
+                    </div>
+                    @Html.ValidationMessageFor(model => model.Nom, "", new { @class = "text-danger" })
+                </div>
+            </div>
 
-    <div class="form-group">
-        @Html.LabelFor(model => model.Prenom, "Prénom", htmlAttributes: new { @class = "control-label" })
-        @Html.EditorFor(model => model.Prenom, new { htmlAttributes = new { @class = "form-control", required = "required" } })
-        @Html.ValidationMessageFor(model => model.Prenom, "", new { @class = "text-danger" })
-    </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Prenom, "Prénom", htmlAttributes: new { @class = "form-label fw-bold" })
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="fa fa-user"></i></span>
+                        @Html.EditorFor(model => model.Prenom, new { htmlAttributes = new { @class = "form-control", required = "required", placeholder = "Entrez le prénom" } })
+                    </div>
+                    @Html.ValidationMessageFor(model => model.Prenom, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
 
-    <div class="form-group text-right">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
-        <button type="button" class="btn btn-primary" id="submitVendeur">Enregistrer</button>
-    </div>
+        <div class="form-group mt-4 d-flex justify-content-end gap-2">
+            <button type="button" class="btn" style="border-color: var(--accent-color); color: var(--accent-color);" data-bs-dismiss="modal">
+                <i class="fa fa-times me-2"></i>Annuler
+            </button>
+            <button type="submit" class="btn" style="background-color: var(--accent-color); border-color: var(--accent-color); color: white;">
+                <i class="fa fa-save me-2"></i>Enregistrer
+            </button>
+        </div>
+    }
 </div>
+
+<style>
+    .form-control {
+        border-radius: 8px;
+        border: 1px solid #dee2e6;
+        padding: 0.5rem 1rem;
+        transition: all 0.3s ease;
+    }
+
+    .form-control:focus {
+        border-color: var(--accent-color);
+        box-shadow: 0 0 0 0.2rem rgba(52, 152, 219, 0.25);
+    }
+
+    .input-group-text {
+        background-color: var(--accent-color);
+        border-color: var(--accent-color);
+        color: white;
+    }
+
+    .btn {
+        border-radius: 8px;
+        padding: 0.5rem 1rem;
+        transition: all 0.3s ease;
+    }
+
+    .btn:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+</style>

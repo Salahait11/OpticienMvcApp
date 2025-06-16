@@ -44,22 +44,47 @@ public class CategorieProduitController : Controller
     // POST: CategorieProduit/Create
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public ActionResult Create([Bind(Include = "ID,Nom")] CategorieProduit categorieProduit) // Lier seulement l'ID et Nom
+    public ActionResult Create([Bind(Include = "ID,Nom")] CategorieProduit categorieProduit)
     {
         if (ModelState.IsValid)
         {
             using (var db = new OPTICIENEntities())
             {
-                // Vérifier si une catégorie avec ce nom existe déjà (Nom est UNIQUE)
-                if (db.CategorieProduit.Any(c => c.Nom == categorieProduit.Nom))
+                try
                 {
-                    ModelState.AddModelError("Nom", "Une catégorie avec ce nom existe déjà.");
+                    // Vérifier si une catégorie avec ce nom existe déjà (Nom est UNIQUE)
+                    if (db.CategorieProduit.Any(c => c.Nom == categorieProduit.Nom))
+                    {
+                        ModelState.AddModelError("Nom", "Une catégorie avec ce nom existe déjà.");
+                    }
+                    else
+                    {
+                        // Vérifier la longueur du nom
+                        if (string.IsNullOrWhiteSpace(categorieProduit.Nom))
+                        {
+                            ModelState.AddModelError("Nom", "Le nom de la catégorie est obligatoire.");
+                        }
+                        else if (categorieProduit.Nom.Length > 50)
+                        {
+                            ModelState.AddModelError("Nom", "Le nom de la catégorie ne peut pas dépasser 50 caractères.");
+                        }
+                        else
+                        {
+                            db.CategorieProduit.Add(categorieProduit);
+                            db.SaveChanges();
+                            return RedirectToAction("Index");
+                        }
+                    }
                 }
-                else
+                catch (System.Data.Entity.Validation.DbEntityValidationException ex)
                 {
-                    db.CategorieProduit.Add(categorieProduit);
-                    db.SaveChanges();
-                    return RedirectToAction("Index");
+                    foreach (var validationErrors in ex.EntityValidationErrors)
+                    {
+                        foreach (var validationError in validationErrors.ValidationErrors)
+                        {
+                            ModelState.AddModelError(validationError.PropertyName, validationError.ErrorMessage);
+                        }
+                    }
                 }
             }
         }

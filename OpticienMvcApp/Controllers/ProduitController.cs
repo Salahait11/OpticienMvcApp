@@ -68,45 +68,228 @@ namespace OpticienMvcApp.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "ID,Reference,Designation,CategorieID,PrixUnitaire,TauxTVA,Fabricant,Actif,DetailMonture,DetailVerre")] Produit produit)
         {
-            if (ModelState.IsValid)
+            try
             {
-                // Vérifier l'unicité de la référence
-                if (db.Produit.Any(p => p.Reference == produit.Reference))
+                // Log des données reçues
+                System.Diagnostics.Debug.WriteLine("=== DÉBUT CRÉATION PRODUIT ===");
+                System.Diagnostics.Debug.WriteLine($"Catégorie: {produit.CategorieID}");
+                System.Diagnostics.Debug.WriteLine($"Référence: {produit.Reference}");
+                System.Diagnostics.Debug.WriteLine($"Désignation: {produit.Designation}");
+                System.Diagnostics.Debug.WriteLine($"Prix: {produit.PrixUnitaire}");
+                System.Diagnostics.Debug.WriteLine($"TVA: {produit.TauxTVA}");
+                System.Diagnostics.Debug.WriteLine($"Fabricant: {produit.Fabricant}");
+                System.Diagnostics.Debug.WriteLine($"Actif: {produit.Actif}");
+
+                // Vérification des champs obligatoires
+                if (string.IsNullOrWhiteSpace(produit.Reference))
                 {
-                    ModelState.AddModelError("Reference", "Un produit avec cette référence existe déjà.");
-                    ViewBag.CategorieID = new SelectList(db.CategorieProduit, "ID", "Nom", produit.CategorieID);
-                    return View(produit);
+                    ModelState.AddModelError("Reference", "La référence est obligatoire");
+                    System.Diagnostics.Debug.WriteLine("Erreur: Référence manquante");
+                }
+                if (string.IsNullOrWhiteSpace(produit.Designation))
+                {
+                    ModelState.AddModelError("Designation", "La désignation est obligatoire");
+                    System.Diagnostics.Debug.WriteLine("Erreur: Désignation manquante");
+                }
+                if (produit.CategorieID == 0)
+                {
+                    ModelState.AddModelError("CategorieID", "La catégorie est obligatoire");
+                    System.Diagnostics.Debug.WriteLine("Erreur: Catégorie non sélectionnée");
+                }
+                if (produit.PrixUnitaire <= 0)
+                {
+                    ModelState.AddModelError("PrixUnitaire", "Le prix unitaire doit être supérieur à 0");
+                    System.Diagnostics.Debug.WriteLine("Erreur: Prix unitaire invalide");
+                }
+                if (produit.TauxTVA < 0)
+                {
+                    ModelState.AddModelError("TauxTVA", "Le taux de TVA ne peut pas être négatif");
+                    System.Diagnostics.Debug.WriteLine("Erreur: Taux TVA négatif");
                 }
 
-                // Gérer les détails selon la catégorie
-                if (produit.CategorieID == 1) // Monture
+                // Vérification des détails de monture si c'est une monture
+                var categorie = db.CategorieProduit.Find(produit.CategorieID);
+                if (categorie != null && categorie.Nom.ToLower() == "monture")
                 {
-                    // Vérifier les champs obligatoires
-                    if (string.IsNullOrEmpty(produit.DetailMonture?.Marque) ||
-                        string.IsNullOrEmpty(produit.DetailMonture?.Couleur) ||
-                        string.IsNullOrEmpty(produit.DetailMonture?.Taille))
+                    if (produit.DetailMonture == null)
                     {
-                        ModelState.AddModelError("", "Les champs Marque, Couleur et Taille sont obligatoires pour une monture.");
+                        produit.DetailMonture = new DetailMonture();
+                    }
+
+                    // Initialiser les champs avec des valeurs par défaut
+                    if (string.IsNullOrEmpty(produit.DetailMonture.Genre))
+                    {
+                        produit.DetailMonture.Genre = "U"; // U pour Unisexe par défaut
+                    }
+                    if (string.IsNullOrEmpty(produit.DetailMonture.Materiau))
+                    {
+                        produit.DetailMonture.Materiau = "Métal"; // Valeur par défaut
+                    }
+                    if (string.IsNullOrEmpty(produit.DetailMonture.Modele))
+                    {
+                        produit.DetailMonture.Modele = "Standard"; // Valeur par défaut
+                    }
+
+                    if (string.IsNullOrWhiteSpace(produit.DetailMonture.Marque))
+                    {
+                        ModelState.AddModelError("DetailMonture.Marque", "La marque est obligatoire pour une monture");
+                        System.Diagnostics.Debug.WriteLine("Erreur: Marque manquante pour la monture");
+                    }
+                    if (string.IsNullOrWhiteSpace(produit.DetailMonture.Couleur))
+                    {
+                        ModelState.AddModelError("DetailMonture.Couleur", "La couleur est obligatoire pour une monture");
+                        System.Diagnostics.Debug.WriteLine("Erreur: Couleur manquante pour la monture");
+                    }
+                    if (string.IsNullOrWhiteSpace(produit.DetailMonture.Taille))
+                    {
+                        ModelState.AddModelError("DetailMonture.Taille", "La taille est obligatoire pour une monture");
+                        System.Diagnostics.Debug.WriteLine("Erreur: Taille manquante pour la monture");
+                    }
+
+                    // Vérifier la longueur du champ Genre
+                    if (produit.DetailMonture.Genre != null && produit.DetailMonture.Genre.Length > 1)
+                    {
+                        ModelState.AddModelError("DetailMonture.Genre", "Le genre doit être un seul caractère (H, F ou U)");
+                        System.Diagnostics.Debug.WriteLine("Erreur: Genre trop long");
+                    }
+                }
+                else
+                {
+                    // Pour les autres catégories, on supprime les erreurs de validation liées à DetailMonture
+                    ModelState.Remove("DetailMonture.Marque");
+                    ModelState.Remove("DetailMonture.Couleur");
+                    ModelState.Remove("DetailMonture.Taille");
+                    ModelState.Remove("DetailMonture.Genre");
+                    ModelState.Remove("DetailMonture.Materiau");
+                    ModelState.Remove("DetailMonture.Modele");
+                    // On met DetailMonture à null pour éviter la validation
+                    produit.DetailMonture = null;
+                }
+
+                if (ModelState.IsValid)
+                {
+                    // Vérifier l'unicité de la référence
+                    if (db.Produit.Any(p => p.Reference == produit.Reference))
+                    {
+                        ModelState.AddModelError("Reference", "Un produit avec cette référence existe déjà.");
+                        System.Diagnostics.Debug.WriteLine("Erreur: Référence déjà existante");
                         ViewBag.CategorieID = new SelectList(db.CategorieProduit, "ID", "Nom", produit.CategorieID);
                         return View(produit);
                     }
+
+                    try
+                    {
+                        // Sauvegarder d'abord le produit
+                        db.Produit.Add(produit);
+                        db.SaveChanges();
+                        System.Diagnostics.Debug.WriteLine($"Produit créé avec ID: {produit.ID}");
+
+                        // Mettre à jour les détails après avoir obtenu l'ID du produit
+                        if (categorie != null && categorie.Nom.ToLower() == "monture")
+                        {
+                            if (produit.DetailMonture != null)
+                            {
+                                // Vérifier si les détails existent déjà
+                                var existingDetails = db.DetailMonture.FirstOrDefault(d => d.ProduitID == produit.ID);
+                                if (existingDetails == null)
+                                {
+                                    // Créer un nouvel objet DetailMonture
+                                    var detailMonture = new DetailMonture
+                                    {
+                                        ProduitID = produit.ID,
+                                        Marque = produit.DetailMonture.Marque,
+                                        Couleur = produit.DetailMonture.Couleur,
+                                        Taille = produit.DetailMonture.Taille,
+                                        Genre = produit.DetailMonture.Genre,
+                                        Materiau = produit.DetailMonture.Materiau,
+                                        Modele = produit.DetailMonture.Modele
+                                    };
+                                    db.DetailMonture.Add(detailMonture);
+                                    System.Diagnostics.Debug.WriteLine("Détails de monture ajoutés");
+                                    db.SaveChanges();
+                                }
+                                else
+                                {
+                                    // Mettre à jour les détails existants
+                                    existingDetails.Marque = produit.DetailMonture.Marque;
+                                    existingDetails.Couleur = produit.DetailMonture.Couleur;
+                                    existingDetails.Taille = produit.DetailMonture.Taille;
+                                    existingDetails.Genre = produit.DetailMonture.Genre;
+                                    existingDetails.Materiau = produit.DetailMonture.Materiau;
+                                    existingDetails.Modele = produit.DetailMonture.Modele;
+                                    System.Diagnostics.Debug.WriteLine("Détails de monture mis à jour");
+                                    db.SaveChanges();
+                                }
+                            }
+                        }
+                        else if (categorie != null && categorie.Nom.ToLower() == "verre" && produit.DetailVerre != null)
+                        {
+                            produit.DetailVerre.ProduitID = produit.ID;
+                            db.DetailVerre.Add(produit.DetailVerre);
+                            System.Diagnostics.Debug.WriteLine("Détails de verre ajoutés");
+                            db.SaveChanges();
+                        }
+                        else
+                        {
+                            // Pour les autres catégories, on ne fait rien avec les détails
+                            System.Diagnostics.Debug.WriteLine("Aucun détail à ajouter pour cette catégorie");
+                        }
+
+                        System.Diagnostics.Debug.WriteLine("Sauvegarde finale réussie");
+                        return RedirectToAction("Index");
+                    }
+                    catch (Exception ex)
+                    {
+                        System.Diagnostics.Debug.WriteLine($"Erreur lors de la sauvegarde: {ex.Message}");
+                        System.Diagnostics.Debug.WriteLine($"Stack Trace: {ex.StackTrace}");
+                        throw;
+                    }
                 }
-
-                db.Produit.Add(produit);
-                db.SaveChanges();
-
-                // Mettre à jour les ProduitID des détails après la sauvegarde
-                if (produit.DetailMonture != null)
+                else
                 {
-                    produit.DetailMonture.ProduitID = produit.ID;
+                    // Log des erreurs de validation
+                    System.Diagnostics.Debug.WriteLine("=== ERREURS DE VALIDATION ===");
+                    foreach (var modelState in ModelState.Values)
+                    {
+                        foreach (var error in modelState.Errors)
+                        {
+                            System.Diagnostics.Debug.WriteLine($"Erreur: {error.ErrorMessage}");
+                        }
+                    }
                 }
-                if (produit.DetailVerre != null)
+            }
+            catch (System.Data.Entity.Validation.DbEntityValidationException ex)
+            {
+                System.Diagnostics.Debug.WriteLine("=== ERREUR DE VALIDATION ENTITY FRAMEWORK ===");
+                foreach (var validationErrors in ex.EntityValidationErrors)
                 {
-                    produit.DetailVerre.ProduitID = produit.ID;
+                    System.Diagnostics.Debug.WriteLine($"Entité: {validationErrors.Entry.Entity.GetType().Name}");
+                    System.Diagnostics.Debug.WriteLine($"État: {validationErrors.Entry.State}");
+                    foreach (var validationError in validationErrors.ValidationErrors)
+                    {
+                        System.Diagnostics.Debug.WriteLine($"Propriété: {validationError.PropertyName}");
+                        System.Diagnostics.Debug.WriteLine($"Erreur: {validationError.ErrorMessage}");
+                        ModelState.AddModelError(validationError.PropertyName, validationError.ErrorMessage);
+                    }
                 }
-                db.SaveChanges();
-
-                return RedirectToAction("Index");
+            }
+            catch (System.Data.Entity.Infrastructure.DbUpdateException ex)
+            {
+                System.Diagnostics.Debug.WriteLine("=== ERREUR DE MISE À JOUR BASE DE DONNÉES ===");
+                var innerException = ex.InnerException;
+                while (innerException != null)
+                {
+                    System.Diagnostics.Debug.WriteLine($"Message: {innerException.Message}");
+                    ModelState.AddModelError("", "Erreur de mise à jour : " + innerException.Message);
+                    innerException = innerException.InnerException;
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine("=== ERREUR INATTENDUE ===");
+                System.Diagnostics.Debug.WriteLine($"Message: {ex.Message}");
+                System.Diagnostics.Debug.WriteLine($"Stack Trace: {ex.StackTrace}");
+                ModelState.AddModelError("", "Une erreur est survenue lors de la création du produit : " + ex.Message);
             }
 
             ViewBag.CategorieID = new SelectList(db.CategorieProduit, "ID", "Nom", produit.CategorieID);

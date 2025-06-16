@@ -40,7 +40,17 @@
                             @Html.LabelFor(model => model.Statut, htmlAttributes: new { @class = "form-label fw-bold" })
                             <div class="input-group">
                                 <span class="input-group-text"><i class="fa fa-tag"></i></span>
-                                @Html.EditorFor(model => model.Statut, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.DropDownListFor(model => model.Statut, 
+                                    new List<SelectListItem> {
+                                        new SelectListItem { Text = "En cours", Value = "En cours" },
+                                        new SelectListItem { Text = "Commandé", Value = "Commandé" },
+                                        new SelectListItem { Text = "Prêt", Value = "Prêt" },
+                                        new SelectListItem { Text = "Livré", Value = "Livré" },
+                                        new SelectListItem { Text = "Payé", Value = "Payé" },
+                                        new SelectListItem { Text = "Annulé", Value = "Annulé" }
+                                    }, 
+                                    "Sélectionnez un statut", 
+                                    new { @class = "form-select" })
                             </div>
                             @Html.ValidationMessageFor(model => model.Statut, "", new { @class = "text-danger" })
                         </div>
@@ -101,11 +111,10 @@
 
                     <div class="col-md-6">
                         <div class="form-group">
-                            @Html.LabelFor(model => model.VendeurID, "Vendeur", htmlAttributes: new { @class = "form-label fw-bold" })
+                            @Html.LabelFor(model => model.VendeurID, "Vendeur", htmlAttributes: new { @class = "control-label" })
                             <div class="input-group">
-                                <span class="input-group-text"><i class="fa fa-user-tie"></i></span>
-                                @Html.DropDownListFor(model => model.VendeurID, ViewBag.VendeurID as IEnumerable<SelectListItem>, "-- Sélectionner Vendeur --", new { @class = "form-select" })
-                                <button type="button" class="btn" style="background-color: var(--accent-color); color: white;" data-bs-toggle="modal" data-bs-target="#createVendeurModal">
+                                @Html.DropDownList("VendeurID", null, "Sélectionnez un vendeur", htmlAttributes: new { @class = "form-control" })
+                                <button type="button" class="btn" style="background-color: var(--accent-color); border-color: var(--accent-color); color: white;" data-bs-toggle="modal" data-bs-target="#createVendeurModal">
                                     <i class="fa fa-plus"></i>
                                 </button>
                             </div>
@@ -156,19 +165,20 @@
     }
 </div>
 
-<!-- Modal pour créer un nouveau vendeur -->
+<!-- Modal de création de vendeur -->
 <div class="modal fade" id="createVendeurModal" tabindex="-1" aria-labelledby="createVendeurModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
-            <div class="modal-header">
+            <div class="modal-header" style="background-color: var(--accent-color); color: white;">
                 <h5 class="modal-title" id="createVendeurModalLabel">
-                    <i class="fa fa-user-plus me-2" style="color: var(--accent-color);"></i>
-                    Ajouter un nouveau vendeur
+                    <i class="fa fa-user-plus me-2"></i>Nouveau Vendeur
                 </h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <div id="createVendeurFormContainer"></div>
+                <div id="createVendeurFormContainer">
+                    <p>Chargement...</p>
+                </div>
             </div>
         </div>
     </div>
@@ -297,6 +307,46 @@
 
             // Ajouter automatiquement une première ligne
             $('#ajouterLigne').click();
+
+            // Chargement du formulaire de création de vendeur
+            $('#createVendeurModal').on('show.bs.modal', function() {
+                $.get('@Url.Action("CreatePartial", "Vendeur")', function(data) {
+                    $('#createVendeurFormContainer').html(data);
+                });
+            });
+
+            // Soumission du formulaire de création de vendeur
+            $(document).on('submit', '#createVendeurForm', function(e) {
+                e.preventDefault();
+                var form = $(this);
+                
+                if (form.valid()) {
+                    $.ajax({
+                        url: form.attr('action'),
+                        type: 'POST',
+                        data: form.serialize(),
+                        success: function(response) {
+                            if (response.success) {
+                                var newOption = new Option(response.vendeurName, response.vendeurId, true, true);
+                                $('#VendeurID').append(newOption).trigger('change');
+                                $('#createVendeurModal').modal('hide');
+                                toastr.success('Vendeur créé avec succès');
+                            } else {
+                                $('#createVendeurFormContainer').html(response.html);
+                                toastr.error('Erreur lors de la création du vendeur');
+                            }
+                        },
+                        error: function() {
+                            toastr.error('Une erreur est survenue lors de l\'enregistrement du vendeur');
+                        }
+                    });
+                }
+            });
+
+            // Réinitialisation du formulaire à la fermeture de la modal
+            $('#createVendeurModal').on('hidden.bs.modal', function() {
+                $('#createVendeurFormContainer').html('<p>Chargement...</p>');
+            });
         });
     </script>
 }
